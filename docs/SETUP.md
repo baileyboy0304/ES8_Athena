@@ -44,6 +44,11 @@ are under `installation-data/choices/es8-gen2.json`. Neither is published.
 
 ## 2. Preserve what you need BEFORE wiping
 
+Use the [APK version reference](../devices/APK-VERSIONS.md) to identify the builds
+used in the trial, including iPlayer's required splits. Streaming APKs are not
+bundled. Silk is already installed on the current ES8 and is reused when present;
+an APK is only needed if it is missing after the reset and EDA installation.
+
 Do this while the currently working setup is still intact. Keep a verified TWRP
 backup of your own device outside this repo, including its matching firmware and
 recovery information. Retain EDA update/API keys and MA pairings privately if you

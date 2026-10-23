@@ -1,5 +1,8 @@
 # Device configuration
 
+See [APK versions used](APK-VERSIONS.md) for exact streaming/VACAV versions,
+package names and the required iPlayer splits. Streaming apps are supplied by users.
+
 - `es8-gen2/profile.json`: Echo Show 8 Gen 2 launchers and dashboard defaults.
 - `portal_plus_gen_2/profile.json`: Portal Plus Gen 2 launchers and dashboard defaults.
 - `dashboards/custom/`: your updated clock/weather and templates.

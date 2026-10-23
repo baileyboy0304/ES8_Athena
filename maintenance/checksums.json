@@ -1120,6 +1120,11 @@
     "sha256": "8e0d95e475748923d38981a11e954854647f263cb358e65664f1e0b5e86c3409"
   },
   {
+    "path": "devices/APK-VERSIONS.md",
+    "bytes": 2714,
+    "sha256": "df8730e92c58b801eb9986b5642e1fec50988488c8f8c039b147360a547fa028"
+  },
+  {
     "path": "devices/dashboards/custom/clock.json",
     "bytes": 13279,
     "sha256": "2ca3671fce7a8a4d861e1d8bb0bbfaa34b1811cff450da7fe51f88557d09c773"
@@ -1311,8 +1316,8 @@
   },
   {
     "path": "devices/README.md",
-    "bytes": 781,
-    "sha256": "dd6feba4edf46369c3fde00bd56802d809cac4bf50e49a63053d967c3aacaeb7"
+    "bytes": 944,
+    "sha256": "0e6a57f8af42a3146d90b63dfefabdaed712479a2f5acf116d43470cee092284"
   },
   {
     "path": "devices/streaming/profile-functions.sh",

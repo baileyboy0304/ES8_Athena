@@ -56,6 +56,8 @@ VA includes your updated clock/weather plus the standard upstream views, with
 Home and TV icons. TV shows only services selected in the Y/N wizard.
 
 ES8 choices are Netflix Echo, BBC iPlayer, ITVX and Apple TV through Silk.
+The [APK version reference](devices/APK-VERSIONS.md) lists the exact builds used.
+Users supply their own streaming apps; the existing Silk installation is reused.
 Portal Plus Gen 2 retains its native launchers, including SStv. Optional streaming
 installation adjusts the device's installed firewall; the upstream source and
 installer remain unchanged. No streaming selection means no firewall adaptation
