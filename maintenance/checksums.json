@@ -1,0 +1,1327 @@
+[
+  {
+    "path": "VACAV/app/NOTICE",
+    "bytes": 1481,
+    "sha256": "bface7e215a833fc428e0873b4decb6da9096621ffb7b0ce933497e993abaaf2"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/CrownStatusClient.kt",
+    "bytes": 2728,
+    "sha256": "83541bac0a5033ecc51e7cfcdd37ae2476a7077646f6c5d7a0c424e72dcf1c37"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/RemoteMicrophone.kt",
+    "bytes": 582,
+    "sha256": "604812bc99c89b72c9bc05b7736fef9736a7fe6bedf5ef0d7806f6c2797fcb4e"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/ServiceAdvertisement.kt",
+    "bytes": 1828,
+    "sha256": "f25d7b1c9277a50041a1549b7ff4c56f241e010edaef4d0dfd4345338914bc17"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/VacaProtocol.kt",
+    "bytes": 1895,
+    "sha256": "b6c7792b5595dae01c5996f9b055b1ea9bf1d7d2f66829a1f3451732b8524c08"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/VacaServer.kt",
+    "bytes": 5719,
+    "sha256": "8459e640476fad32059b63031dec1a084de3badb7d4afc984b3294bffc0290d7"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/VisionRole.kt",
+    "bytes": 1143,
+    "sha256": "13335c0244da7cb33f089b0f48890bfd95069f3643d7d4262907e3bfaf1bbbd6"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/VisionState.kt",
+    "bytes": 277,
+    "sha256": "e9e85a1068f4bbf88a0bc13b8701b8cc0bc56bed1c71ff053a4e4081ea378bf7"
+  },
+  {
+    "path": "VACAV/app/shared/src/main/java/com/mph1970/vacavision/core/WyomingWire.kt",
+    "bytes": 2433,
+    "sha256": "a7a43fa0b555dfe060699327097372b0a3af59ff90aea8eaa0bfa0ced90e56fa"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/LICENSE",
+    "bytes": 9834,
+    "sha256": "94fa137cfdd40f3e74abaa37df1ad9b7398d2f1b71d9ca7d18ced67ce609a76e"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/AudioBuffer.kt",
+    "bytes": 6863,
+    "sha256": "38066ac22491ad17d97acc9893c33ec0f5ae1c880092fca7a33021f7e15debb6"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/AudioPlayer.kt",
+    "bytes": 801,
+    "sha256": "c65073edbe4461b0731a9cce20010767a31be75757d0f8cc788adfc1d533ae64"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/ClientAdvertiser.kt",
+    "bytes": 1610,
+    "sha256": "fc8e9d922c6fdce53955c012edc30afd192444bf2c8711baa28f6c8589f71353"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/ClientSettingsStore.kt",
+    "bytes": 1151,
+    "sha256": "5331ecd5407e220d9d943ac8df751c5bebc9c8b43dc889fec06043d8644d5a04"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/ClockSync.kt",
+    "bytes": 11833,
+    "sha256": "30720fce74c616113ccba25f6bc27ed464246a405466c1c307e5ef647cdffea0"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/DiscoveryService.kt",
+    "bytes": 3472,
+    "sha256": "6e8c560da4e0a3d16e9c030153a56060328dfba3d0f64647bf52636f690f8984"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/JsonOptional.kt",
+    "bytes": 2805,
+    "sha256": "1100088f4770064cf31f29b30fe488c708a9050af5c31c8dcabe4038b78db189"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/MessageParser.kt",
+    "bytes": 6839,
+    "sha256": "898c1f0a2953f19025162c195d456c056aefe35daf92946670fa601fe7ab9c30"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/Messages.kt",
+    "bytes": 17401,
+    "sha256": "ed91f33f169c1def763a147b62975ecbafbf28ec8abf2d922ab7016f0c6b2d22"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/NsdBrowser.kt",
+    "bytes": 1550,
+    "sha256": "990589199103e0986735909eefe49e8aa15cd75432d3b33abcc74d9ddac91bf1"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/NsdRegistrar.kt",
+    "bytes": 818,
+    "sha256": "1bf1fe37cb490ebc9a7711df9273a7833072acf756e1ca6c27d7cd83ecf12ffc"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/PcmDriftCorrector.kt",
+    "bytes": 5021,
+    "sha256": "45f1a9139deeb8d94bf399919e4259d9ab37ed4e7df436ac633c4a9b658e9989"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/ProtocolLog.kt",
+    "bytes": 1290,
+    "sha256": "03ff8e202218e6ed0f79aa618a2924822a9b159b53fbfb9fb4c2640d133a6a4e"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/SendSpinClient.kt",
+    "bytes": 44529,
+    "sha256": "0787a86c3e83468231a774763b396968d927b8d81d3a5b32ae9630acc730e7cf"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/SendSpinServerHost.kt",
+    "bytes": 10212,
+    "sha256": "4d18e43667e238bb0fa144773c6cb464f0a193adffd7663d39f6cb3d114f785d"
+  },
+  {
+    "path": "VACAV/app/shared-output/sendspin-protocol/src/main/kotlin/com/sendspin/protocol/SendSpinWebSocket.kt",
+    "bytes": 781,
+    "sha256": "e8e8eea0a45e5fab8dd1f8d8b811511bfa0b166c5a14eafbb4ac9161baa82d05"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/AudioBufferSizing.kt",
+    "bytes": 813,
+    "sha256": "91c8696ca67e59716112d284f9c5479da4ef3099f14764becd89fe59a69a9556"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/AudioDiagnostics.kt",
+    "bytes": 1437,
+    "sha256": "c6c082c84eaea22914e2278a0b25fd5a0fdb96d6286356fcbf84d4fd41246d0a"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/PcmOutput.kt",
+    "bytes": 2522,
+    "sha256": "ffb0f9befa0e8d1910a10eea64f86e2b80dee88b29039f31a1d5a32b7ecb79a9"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/PcmTimeline.kt",
+    "bytes": 1667,
+    "sha256": "cfb11d7227d85bf4560d859771a1f4c22beb5261f9923685157bfe12975e8004"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/SendspinAudioPlayer.kt",
+    "bytes": 10148,
+    "sha256": "f024182d18fb74662ed676e3ab06140ccee9d675963160ba29b0ed51b5cf356f"
+  },
+  {
+    "path": "VACAV/app/shared-output/src/main/java/com/mph1970/vacavision/audio/VisionPlayback.kt",
+    "bytes": 9776,
+    "sha256": "b96d12ee44d0074ca1cf649eace3463280f9149ff4890bf8e5cc183440beb92a"
+  },
+  {
+    "path": "VACAV/app/standard/.gitignore",
+    "bytes": 1549,
+    "sha256": "49d3133cc7cd5738482694fab43c1efdc9254e3b40d70242538a4aca0b076a03"
+  },
+  {
+    "path": "VACAV/app/standard/app/.gitignore",
+    "bytes": 6,
+    "sha256": "5c3174b74edc6f2b9e0743594b8bd3c7f31e4f4405758cc9872b3fe1de1d28b4"
+  },
+  {
+    "path": "VACAV/app/standard/app/build.gradle.kts",
+    "bytes": 5462,
+    "sha256": "1be2efe2bea779eab486950e8c6a338d17331c259ba8f77484482bde6a4f9925"
+  },
+  {
+    "path": "VACAV/app/standard/app/proguard-rules.pro",
+    "bytes": 1438,
+    "sha256": "b4e89889cf9ba504c25564465b78bbf82ce5a3c73bbfb647e8acbac0cea2b3f7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/AndroidManifest.xml",
+    "bytes": 6440,
+    "sha256": "4d80b4d25ccbf5750b3b14abba6e5a1e592d91ed4740d5f675412c0748cc6975"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/assets/web/error.html",
+    "bytes": 1698,
+    "sha256": "71520b9f5edb61262b7392bf3f8a52a345545de7fca35e7a7dd4eceb9a422d81"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/assets/web/style.css",
+    "bytes": 1596,
+    "sha256": "236035ae3896fef1a55e01ba89a25586f4398fa278abf570d6c0cdbcadcf43f1"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/assets/web/vaca_display.js",
+    "bytes": 5829,
+    "sha256": "be4f7b4b9b2b913f8973560d0876899cf5ac5e75705796a107566acc9c9178c0"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/ic_launcher-playstore.png",
+    "bytes": 48140,
+    "sha256": "cf9caf8981c3de4f3a1fa543a08f74dcaf86480a9a513eee4e374951dc1aaabe"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/AppExceptionHandler.kt",
+    "bytes": 2003,
+    "sha256": "22f2a2dad3e4ab050fe8a51e3b55b1e4ad4e1044e910ab1ccbefda6c86e5db2b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/broadcasts/BootUpReceiver.kt",
+    "bytes": 1076,
+    "sha256": "ad3678a942cc31bf38808e1ed7dfd00731c7a452235c55c71155be8f1282d629"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/broadcasts/BroadcastSender.kt",
+    "bytes": 1445,
+    "sha256": "6033ab23295eea5165f8d26b43de14615e9b671b984e592ad9187a6b5d080c8e"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/data/NetworkStatus.kt",
+    "bytes": 3296,
+    "sha256": "31c5bd01a5ddb619c9b22b76bc8a00d7c3dfc7385dce0e9785f5802719a96c90"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/authentication/AuthenticationException.kt",
+    "bytes": 290,
+    "sha256": "7d2ec3851f07d252ab30a5f6d5af89fb714ec2932348c299b6e7772a85f7e013"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/authentication/AuthenticationManager.kt",
+    "bytes": 4398,
+    "sha256": "b35f2efca7cef4aef9f97253c86fd62cadbeda7dd555bdc56a2417b8e7c5c179"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/authentication/AuthenticationService.kt",
+    "bytes": 5606,
+    "sha256": "5dcd0e69ab75930c39a1f392837f9fc4ca87d1c17480bd8f5315adc3e79a9785"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/authentication/HttpClientProvider.kt",
+    "bytes": 3643,
+    "sha256": "9042d3f51435865854ecd58323c70ff690320fc5e2b940d3ebe3fbab31587355"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/authentication/Token.kt",
+    "bytes": 583,
+    "sha256": "596b5b2fdfbde0f9714efe9290d2c92bcec768a6701b455ae291d4e3b62b2206"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/Camera.kt",
+    "bytes": 15424,
+    "sha256": "b8aa096ce2fdcf309c3d2eb8c3d6eb75da8ff3982ef6874910a4f7069e5bdcdd"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/DeviceManager.kt",
+    "bytes": 4253,
+    "sha256": "fd3adce8d87cb268f720dbaa0aa9ab3c3121ae7b0736793a8409ea53ed994876"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/DeviceUnsupportedFunctions.kt",
+    "bytes": 1262,
+    "sha256": "f836130824c74c7b30064cd9d2c3d4f953d7c45da4756c90a2f2b79bb4f2930e"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/info/DeviceFeatures.kt",
+    "bytes": 1871,
+    "sha256": "222e352ed649523f234bf0f5f58fe8bb6ef1380384ad595a4c75db2f5e007368"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/info/DeviceHardware.kt",
+    "bytes": 5559,
+    "sha256": "810bcfea5ee884196f6e15bbc19c35244f3d129c4d3828a4859da40e68b09843"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/info/DeviceInfo.kt",
+    "bytes": 2131,
+    "sha256": "de84a68fbc75728db60d4832f3a7f74be66ed8843c5d9f97968dab3eec2f299c"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/info/DeviceSoftware.kt",
+    "bytes": 1102,
+    "sha256": "88797a0ec15a90361c1d12c2c129f49866378fa7099a1e218fbeae5511ecdd97"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/MotionDetectionEngine.kt",
+    "bytes": 12333,
+    "sha256": "606bee02ac428718f610c176db338753500ad7782fa60d87d9c3c0deb92ff686"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/ScreenUtils.kt",
+    "bytes": 11592,
+    "sha256": "70040b3a253f712ab4e546c247aee21a62b799344256bf88786e712d487f0bb9"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/AccelerometerSensor.kt",
+    "bytes": 3504,
+    "sha256": "655bd260dc1d9b21ccfdf4149750073265484e717aa70d1bea1a57de9d84337d"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/BatterySensor.kt",
+    "bytes": 3360,
+    "sha256": "e505ed27354d74cf8d2deffb8a83b1503dc8aeab3181fb1049561b3b60c2295d"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/LightSensor.kt",
+    "bytes": 3154,
+    "sha256": "519edf9d4d94bb7b69e64825201034f5f71eb28d8370edd03114e6c84eaac39d"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/NetworkSensor.kt",
+    "bytes": 3658,
+    "sha256": "1f487476b0032bcd6ae66b9d27eaaee06073172df9b984519d98659a2cec99e0"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/OrientationSensor.kt",
+    "bytes": 2196,
+    "sha256": "6af3c1c40afe97c75f6d39391a9823a92bd59ceb593bbe43041ee95fb51c5ba7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/ProximitySensor.kt",
+    "bytes": 3019,
+    "sha256": "8f80ed57f0052dfed15e9638d8534a7ee8498da8335d0db54ac777ec93a617f9"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/Sensor.kt",
+    "bytes": 4429,
+    "sha256": "f3b145375e903a2ec488b779908a2efdd4de1ed3c4c5618167cdf90d7424f4f8"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/SensorManager.kt",
+    "bytes": 5379,
+    "sha256": "1de23b459087379cc7685e3f5ea5320e5372ecdd8b6dcc680959d648c33dfb92"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/sensors/TemperatureSensor.kt",
+    "bytes": 2641,
+    "sha256": "0b826e2c2db134de82bc9f473f5efb3301043db9638d13b19e4e803a0331cccd"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/device/TimeZoneSync.kt",
+    "bytes": 2575,
+    "sha256": "5863ab4f8c1d425128f143b4dcc37fb82c10ce8587add01578c3c2ee561bf940"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/DeviceAdminReceiver.kt",
+    "bytes": 414,
+    "sha256": "9688f83daff315a3d787573a6e5fe2252705f60379fce37b5f0bfd89595aba95"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/di/AppModule.kt",
+    "bytes": 555,
+    "sha256": "7d6921e7cc2e5677e5d15b12daefab58e047f9418f5bca3d178be814438d42f0"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/jsinterface/JavascriptInterface.kt",
+    "bytes": 1305,
+    "sha256": "3c9cdfddfe3582497e444b3c8713ac64a854e47d3101db293f45c64b5b54e386"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/MainActivity.kt",
+    "bytes": 40371,
+    "sha256": "70e09b071fe8bc78743ea531961587d3cdb530cef54c891e196d8f3ee7792dd7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/satellite/Satellite.kt",
+    "bytes": 13368,
+    "sha256": "9ae1d7e715f288dc5c5f4bb952ae2f2d9deb4e8549cdb28b76fd4a812d676d77"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/satellite/SatelliteCustomEventHandler.kt",
+    "bytes": 5780,
+    "sha256": "b256382afcd41570854fb33245e7bc79fc21e8403802139bf1d542c03322c4f0"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/service/BackgroundTask.kt",
+    "bytes": 2484,
+    "sha256": "6ab8e3e217fccc1f8ad70bb7581343f6d23be9494edd013006944a391d3bbe59"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/service/ForegroundService.kt",
+    "bytes": 7710,
+    "sha256": "36b1942c3d2aea1c4af9f17c693810bef8b3e96fa505341693ba1312078f05b1"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/settings/Settings.kt",
+    "bytes": 14461,
+    "sha256": "03108703c2dac8aafaa4f5ec4e4a9021911b2d574251b2ee1cd9ab2496e24083"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/AppFloatingActionButton.kt",
+    "bytes": 2144,
+    "sha256": "e8736fe8c3f46af32daf2239af15606234e987ad9da42bdccd8bb653ca17cccf"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/DiagnosticBar.kt",
+    "bytes": 3968,
+    "sha256": "7d7ac6f7772f599b3504698ab20f65554084ded6d468a1a2113540951c2ad05b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/Dialog.kt",
+    "bytes": 1724,
+    "sha256": "20f85ed6cd2363d690da66fedb627403950e1127d9126d0a71eb23554563c06a"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/IconStatusBlock.kt",
+    "bytes": 3012,
+    "sha256": "5b7c67d1ef11348bbb0b58ca5978bde81e0dbbe630dd0f3d5631657de2bf55bc"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/InfoGauge.kt",
+    "bytes": 6781,
+    "sha256": "5f0ca6825e44d5bb8f0db69b94f96b561c5652deca5c99a6b530af818418c1dd"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/InfoItem.kt",
+    "bytes": 380,
+    "sha256": "6af624ae5c60104404059b2d60c8309ee271187ad92b86f892f34989e476f3f8"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/LabelledSwitch.kt",
+    "bytes": 2253,
+    "sha256": "f3b42a70a152174a6c0dbd30b373e706ee9b97153a53018357a973be5ce16132"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/MenuComponent.kt",
+    "bytes": 6529,
+    "sha256": "dc49ff734bdf8b85011a16fac6f6c845ab632ae180fece7859b17472ed51763f"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/QuickActionsSheet.kt",
+    "bytes": 4373,
+    "sha256": "06816fc8dca864eb17aa3e3008080817233304153879cdb97d045de6069f8992"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/TableCell.kt",
+    "bytes": 690,
+    "sha256": "a6955b2377b387ab507de27e1f560c0a1a8bfdb5494d50de115448e0c074ea77"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/components/UUIDEditDialog.kt",
+    "bytes": 5814,
+    "sha256": "d48636f541cffcbbbbc71fb1514a177663edd5d6159a1675be25aaa2cb9ba689"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/BlackScreen.kt",
+    "bytes": 1103,
+    "sha256": "868d9a5c807e9ef610b1d2d2d75dc4ca312d3058a9f5c257d4c60638b4336cbf"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/CameraStreamLayout.kt",
+    "bytes": 11970,
+    "sha256": "aecddd5c69a7dd3cce54d42e9d3cfecb98d5ac2dfbc310bf801ad771ae1346f5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/ConnectLayout.kt",
+    "bytes": 14065,
+    "sha256": "c6df0b600b9187bacabf213a5cca7ffd4a284371cf6f45ea996a908b712bd18f"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/DeviceInfoLayout.kt",
+    "bytes": 10286,
+    "sha256": "682ad1faf73763082beac896c0f7a42a7152f37a8a61f4eaf07b1984eefc1375"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/PermissionsLayout.kt",
+    "bytes": 7638,
+    "sha256": "7718dbcf9b173894d1a889368217ded7d93507e0de8fe40b66e6692e501f0461"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/SettingsLayout.kt",
+    "bytes": 7050,
+    "sha256": "779bb6dd491060ef464d5686587350d223c84a5b00be3c705a78c942e3358fb8"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/layouts/WebViewLayout.kt",
+    "bytes": 7537,
+    "sha256": "0e84bcdcc01093a33d08771ae8cb106e4bc0d82c052e4e140409779d8be15b5b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/theme/Color.kt",
+    "bytes": 11085,
+    "sha256": "cdc9e3ceeea2c7889e3f29cfe72f937f3ff5179086ef5c942e478e76f985c9f6"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/theme/Theme.kt",
+    "bytes": 12073,
+    "sha256": "9573a7263551c65638e7f9b5c0ebf6f6c358b3825a099b5e0bd7f1f2731a6c2c"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/theme/Type.kt",
+    "bytes": 995,
+    "sha256": "17de2f51a884f8115f08bc0d80e718f0bc1840a765d9940695190e5a25292048"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/VAViewModel.kt",
+    "bytes": 19936,
+    "sha256": "f69648954f57916eaaf4c14746c3e20a4acd912f493e26d88f73df597015a396"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/ui/ViewModelBase.kt",
+    "bytes": 287,
+    "sha256": "0c8ae8ac0eee54b2a4d4a5d3b9b1fdaf4d1655f2d3fdfaadf986529512c09389"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/ActivityManager.kt",
+    "bytes": 1044,
+    "sha256": "60ace9cccb730f7c4c7170afd38ccbc30fbf71bf4d64462149fcec94ab536c8f"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/BufferUtils.kt",
+    "bytes": 2082,
+    "sha256": "62d6b513888ddb539cdab6459d54688ac46db11d0fde48aa7a7cfc08385427ab"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/CustomWebChromeClient.kt",
+    "bytes": 1693,
+    "sha256": "098e14e60f149b8de02cfe8ddb72eaf9c9a2fb44a277c7e7f725bbb0b5479346"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/CustomWebView.kt",
+    "bytes": 14421,
+    "sha256": "e084ba366e33368a0bdb2886669d8cc3abdd436f54255a1dca31c9b61db56e79"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/CustomWebViewClient.kt",
+    "bytes": 10813,
+    "sha256": "bd18e3ae828db7c12034365ca36b5b27a731e250793a3752c16013e97620a667"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/DeviceSupport.kt",
+    "bytes": 297,
+    "sha256": "55f8d7c38fd99915136ec236ae83f795ee67776cd09f5355ea6165526eeeae4d"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Events.kt",
+    "bytes": 1206,
+    "sha256": "0eae1fd11218cc20dd16f511698320e7429635484e011ec096b3adfe2b3a4f1e"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/FileDownloader.kt",
+    "bytes": 4412,
+    "sha256": "1355f3ba22ecf9b051e00888289fdf8286aae11361f5460f90cbf7e5523f85d5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Helpers.kt",
+    "bytes": 2550,
+    "sha256": "35f1d3c7054e4f5c0989b43d73c387c305529391a8c906e12e45a2acb1aea3d5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/ImageProcessing.java",
+    "bytes": 9450,
+    "sha256": "410689d5c1b6c26a35507a87972e22fd08382ea4e2389f7a9799738c0e99feaa"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/ItvxWarningPolicy.java",
+    "bytes": 909,
+    "sha256": "45a87275c71df3efc77004ddd26f0c87b084a314abb103ad176deec4ed6ad687"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/ItvxWarningService.java",
+    "bytes": 1356,
+    "sha256": "8b97ecdb7bdde2b0df220c20360b0c5eb2dd11c1876236b5ce9e8c9f1fad2175"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Logger.kt",
+    "bytes": 1910,
+    "sha256": "fb98274ae62e8678d88ff692bd67469a51acf7ca527b0a05181dbdb7389f0191"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Network.kt",
+    "bytes": 803,
+    "sha256": "e42e5e3c0097203c05c589c834e0723bf4cf0cf2ff59322a4d9b0d9799f154d1"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Permissions.kt",
+    "bytes": 10520,
+    "sha256": "415378f7048b70c9fe6d4f343b6cb31ebc115f62f0d2d7a3bbd63e23ab1867ff"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/SoundUtils.kt",
+    "bytes": 3268,
+    "sha256": "b3bf03c5583dbf595f0586213389aa9b28e5294f988c31c33ff6b1d80e74f2b5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/StreamingHomeReturn.kt",
+    "bytes": 2644,
+    "sha256": "ee486d37e09db2c89ffc13e3a016149452a9c836966a8d7d512c93a012c41889"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/StreamingLaunch.kt",
+    "bytes": 836,
+    "sha256": "438388f691a165832dd468dbbb96f577fde4c3051d5a74ed1e269f7d3b9b5536"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/StreamingPlayerPolicy.kt",
+    "bytes": 3044,
+    "sha256": "2b35146f62c87202ca20aa21819f2fc5a36c5882ad5e67eb786a3550a511a018"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/StreamingPlayerProbe.kt",
+    "bytes": 3220,
+    "sha256": "56657bd6c7d5dbfff09b8a63dd5c8336102740fb8360fa1ff6a87ab50654f158"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/Updater.kt",
+    "bytes": 7093,
+    "sha256": "ca4efb09509954a85b1c394144e2a0e87ff4586fbe21f6ee79cf50fb50ad7d6d"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/UpstreamControls.kt",
+    "bytes": 12379,
+    "sha256": "59ab14a21ef5158b10637d6b7a649f633bd14a5ed001edc6dcaf4502130950e4"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/VoiceLease.kt",
+    "bytes": 662,
+    "sha256": "082a1d1ffc7a6ac50013cb50d4901973ab1a0a6a2375f36e524b89e7ec3b81f4"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/WebViewGestureDetector.kt",
+    "bytes": 7135,
+    "sha256": "9d7b8bd795d7225850de6fe545f9b040e7e7da827211b935119d823704932ec8"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/VACAApplication.kt",
+    "bytes": 5116,
+    "sha256": "1d9ae4fe60eeeb561f1aa518bf43fdd50d74ea7fc11199bf5fd2c41f476b3ae9"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/wyoming/Packet.kt",
+    "bytes": 1426,
+    "sha256": "12f228d6b6dc804a8b17686f6c312127bc4ac438f6fc077471be765ba160fb51"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/wyoming/WyomingCapabilitiesBuilder.kt",
+    "bytes": 1185,
+    "sha256": "e2457348778cf920a70988de93f214b32840d5e384bf4d1cb05ea1f7ef663c53"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/wyoming/WyomingTCPServer.kt",
+    "bytes": 10210,
+    "sha256": "7c63eee89a603f6031aa9edf89d98605a42afac117d53f7b0eaa58de06403e28"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/wyoming/WyomingTypes.kt",
+    "bytes": 1432,
+    "sha256": "af75a478e7e6ec2d253cf496d3a52e05905370698a4f88befe5f76127fd67b76"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/controls_brightness.xml",
+    "bytes": 511,
+    "sha256": "098fd77fccc3d7f846ba10019f9cd4fd42919a9dedd557424ebba8f9055bae14"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/controls_device.xml",
+    "bytes": 418,
+    "sha256": "9a18ca8a1973937e010f81be32c7cf6e293db24e7e9fc4008fd48da821869b66"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/controls_home.xml",
+    "bytes": 323,
+    "sha256": "7ce54803d09671565f94d6c07f09e9f49107fa98ebd33528785e54e254be8e8a"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/controls_keep_on.xml",
+    "bytes": 444,
+    "sha256": "6a97e0cd043b44406f4ee7d8ea03b6c62cde5d57e660602dcf615ccb70d40fb8"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/controls_settings.xml",
+    "bytes": 1110,
+    "sha256": "d4cd4009e82ca48d2a010bcbdc1ec40680d646ca24736cb68b879668a8436a71"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/ic_launcher_background.xml",
+    "bytes": 4867,
+    "sha256": "720fa3ffbfe2c5b4a340d5dcd7efde0d2069a51f18404835246c54e63ef761d4"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/ic_launcher_foreground.xml",
+    "bytes": 1702,
+    "sha256": "01d1a6a6c1234eb7fe270d097eb283d72b9c95ae5118886f1b6573aad280f1f7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/ic_notification_icon.xml",
+    "bytes": 121,
+    "sha256": "deaf1315f156469aedb5ee544967d20fb2fe9df62c42a4135a817c876624388b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/main_logo.png",
+    "bytes": 228678,
+    "sha256": "f3a12044811bfaed7fd0a29daf268a6a55f1cbbe00c378a443d52aec667ae068"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/outline_stop_circle_24.xml",
+    "bytes": 123,
+    "sha256": "8c353bdcc474f1bd8e133d15184fc90baaffaafa3f646ee5fd2c743986da9c6a"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/drawable/splash_image.png",
+    "bytes": 25427,
+    "sha256": "2986635a3806dd249ed72456c64224709d060ab3c851f17567da64cba473fe63"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+    "bytes": 268,
+    "sha256": "892be33836a05522c5f327b2d31bd984f5511d3bc43f74dceb4faa63fc1cb647"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+    "bytes": 268,
+    "sha256": "892be33836a05522c5f327b2d31bd984f5511d3bc43f74dceb4faa63fc1cb647"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-hdpi/ic_launcher.webp",
+    "bytes": 1776,
+    "sha256": "4a3d6bcdfcf842856e5e9f37ee372467dd58ea6d78d89ff9711138f6caffdc57"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp",
+    "bytes": 2458,
+    "sha256": "4212e46ba1c0f2d638d7d6d4882642c8616af4b6e0138b7f4667a22eeae72508"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp",
+    "bytes": 3638,
+    "sha256": "d92efbef753b407504130c1cf424fa213a116b0734f630234d6a45d80b3357fa"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-mdpi/ic_launcher.webp",
+    "bytes": 1282,
+    "sha256": "44ae3565efac9519e3421ba83e959c5c29cfff77b8f85ac0908dc905924c226b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp",
+    "bytes": 1494,
+    "sha256": "8255c5da7b5309f9d3842ab01e7d720e7056613e604d2012bf273faf9a8b29a5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp",
+    "bytes": 2346,
+    "sha256": "7541c0d7bf83ca9f73fe0879ced01c527cbdbf4f3cebc58b21dce71c820a2b63"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xhdpi/ic_launcher.webp",
+    "bytes": 2552,
+    "sha256": "6de33ea7f66a49f905c29965d181fa6b82a7139310f2aa7beb27dd26ae2ae4b7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp",
+    "bytes": 3724,
+    "sha256": "ddf1e5ed5867e4d936686c5ed8169ad3d002b92d9468f38959a31b2ed52914b3"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp",
+    "bytes": 5298,
+    "sha256": "a4b539412f0c54dd38ea4306fc5a105954541715842e44d418b2f5a3acfee4cb"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp",
+    "bytes": 4046,
+    "sha256": "2521868fb3b80f46185e90c399e723a1d821c5abaed6ccb8335fc689a21a756b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp",
+    "bytes": 6758,
+    "sha256": "6d6554974be1adfbbc57347dbda7e55a1dc32b71c1b15026cdbaf87637167f4b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp",
+    "bytes": 8848,
+    "sha256": "b8c7ab9cbb9382746ffd272173e3297f0b724148851f423615deb1476e822a65"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp",
+    "bytes": 6120,
+    "sha256": "fcf51caee628d58979def7b87e1d09bbe86cf6c5a190c2b82e4e1366a07c1e4b"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp",
+    "bytes": 10690,
+    "sha256": "9a1f7ab1e3ca446abba0a711c27a19901fe7f7f5b90f32e8efcd1a040bc777de"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp",
+    "bytes": 12794,
+    "sha256": "bd187112b7ece62edc9d794550da5c44a301d98486e5aad7f85fb38bf7e9b224"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/values/colors.xml",
+    "bytes": 188,
+    "sha256": "a2969e7eac0ab019283e7c071d4a1b7b9afbab09628c3c212318ad47314aa62c"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/values/strings.xml",
+    "bytes": 2020,
+    "sha256": "5b88ca10fba353453283bb4e7fd4d9a2a517d5943b410b4d9effdbd1eaca2c52"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/values/themes.xml",
+    "bytes": 900,
+    "sha256": "b3cbe031c79624f88abb548fdc4afe7e2fdbb1d3589f7fc056fe36dfb07ff85a"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/values-v29/themes.xml",
+    "bytes": 506,
+    "sha256": "07cff6583ff1b9e4dec289323f06638ba69ce61d7ed30c7cfc7d0c326b7c4199"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/xml/backup_rules.xml",
+    "bytes": 478,
+    "sha256": "9f7e4c84c8fd2c81478d15962383f47cc6ff55d62abcd40c8ffa6fc08a8c35b7"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/xml/data_extraction_rules.xml",
+    "bytes": 551,
+    "sha256": "cb1fc47ab4a984530ed60e0e6ee638929c3038290e7e7e0b4b03a3a30fbe7381"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/xml/device_owner_receiver.xml",
+    "bytes": 133,
+    "sha256": "c275975437f005f32989b0668d923ec9ed7f035f8b5cd2f18e6e8eb39a8ddde6"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/xml/file_paths.xml",
+    "bytes": 172,
+    "sha256": "0d96b7d2f30837cae8b1011ffd76067bc453955917b0aa8a10d3ca72f93ef8d5"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/main/res/xml/itvx_warning.xml",
+    "bytes": 330,
+    "sha256": "8c9de96a993fc81c2dd23356453ab92593eca6455c16ebc016a12b997c4f43cd"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/test/java/com/msp1974/vacompanion/utils/StreamingPlayerPolicyTest.kt",
+    "bytes": 3071,
+    "sha256": "63fe923598e48937e3550ab9ba792a6207a9b641738ddd749193ca26eeeab393"
+  },
+  {
+    "path": "VACAV/app/standard/app/src/test/java/com/msp1974/vacompanion/utils/VoiceLeaseTest.kt",
+    "bytes": 1341,
+    "sha256": "70d166f3ad3244954ebd9bc8ab9e5d93004cce07ab2551021023b424f37f9228"
+  },
+  {
+    "path": "VACAV/app/standard/build.gradle.kts",
+    "bytes": 353,
+    "sha256": "ddd79bed258828f2ac52aa56b79f7eeb7cbb7f3362036707f48b706fcb25f2e2"
+  },
+  {
+    "path": "VACAV/app/standard/gradle/libs.versions.toml",
+    "bytes": 5783,
+    "sha256": "6e4816e791e54c21ee0e446917bfeddf5de604cf1684be2c1e34752f44a6731f"
+  },
+  {
+    "path": "VACAV/app/standard/gradle/wrapper/gradle-wrapper.jar",
+    "bytes": 59203,
+    "sha256": "e996d452d2645e70c01c11143ca2d3742734a28da2bf61f25c82bdc288c9e637"
+  },
+  {
+    "path": "VACAV/app/standard/gradle/wrapper/gradle-wrapper.properties",
+    "bytes": 232,
+    "sha256": "6286d1e525ef6dd9699fb78da1451fc451a83ded37136bfb383e53c1102d2fde"
+  },
+  {
+    "path": "VACAV/app/standard/gradle.properties",
+    "bytes": 1257,
+    "sha256": "58bd45755536f07fa918ef99a6c8e201d4b33d544e6ea100c296f7064c04622f"
+  },
+  {
+    "path": "VACAV/app/standard/gradlew",
+    "bytes": 5766,
+    "sha256": "63135287117a1e6d12c84580f1f49c61d1ba02218ecd28660605e97f976e7d65"
+  },
+  {
+    "path": "VACAV/app/standard/gradlew.bat",
+    "bytes": 2674,
+    "sha256": "c46a27c79007746de5922b17abb6230d64ad8b1ba3ad1585ee5c6543c2a9b129"
+  },
+  {
+    "path": "VACAV/app/standard/LICENSE",
+    "bytes": 12156,
+    "sha256": "97c7cba743c55352d9602eab821423c425bb4a36c921225d9752a0bea5542fe6"
+  },
+  {
+    "path": "VACAV/app/standard/settings.gradle.kts",
+    "bytes": 645,
+    "sha256": "e0e8aba8e6f34bff0f3fea061399be4e0c6567c87bf31111f09bf30cc067e9e6"
+  },
+  {
+    "path": "VACAV/app/standard/version.properties",
+    "bytes": 48,
+    "sha256": "e32d8c68b01957827faca7f4b7800ade058528dd723ec6fefd2ed3dcd3b2c029"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/__init__.py",
+    "bytes": 6827,
+    "sha256": "f23fca687d11e20fafe947e549f51397a84be36d4378a9b43e711d6f4beeb7b3"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/adb.py",
+    "bytes": 5756,
+    "sha256": "1627fd7602fc7f6e1a9ab3c7ee5d3cd2789e48d1d62c460d5770c360daaef86f"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/assist_satellite.py",
+    "bytes": 1066,
+    "sha256": "a364c440cc8d74e0fb96ddc1497d1ec1763251dd53baac73115f9caa9a9bd9b2"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/binary_sensor.py",
+    "bytes": 1224,
+    "sha256": "a191570e5ed1cc52fb2b02af391ed0394faf40a0575848c47e54c74a67f95062"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/button.py",
+    "bytes": 1500,
+    "sha256": "868cce8f83efc23d5e221efe860e260a4e47d7d74898f053911af7d80ecc7c11"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/config_flow.py",
+    "bytes": 26026,
+    "sha256": "479dacbabe48403341c2ed7abe198e5e732a4c65ae97d766bb1957a0a0474581"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/const.py",
+    "bytes": 1009,
+    "sha256": "a6c9753d3bf4d271bc862d24d0f3acfa20f225e51a7e7a6d9590acd6fcc06be8"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/crown.py",
+    "bytes": 3076,
+    "sha256": "80bdd10310abb58e5c9f793566f942247eb06e6c06feb363ef66f30934021eda"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/diagnostics.py",
+    "bytes": 1082,
+    "sha256": "ffae76a4c80458b269fcfc1e1804d762ef0d0caf9dc547d093dc65f5d334f631"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/discovery.py",
+    "bytes": 1733,
+    "sha256": "086d99046557ca1f9af6f9a0970560225dc0437e869ffc693fc310c148e8cec8"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/dot.py",
+    "bytes": 19533,
+    "sha256": "7d233991254894c9759b82968cefe3caaebf539a220110086d751ac2e058b52a"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/dot_controls.py",
+    "bytes": 8193,
+    "sha256": "5049c32fc4a7a9b6a0d60bece3be7e08ac3da4a834bd909f5f206530d012d5ba"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/eda_discovery.py",
+    "bytes": 1688,
+    "sha256": "6da5b7e35925576a49734a9d1b6f94ec3ca62e11b2ec4d9ae309bfebff4c27c2"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/entity.py",
+    "bytes": 820,
+    "sha256": "b5ed7e82c11a711cfaecd3b9b25b901da5b6bc31a4d5a45d125bff361e6f5578"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/installer.py",
+    "bytes": 11203,
+    "sha256": "becaa8caa0131c8766ecd92c0f32fd8dc03a4462e95cbe0faa6995ca84615b84"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/manifest.json",
+    "bytes": 726,
+    "sha256": "8891b9495544dae96ccee755bef9160c982463c11902caaa7b656d47ec817db1"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/media_player.py",
+    "bytes": 7862,
+    "sha256": "f7855ee2a8c59eb47b450a4f1175c07fc099c0fdf70342db5cc0a6b74b6e5432"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/microphone.py",
+    "bytes": 1596,
+    "sha256": "2b15851c90691fd6e24353ea0b19f34d72c09032dd88e33b93a6e43f8b537fef"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/number.py",
+    "bytes": 1111,
+    "sha256": "7e4d375ba13b1b9e8e61f4b2095878f267aeb1b734a85b4002cba2052cc93e0d"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/packages/manifest.json",
+    "bytes": 781,
+    "sha256": "60af930fcebd63b0e6eeb2ea2e2a0457c2376a1ab41defc49e97320709c8cb0d"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-overlay.apk",
+    "bytes": 8472753,
+    "sha256": "74abdf894b578e46aa30d0a855af9e481bfe32ac9d6c3a2e6ebdde5df9400552"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-picker.apk",
+    "bytes": 10182,
+    "sha256": "8e28ccb4334995b385c9f4a65a841a555455f039bc4d82ead76dd0b47e7e0ddc"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-standard.apk",
+    "bytes": 48850691,
+    "sha256": "2bacaa74f16223cd3b0d6f6fadb9ac2c94ad6c8f168e349b62275e2da644a3dd"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/picker-panel.js",
+    "bytes": 8824,
+    "sha256": "73ecc9815bed0f8315b57b264d87c6b07a19651143538a22446feaffce66739f"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/picker_panel.py",
+    "bytes": 4108,
+    "sha256": "838235d2e80adf1c8a3ac6ed2bb2771c1c396afbf28d3d3429ca878bd37b830f"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/picker_profiles.py",
+    "bytes": 8909,
+    "sha256": "8ebd5c6d457ea6f8541577630a6875d4d8cc97fee741315a8feb2d54648c40cf"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/protocol.py",
+    "bytes": 7695,
+    "sha256": "78aeedc679c49d703445d51922b92f4f7106f55079bdf4875c71fa456ebd2657"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/resources/view_assist/native_indicator.html",
+    "bytes": 122,
+    "sha256": "e6461233a1bfff6c9588755b48478dfb4e92296ef45b2d75986150d0117b1b19"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/runtime.py",
+    "bytes": 18065,
+    "sha256": "6d13a557e60a2e35d58dfc5f3df9535298574a1871a9c438527e36e5eb279920"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/select.py",
+    "bytes": 2163,
+    "sha256": "32f791939273fdcbc8649fa39b307fcef18b74731fd1fa293ccf6f27654c1807"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/sensor.py",
+    "bytes": 1725,
+    "sha256": "42915bf1c6e1002f25f0e91e12648a98a089008463720a15a21e6222c335693c"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/services.yaml",
+    "bytes": 908,
+    "sha256": "f8964d3fc19343ccd08f17febec0adab0b5684f40aa1add2bc513dcd92b6a9cd"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/strings.json",
+    "bytes": 15447,
+    "sha256": "a4f7e75632bc3d5c4b4513c6f6881c878ed3af5c35b82ebb3a5cd54a2926b1fc"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/switch.py",
+    "bytes": 2381,
+    "sha256": "17358512113818f100db99aefc4ca99a46af84fadff1b4a39ecd141631b420c5"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/translations/en.json",
+    "bytes": 15447,
+    "sha256": "a4f7e75632bc3d5c4b4513c6f6881c878ed3af5c35b82ebb3a5cd54a2926b1fc"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/update.py",
+    "bytes": 230,
+    "sha256": "2e955f886676dd3ab4dc4df7dbd1282379157cbbb085488031700a66b4e52476"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/upstream.py",
+    "bytes": 10980,
+    "sha256": "ebd59483ee531bae40e4c8e87e70a6659fdb515f1ab6354e1729854e62403357"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/upstream_music.py",
+    "bytes": 4696,
+    "sha256": "dc64de9ec83e0f87356083a812379db2e4fb3253398779173fc341b8ea6afc3a"
+  },
+  {
+    "path": "VACAV/integration/custom_components/vaca_vision/view_assist_indicator.py",
+    "bytes": 9701,
+    "sha256": "01cc69e843e60b9679b434b48d69dad40cab8fbacb71e2e05768c8fde3135a9b"
+  },
+  {
+    "path": "VACAV/integration/LICENSE",
+    "bytes": 10761,
+    "sha256": "f93f732706bd2d4daca235124d4dcf5854d0db19558a8adf2e850c64ea2bcda0"
+  },
+  {
+    "path": "VACAV/integration/NOTICE",
+    "bytes": 1481,
+    "sha256": "bface7e215a833fc428e0873b4decb6da9096621ffb7b0ce933497e993abaaf2"
+  },
+  {
+    "path": "VACAV/integration/upstream-notes/NOTICE",
+    "bytes": 522,
+    "sha256": "9af449aa4dffb93f37420efea2f849e95bbe34aa45185765e3d50631489ffb20"
+  },
+  {
+    "path": "VACAV/integration/upstream-notes/remote.py",
+    "bytes": 8931,
+    "sha256": "ac7591f5de14b26ad26bea5f4a9047c4259415b02f6ddbdfaef45e3ceb7e1622"
+  },
+  {
+    "path": "VACAV/integration/upstream-notes/TESTING.md",
+    "bytes": 10933,
+    "sha256": "ae36e8e1a45f99be75acea7661f69da3d0a756ae21daf7948780a69f94456890"
+  },
+  {
+    "path": "VACAV/payloads/portal_plus_gen_2.apk",
+    "bytes": 48752811,
+    "sha256": "8e0d95e475748923d38981a11e954854647f263cb358e65664f1e0b5e86c3409"
+  },
+  {
+    "path": "devices/dashboards/custom/clock.json",
+    "bytes": 13279,
+    "sha256": "2ca3671fce7a8a4d861e1d8bb0bbfaa34b1811cff450da7fe51f88557d09c773"
+  },
+  {
+    "path": "devices/dashboards/custom/templates.json",
+    "bytes": 24519,
+    "sha256": "37bdefdbf812caf3dee0219795893591a7b1ac0e0d3210652578acb3b3d39c84"
+  },
+  {
+    "path": "devices/dashboards/custom/weather.json",
+    "bytes": 2334,
+    "sha256": "68f8412acca060cbe8e7b5fe9ca87f9a77faa6a2b553463a844ba90ba105f834"
+  },
+  {
+    "path": "devices/dashboards/upstream/dashboard/background.jpg",
+    "bytes": 8742,
+    "sha256": "29729bfb991beda3810602e00d77bdae7a9acbc8100df16821cb53e6dbc82021"
+  },
+  {
+    "path": "devices/dashboards/upstream/dashboard/dashboard.yaml",
+    "bytes": 26739,
+    "sha256": "2c575959e822abb899dca884c83513139004c97440e258a5f6ba2310184ffe81"
+  },
+  {
+    "path": "devices/dashboards/upstream/dashboard/infobackground.png",
+    "bytes": 183925,
+    "sha256": "9d4c8c19ab58c2c48ec387e6feda418518d1d57012c590fe1b4a77a518bf3bb1"
+  },
+  {
+    "path": "devices/dashboards/upstream/dashboard/overlay.css",
+    "bytes": 5669,
+    "sha256": "ee8c6cd811dd7bdc33f227d4126212d11aa3c4a3786eb5105b450974517c8e85"
+  },
+  {
+    "path": "devices/dashboards/upstream/dashboard/overlay.html",
+    "bytes": 1815,
+    "sha256": "4f57cf74048f8a7645fd5b6e963d826f0d995d076ad24ea5751470a1791dfa82"
+  },
+  {
+    "path": "devices/dashboards/upstream/LICENSE.md",
+    "bytes": 1212,
+    "sha256": "54e1ba119c7187cb02b32a1426b32d17a03db887e7e1ff2d315f292f20cc3e14"
+  },
+  {
+    "path": "devices/dashboards/upstream/source.json",
+    "bytes": 2204,
+    "sha256": "013f96cc69b9eeb1c9c300f99f9480859257bb769b761ae293a7912e83208161"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/alarm/alarm.yaml",
+    "bytes": 1275,
+    "sha256": "9596c70556b24955b9a66daa7823a1f56e52c73e3ccc2f9f3b6c1c6e4d146bfe"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/alarm/sounds_timer_finished.wav",
+    "bytes": 35874,
+    "sha256": "1e109734096607bf86c9dc6a890baee333dc1c9a372c7d01d7949b0fb2efd69f"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/alert/alert.yaml",
+    "bytes": 3022,
+    "sha256": "f9675cb16a3b7d49335b345cebf3809d36a63abc950e196307ec117eb9f3e6fd"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/calendar/calendar.yaml",
+    "bytes": 1073,
+    "sha256": "56ed039858b4ca97bd85ca188947109187b73fd4c1228783986d9967602724e9"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/camera/advancedcamera.yaml",
+    "bytes": 12251,
+    "sha256": "d3748897351543be5676778e07bbc7299b38959d0a8302ed3baa68a7c553bf4c"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/camera/camera.yaml",
+    "bytes": 10301,
+    "sha256": "1939c36083448e2b96a837c53ab9bc1aac0805c00c8ee91df94e42ef89c8043f"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/clock/clock.yaml",
+    "bytes": 4910,
+    "sha256": "9b773ee9a1edb6cbfef4fa6d285095ae211d1a9b1ea3770d47e483956e9307fd"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/clock/clockalt.yaml",
+    "bytes": 1982,
+    "sha256": "d99cbd2d4e53451a5a38dd6a98813c311b8adbe1234e7256dc977051fa91ca80"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/community_contributions/clockaltwithmovement.yaml",
+    "bytes": 5119,
+    "sha256": "bbbcd3520bca9d30f50a94a5b0dc48a3e8234f7396f1c4884f8d77e3e3d6d914"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/community_contributions/README.md",
+    "bytes": 65,
+    "sha256": "91ef1725ce657912d90be6a988134c1d98388def306ba3dabee446344d6caee7"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/community_contributions/slideshow.yaml",
+    "bytes": 3656,
+    "sha256": "3def042aa9bfd6af6c9b09751a22bca5d9503482f38e2bfad467d0f0d7d78d89"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/community_contributions/weatherdynamic.yaml",
+    "bytes": 16511,
+    "sha256": "7bdd9278423500a8dd3d38818fd14e71d464aa3a8918753f027e61587d6436e1"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/info/info.yaml",
+    "bytes": 894,
+    "sha256": "38889f35206ce6b0b9b607d251b8430cf9796ccb4e028108329ffad88df7497f"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/infopic/infopic.yaml",
+    "bytes": 1134,
+    "sha256": "ec631bb61162f5951e4f23b2f1b69e3d5d584b9454a36b44cecc8f4e23c04f0c"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/intent/intent.yaml",
+    "bytes": 649,
+    "sha256": "87427278c2223a528c76842c769c497d13b6e88a8d66deb1e33b11228cd4f904"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/list/announcebird.png",
+    "bytes": 183925,
+    "sha256": "9d4c8c19ab58c2c48ec387e6feda418518d1d57012c590fe1b4a77a518bf3bb1"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/list/list-nocheckbox.yaml",
+    "bytes": 1861,
+    "sha256": "af0b1f9fcefce8403f5ab0eb25911400238c62d71abf373524df1a3e2ca173d2"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/list/list.yaml",
+    "bytes": 1569,
+    "sha256": "0430ce3d4593e5c3bf4c768ba3f03d6a7cbe360416ecbea7d262bbc345b27095"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/locate/locate.yaml",
+    "bytes": 4545,
+    "sha256": "6e5d810e607758dbd5d4ac3e843af0e007c713b7fa3fa532394754c5ce328b80"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/music/music-alternative.yaml",
+    "bytes": 1663,
+    "sha256": "e45ca2e1f58b82c9510b9bd58cec261af405bc11ef612deb041608f4ec0e8b65"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/music/music.yaml",
+    "bytes": 1209,
+    "sha256": "fcddfd718c4d4e326487d83e0782fce8bec4089e480fdae10e03791b05eb8e94"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/sports/sports.yaml",
+    "bytes": 755,
+    "sha256": "e40f3e679e409794036d118c1586a7aa59338f2cb38dc03e62b8167491d35f33"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/thermostat/thermostat.yaml",
+    "bytes": 1128,
+    "sha256": "13e02aa36b702d45457129ee4dc673a16058b18d38e8e5078815463c6f312d43"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/weather/weather.yaml",
+    "bytes": 2946,
+    "sha256": "5f9ebcace9d0a169d06f27534331b507ae97ecff1b96edc8d06d2310a1cebe66"
+  },
+  {
+    "path": "devices/dashboards/upstream/views/webpage/webpage.yaml",
+    "bytes": 761,
+    "sha256": "d9ffe264967d0cfcb2747025719299576013b6193ba1227f92f037a4d38ab9b5"
+  },
+  {
+    "path": "devices/es8-gen2/profile.json",
+    "bytes": 1424,
+    "sha256": "6015178e06767c7d4dc8ed36bf90ce2352e388cae23f1a3a21d21d745e56e893"
+  },
+  {
+    "path": "devices/install-device.py",
+    "bytes": 7691,
+    "sha256": "def7f3e4ebab5b22fc2eaa6eddebe54e97ac498ad9dfbe2dc5cd15ce8c3e2a81"
+  },
+  {
+    "path": "devices/portal_plus_gen_2/profile.json",
+    "bytes": 1585,
+    "sha256": "7c1eb50281f821b78fdc1a41ee89d9f17e73e309eeb5b6877b3564afd2e31cb3"
+  },
+  {
+    "path": "devices/README.md",
+    "bytes": 781,
+    "sha256": "dd6feba4edf46369c3fde00bd56802d809cac4bf50e49a63053d967c3aacaeb7"
+  },
+  {
+    "path": "devices/streaming/profile-functions.sh",
+    "bytes": 2747,
+    "sha256": "8334b75b6820e45218491fa248e501a6bbe1121016c30e5bbccebdca574cff81"
+  },
+  {
+    "path": "devices/streaming.py",
+    "bytes": 6010,
+    "sha256": "8ae3d4be39f1831387ca8a9ab8d18a1e5e74565d858b0378d0ba7bb4cb4a0f7a"
+  }
+]

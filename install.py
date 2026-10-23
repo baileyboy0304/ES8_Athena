@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""ES8 Athena: local configuration, VACAV installation, and VA dashboards."""
+import argparse
+import copy
+import datetime as dt
+import getpass
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+from urllib.parse import urlsplit
+
+ROOT = Path(__file__).resolve().parent
+sys.dont_write_bytecode = True
+PACKAGE = 'com.mph1970.vacavision'
+ACTIVITY = PACKAGE + '/com.msp1974.vacompanion.MainActivity'
+STANDARD = ['alarm', 'alert', 'calendar', 'camera', 'info', 'infopic', 'intent',
+            'list', 'locate', 'music', 'sports', 'thermostat', 'webpage']
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding='utf-8-sig'))
+
+def save(path, value):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
+
+def ask(question, default=''):
+    answer = input(question + (f' [{default}]' if default else '') + ': ').strip()
+    return answer or default
+
+def yes(question):
+    while True:
+        answer = ask(question + ' (Y/N)', 'N').lower()
+        if answer in ('y', 'yes', 'n', 'no'):
+            return answer in ('y', 'yes')
+
+def stamp():
+    return dt.datetime.now(dt.timezone.utc).strftime('%Y%m%d-%H%M%S-%f')
+
+def profile(name):
+    if not re.fullmatch(r'[a-z0-9_-]+', name):
+        raise ValueError('Invalid profile name')
+    return read(ROOT / 'devices' / name / 'profile.json')
+
+def settings(name):
+    return read(ROOT / 'installation-data/choices' / (name + '.json'))
+
+def choose(name):
+    p = profile(name)
+    print('\n' + p['name'] + ': choose streaming services. All default to No.')
+    print('On ES8, selected apps receive internet TCP 80/443 access, including ads and telemetry.')
+    print('Apple TV on ES8 uses Silk; its exception covers all sites opened in Silk.')
+    selected = [s['id'] for s in p['services'] if yes('Include ' + s['name'] + '?')]
+    entity = ask('View Assist sensor entity', 'sensor.es8' if name == 'es8-gen2' else 'sensor.portal')
+    weather = ask('Weather entity', 'weather.home')
+    if not re.fullmatch(r'sensor\.[a-z0-9_]+', entity) or not re.fullmatch(r'weather\.[a-z0-9_]+', weather):
+        raise ValueError('Use real sensor.* and weather.* entity IDs from Home Assistant')
+    ma = ask('Music Assistant HA sidebar path (copy from your browser)', '/music-assistant')
+    if not ma.startswith('/') or ma.startswith('//') or any(c.isspace() for c in ma):
+        raise ValueError('Use a local HA path starting with one slash')
+    cfg = dict(profile=name, services=selected, va_entity=entity, weather_entity=weather,
+               music_path=ma, **{k: p[k] for k in ('va_slug', 'home_slug', 'tv_slug')})
+    for key in ('va_slug', 'home_slug', 'tv_slug'):
+        cfg[key] = ask(key.replace('_', ' ').title(), cfg[key])
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)+', cfg[key]):
+            raise ValueError('Dashboard slugs must contain a hyphen and only lowercase letters/digits')
+    if len({cfg[k] for k in ('va_slug', 'home_slug', 'tv_slug')}) != 3:
+        raise ValueError('Dashboard slugs must be distinct')
+    dest = ROOT / 'installation-data/choices' / (name + '.json')
+    if dest.exists() and not yes('Replace saved choices?'):
+        return
+    save(dest, cfg)
+    print('Saved', dest, '\nNext: python install.py dashboards --profile ' + name)
+
+def tile(name, icon, target, url=False):
+    return {'type': 'button', 'name': name, 'icon': icon,
+            'tap_action': {'action': 'url' if url else 'navigate',
+                           'url_path' if url else 'navigation_path': target}}
+
+def build(name):
+    import yaml
+    p, cfg = profile(name), settings(name)
+    replacements = {'@@VA_ENTITY@@': cfg['va_entity'], '@@VA_PATH@@': '/' + cfg['va_slug'],
+                    '@@SHORTCUT_SCALE@@': str(p['shortcut_scale']),
+                    'weather.home': cfg['weather_entity'], '/view-assist': '/' + cfg['va_slug'],
+                    '/home-launcher/home': '/' + cfg['home_slug'] + '/home',
+                    '/view_assist/': '/local/es8-athena/'}
+    def substitute(value):
+        if isinstance(value, str):
+            pattern = '|'.join(re.escape(k) for k in sorted(replacements, key=len, reverse=True))
+            return re.sub(pattern, lambda match: replacements[match.group(0)], value)
+        if isinstance(value, dict):
+            return {k: substitute(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [substitute(v) for v in value]
+        return value
+    home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['tv_slug'] + '/tv'
+    nav = {'type': 'horizontal-stack', 'cards': [tile('Home', 'mdi:home', home_path), tile('TV', 'mdi:television', tv_path)]}
+    clock = substitute(read(ROOT / 'devices/dashboards/custom/clock.json'))
+    # Retain the user's updated clock face, responsive styling and weather strip.
+    clock['cards'][0]['custom_fields']['heading']['card'] = copy.deepcopy(nav)
+    weather = substitute(read(ROOT / 'devices/dashboards/custom/weather.json'))
+    weather['cards'] = [{'type': 'vertical-stack', 'cards': [copy.deepcopy(nav)] + weather['cards']}]
+    upstream = ROOT / 'devices/dashboards/upstream'
+    base = yaml.safe_load((upstream / 'dashboard/dashboard.yaml').read_text(encoding='utf-8'))
+    templates = base.get('button_card_templates', {})
+    templates.update(read(ROOT / 'devices/dashboards/custom/templates.json'))
+    views = [clock, weather]
+    for key in STANDARD:
+        card = yaml.safe_load((upstream / 'views' / key / (key + '.yaml')).read_text(encoding='utf-8'))
+        # Upstream files are cards, not complete Lovelace views.
+        views.append({'title': key.title(), 'path': key, 'type': 'panel',
+                      'cards': [{'type': 'vertical-stack', 'cards': [copy.deepcopy(nav), substitute(card)]}]})
+    va = {'title': 'View Assist', 'button_card_templates': substitute(templates), 'views': views}
+    home = {'title': p['name'], 'views': [{'title': 'Home', 'path': 'home', 'cards': [
+        {'type': 'grid', 'columns': 3, 'square': False, 'cards': [
+            tile('View Assist', 'mdi:microphone', '/' + cfg['va_slug'] + '/clock'),
+            tile('Music Assistant', 'mdi:music', cfg['music_path']),
+            tile('TV', 'mdi:television', tv_path)]}]}]}
+    services = [s for s in p['services'] if s['id'] in cfg['services']]
+    tv = {'title': 'TV', 'views': [{'title': 'TV', 'path': 'tv', 'cards': [copy.deepcopy(nav),
+        {'type': 'grid', 'columns': 3, 'square': False,
+         'cards': [tile(s['name'], s['icon'], s['url'], True) for s in services]} if services else
+        {'type': 'markdown', 'content': 'No streaming services selected. Run the installer to add services.'}]}]}
+    out = ROOT / 'installation-data/generated' / name
+    for key, obj in [('va', va), ('home', home), ('tv', tv)]:
+        save(out / (key + '.json'), obj)
+        (out / (key + '.yaml')).write_text(yaml.safe_dump(obj, sort_keys=False, allow_unicode=True), encoding='utf-8')
+    (out / 'android.conf').write_text('web_packages=' + ' '.join(s['package'] for s in services) + '\n', encoding='utf-8')
+    save(out / 'choices.json', cfg)
+    print('Prepared', out, '\nHome:', home_path, '\nVA:', '/' + cfg['va_slug'] + '/clock', '\nTV:', tv_path)
+    return cfg
+
+class HA:
+    def __init__(self, url, token):
+        import websocket
+        parsed = urlsplit(url)
+        if parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.query or parsed.fragment or parsed.path not in ('', '/'):
+            raise ValueError('Enter the HA base URL, e.g. http://homeassistant.local:8123')
+        self.ws = websocket.create_connection(('wss' if parsed.scheme == 'https' else 'ws') + '://' + parsed.netloc + '/api/websocket', timeout=30)
+        self.seq = 0
+        self.ws.recv()
+        self.ws.send(json.dumps({'type': 'auth', 'access_token': token}))
+        if json.loads(self.ws.recv()).get('type') != 'auth_ok':
+            raise RuntimeError('HA authentication failed')
+    def call(self, kind, **kwargs):
+        self.seq += 1
+        self.ws.send(json.dumps(dict(id=self.seq, type=kind, **kwargs)))
+        while True:
+            msg = json.loads(self.ws.recv())
+            if msg.get('id') == self.seq:
+                if not msg.get('success'):
+                    raise RuntimeError(str(msg.get('error')))
+                return msg.get('result')
+
+def deploy_dashboards(name):
+    cfg = build(name)
+    url = ask('Home Assistant base URL')
+    token = getpass.getpass('HA long-lived access token (not saved): ')
+    ha = HA(url, token)
+    backup = ROOT / 'installation-data/backups' / ('dashboards-' + stamp())
+    try:
+        known = {d['url_path']: d for d in ha.call('lovelace/dashboards/list')}
+        states = {s['entity_id'] for s in ha.call('get_states')}
+        missing = [cfg[k] for k in ('va_entity', 'weather_entity') if cfg[k] not in states]
+        if missing:
+            raise RuntimeError('Create/correct these HA entities first: ' + ', '.join(missing))
+        plan = []
+        for kind, key in [('home', 'home_slug'), ('va', 'va_slug'), ('tv', 'tv_slug')]:
+            slug = cfg[key]
+            before = ha.call('lovelace/config', url_path=slug) if slug in known else None
+            if slug in known and known[slug].get('mode') != 'storage':
+                raise RuntimeError(slug + ' is not a storage dashboard')
+            save(backup / (slug + '.json'), {'url_path': slug, 'dashboard': known.get(slug), 'config': before})
+            plan.append((kind, slug, before))
+        print('Will save:', ', '.join(slug for _, slug, _ in plan))
+        print('Existing dashboard contents will be replaced. Backup:', backup)
+        if not yes('Install these three prepared dashboards?'):
+            return
+        for kind, slug, before in plan:
+            if before is not None and ha.call('lovelace/config', url_path=slug) != before:
+                raise RuntimeError(slug + ' changed since backup; stopped')
+            config = read(ROOT / 'installation-data/generated' / name / (kind + '.json'))
+            if slug not in known:
+                ha.call('lovelace/dashboards/create', url_path=slug, title=config['title'],
+                        icon='mdi:tablet-dashboard', show_in_sidebar=True, require_admin=False)
+            ha.call('lovelace/config/save', url_path=slug, config=config)
+            if ha.call('lovelace/config', url_path=slug) != config:
+                raise RuntimeError('Dashboard read-back mismatch: ' + slug)
+            print('Installed', slug)
+    finally:
+        ha.ws.close()
+
+def install_ha(target):
+    target = Path(target).expanduser().resolve()
+    if not (target / 'configuration.yaml').is_file():
+        raise ValueError('Point --ha-config to the HA config directory containing configuration.yaml')
+    source = ROOT / 'VACAV/integration/custom_components/vaca_vision'
+    dest = target / 'custom_components/vaca_vision'
+    backup = ROOT / 'installation-data/backups' / ('ha-' + stamp())
+    print('Install VACAV prototype.10 to', dest)
+    if not yes('Home Assistant is stopped or ready for restart; continue?'):
+        return
+    if dest.exists():
+        shutil.copytree(dest, backup / 'vaca_vision')
+        print('Previous integration saved:', backup)
+    shutil.copytree(source, dest, dirs_exist_ok=True)
+    # Own asset namespace: does not replace VA-managed assets or overlays.
+    asset = target / 'www/es8-athena'
+    shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
+    print('Files installed. Restart HA, then follow docs/SETUP.md for pairing and VA mapping.')
+
+def verify():
+    lock = read(ROOT / 'maintenance/source-versions.json')
+    eda = ROOT / 'echo-dot-assist'
+    if not (eda / '.git').exists():
+        raise RuntimeError('EDA submodule missing. Run: git submodule update --init echo-dot-assist')
+    head = subprocess.check_output(['git','-C',str(eda),'rev-parse','HEAD'], text=True).strip()
+    if head != lock['eda_base']:
+        raise RuntimeError('EDA commit differs from maintenance/source-versions.json')
+    subprocess.run(['git','-C',str(eda),'diff','--exit-code','HEAD','--'],check=True,stdout=subprocess.DEVNULL)
+    bad = []
+    for f in read(ROOT / 'maintenance/checksums.json'):
+        p = ROOT / f['path']
+        if not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest() != f['sha256']:
+            bad.append(f['path'])
+    if bad:
+        raise RuntimeError('Component checksums differ: ' + ', '.join(bad))
+    print('EDA checkout is unchanged at the recorded upstream commit. Component/dashboard checksums match.')
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('command', choices=['choose', 'device', 'dashboards', 'deploy-dashboards', 'install-ha', 'verify'])
+    parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
+    parser.add_argument('--ha-config')
+    parser.add_argument('--serial', help='USB serial for the device command')
+    parser.add_argument('--apply', action='store_true', help='Apply device installation after review')
+    parser.add_argument('--export-apps', action='store_true', help='Export installed streaming APKs before wiping')
+    args = parser.parse_args()
+    if args.command != 'device' and (args.serial or args.apply or args.export_apps):
+        parser.error('--serial, --apply and --export-apps require the device command')
+    if args.command == 'device':
+        if not args.serial: parser.error('device requires --serial YOUR_USB_SERIAL')
+        command = [sys.executable, '-B', str(ROOT / 'devices/install-device.py'),
+                   '--serial', args.serial, '--profile', args.profile]
+        if args.apply: command.append('--apply')
+        if args.export_apps: command.append('--export-apps')
+        subprocess.run(command, check=True)
+        return
+    if args.command == 'verify': verify()
+    elif args.command == 'choose': choose(args.profile)
+    elif args.command == 'dashboards': build(args.profile)
+    elif args.command == 'deploy-dashboards': deploy_dashboards(args.profile)
+    elif args.command == 'install-ha':
+        if not args.ha_config: parser.error('--ha-config is required')
+        verify(); install_ha(args.ha_config)
+
+if __name__ == '__main__':
+    try: main()
+    except (ValueError, RuntimeError, OSError, subprocess.CalledProcessError) as error:
+        sys.exit(str(error))

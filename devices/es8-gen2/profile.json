@@ -1,0 +1,42 @@
+{
+  "id": "es8-gen2",
+  "name": "Echo Show 8 Gen 2",
+  "shortcut_scale": 1,
+  "services": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "icon": "mdi:netflix",
+      "package": "com.netflix.mediaclient.echo",
+      "url": "app://com.netflix.mediaclient.echo",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "iplayer",
+      "name": "BBC iPlayer",
+      "icon": "mdi:play-box-outline",
+      "package": "bbc.iplayer.android",
+      "url": "app://bbc.iplayer.android",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "itvx",
+      "name": "ITVX",
+      "icon": "mdi:play-circle-outline",
+      "package": "air.ITVMobilePlayer",
+      "url": "app://air.ITVMobilePlayer",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "apple_tv",
+      "name": "Apple TV",
+      "icon": "mdi:apple",
+      "package": "com.amazon.cloud9",
+      "url": "intent://tv.apple.com/gb#Intent;scheme=https;package=com.amazon.cloud9;component=com.amazon.cloud9/.browsing.BrowserActivity;B.fullscreen=true;launchFlags=0x10000000;end",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    }
+  ],
+  "va_slug": "view-assist",
+  "home_slug": "athena-home",
+  "tv_slug": "athena-tv"
+}

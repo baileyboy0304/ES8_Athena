@@ -1,0 +1,4 @@
+[submodule "EDA"]
+	path = echo-dot-assist
+	url = https://github.com/Gamer92000/echo-dot-assist.git
+	branch = checkers

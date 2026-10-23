@@ -1,0 +1,105 @@
+{
+  "type": "panel",
+  "title": "Weather",
+  "path": "weather",
+  "cards": [
+    {
+      "type": "custom:button-card",
+      "template": [
+        "variable_template",
+        "body_template"
+      ],
+      "triggers_update": "all",
+      "variables": {
+        "var_assistsat_entity_responsive_status_icons_size": "clamp(36px, 4vw, 58px)",
+        "var_weather_entity": "[[[ return states[variables.var_assistsat_entity]?.attributes?.weather_entity || 'weather.home'; ]]]"
+      },
+      "tap_action": {
+        "action": "none"
+      },
+      "double_tap_action": {
+        "action": "none"
+      },
+      "hold_action": {
+        "action": "none"
+      },
+      "styles": {
+        "grid": [
+          {
+            "grid-template-areas": "\"weather\""
+          },
+          {
+            "grid-template-columns": "100%"
+          },
+          {
+            "grid-template-rows": "100%"
+          }
+        ],
+        "card": [
+          {
+            "padding": 0
+          },
+          {
+            "border": "none"
+          },
+          {
+            "background": "#101e30"
+          }
+        ],
+        "custom_fields": {
+          "title": [
+            {
+              "display": "none"
+            }
+          ],
+          "weather": [
+            {
+              "position": "absolute"
+            },
+            {
+              "inset": 0
+            },
+            {
+              "width": "100%"
+            },
+            {
+              "height": "100%"
+            },
+            {
+              "text-align": "left"
+            },
+            {
+              "white-space": "normal"
+            },
+            {
+              "pointer-events": "auto"
+            }
+          ],
+          "status": [
+            {
+              "top": "clamp(20px, 3vw, 80px)"
+            },
+            {
+              "right": "clamp(20px, 3vw, 80px)"
+            },
+            {
+              "z-index": 5
+            }
+          ]
+        }
+      },
+      "custom_fields": {
+        "title": "",
+        "weather": {
+          "card": {
+            "type": "custom:view-assist-weather-card",
+            "entity": "[[[ return variables.var_weather_entity; ]]]",
+            "forecast_type": "daily",
+            "days": 5,
+            "controls_space": "clamp(100px, 11vw, 150px)"
+          }
+        }
+      }
+    }
+  ]
+}

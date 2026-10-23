@@ -1,0 +1,50 @@
+{
+  "id": "portal_plus_gen_2",
+  "name": "Portal Plus Gen 2",
+  "shortcut_scale": 1.5,
+  "services": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "icon": "mdi:netflix",
+      "package": "com.netflix.mediaclient",
+      "url": "app://com.netflix.mediaclient",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "iplayer",
+      "name": "BBC iPlayer",
+      "icon": "mdi:play-box-outline",
+      "package": "bbc.iplayer.android",
+      "url": "app://bbc.iplayer.android",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "itvx",
+      "name": "ITVX",
+      "icon": "mdi:play-circle-outline",
+      "package": "air.ITVMobilePlayer",
+      "url": "app://air.ITVMobilePlayer",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "apple_tv",
+      "name": "Apple TV",
+      "icon": "mdi:apple",
+      "package": "com.apple.atve.androidtv.appletv",
+      "url": "app://com.apple.atve.androidtv.appletv",
+      "evidence": "ES8: playback accepted on EDA trial 22 October; Portal: existing launcher"
+    },
+    {
+      "id": "sstv",
+      "name": "SStv",
+      "icon": "mdi:television-play",
+      "package": "com.leaguemod.leaguemodiptvbox",
+      "url": "app://com.leaguemod.leaguemodiptvbox",
+      "evidence": "Existing Portal launcher; manual acceptance required"
+    }
+  ],
+  "va_slug": "view-assist-portal",
+  "home_slug": "portal-home",
+  "tv_slug": "portal-tv"
+}

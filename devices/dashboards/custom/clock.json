@@ -1,0 +1,218 @@
+{
+  "title": "Clock",
+  "path": "clock",
+  "type": "panel",
+  "cards": [
+    {
+      "type": "custom:button-card",
+      "template": [
+        "variable_template",
+        "responsive_base",
+        "body_template"
+      ],
+      "triggers_update": "all",
+      "variables": {
+        "clockcardversion": "2.0.1",
+        "var_current_time": "<viewassist-clock server_time=true mode='time' hour24=true></viewassist-clock>",
+        "var_assistsat_entity_responsive_status_icons_size": "clamp(36px, 4vw, 58px)"
+      },
+      "styles": {
+        "grid": [
+          {
+            "grid-template-areas": "[[[ return states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? '\"heading\" \"face\"' : '\"heading\" \"face\" \"weather\"'; ]]]"
+          },
+          {
+            "grid-template-rows": "[[[ return states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? 'calc(88px * var(--va-clock-shortcut-scale, 1)) minmax(0,1fr)' : 'calc(88px * var(--va-clock-shortcut-scale, 1)) minmax(0,1fr) auto'; ]]]"
+          },
+          {
+            "height": "100%"
+          },
+          {
+            "row-gap": "clamp(12px, 2cqh, 30px)"
+          },
+          {
+            "grid-template-areas": "[[[ let h = 'heading'; try { if (window.ViewAssistApp?.getViewAssistCAUUID() === \"vision-148898ba-5dcd-43e8-be10-723352651736\") h = 'study_navigation'; } catch (e) {} return states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? `\"${h}\" \"face\"` : `\"${h}\" \"face\" \"weather\"`; ]]]"
+          }
+        ],
+        "card": [
+          {
+            "background": "[[[\nreturn states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? '#000000' : 'radial-gradient(ellipse at 4% 5%, #1d3d59 0, transparent 55%), linear-gradient(120deg, #132b40, #101e30 72%)';\n]]]"
+          },
+          {
+            "padding": "clamp(18px, min(3vw, 3.7vh), 80px)"
+          },
+          {
+            "border": "none"
+          },
+          {
+            "box-shadow": "none"
+          },
+          {
+            "container-type": "size"
+          },
+          {
+            "aspect-ratio": "auto"
+          },
+          {
+            "font-family": "Inter, Roboto, system-ui, sans-serif"
+          },
+          {
+            "height": "[[[ const displayState = states[variables.var_assistsat_entity]; const mode = displayState?.attributes?.screen_mode; return !displayState || ['no_hide','hide_sidebar'].includes(mode) ? 'calc(100dvh - var(--header-height, 56px))' : '100dvh'; ]]]"
+          },
+          {
+            "min-height": "[[[ const displayState = states[variables.var_assistsat_entity]; const mode = displayState?.attributes?.screen_mode; return !displayState || ['no_hide','hide_sidebar'].includes(mode) ? 'calc(100dvh - var(--header-height, 56px))' : '100dvh'; ]]]"
+          },
+          {
+            "max-height": "[[[ const displayState = states[variables.var_assistsat_entity]; const mode = displayState?.attributes?.screen_mode; return !displayState || ['no_hide','hide_sidebar'].includes(mode) ? 'calc(100dvh - var(--header-height, 56px))' : '100dvh'; ]]]"
+          },
+          {
+            "--va-clock-shortcut-scale": "@@SHORTCUT_SCALE@@"
+          }
+        ],
+        "custom_fields": {
+          "title": [
+            {
+              "display": "none"
+            }
+          ],
+          "heading": [
+            {
+              "justify-self": "start"
+            },
+            {
+              "align-self": "center"
+            },
+            {
+              "width": "calc(200px * var(--va-clock-shortcut-scale, 1))"
+            },
+            {
+              "z-index": 6
+            },
+            {
+              "opacity": "[[[ return states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? 0.4 : 1; ]]]"
+            },
+            {
+              "display": "block"
+            }
+          ],
+          "face": [
+            {
+              "min-width": 0
+            },
+            {
+              "min-height": 0
+            },
+            {
+              "height": "100%"
+            },
+            {
+              "align-self": "stretch"
+            },
+            {
+              "z-index": 1
+            }
+          ],
+          "weather": [
+            {
+              "display": "[[[\nreturn states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? 'none' : 'block';\n]]]"
+            },
+            {
+              "width": "100%"
+            },
+            {
+              "z-index": 2
+            }
+          ],
+          "status": [
+            {
+              "display": "[[[\nreturn states[variables.var_assistsat_entity]?.attributes?.mode === 'night' ? 'none' : 'block';\n]]]"
+            },
+            {
+              "top": "clamp(18px, min(3vw, 3.7vh), 80px)"
+            },
+            {
+              "right": "clamp(18px, min(3vw, 3.7vh), 80px)"
+            },
+            {
+              "z-index": 5
+            }
+          ]
+        }
+      },
+      "extra_styles": "\n  .clock-face { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(10px,2cqh,30px); }\n  .clock-time { font-size:clamp(48px,min(25cqw,42cqh),480px); font-weight:250; letter-spacing:-.055em; line-height:1.05; font-variant-numeric:tabular-nums; white-space:nowrap; }\n  .clock-date { color:#a5b9cf; font-size:clamp(17px,min(2.5cqw,4cqh),48px); font-weight:400; letter-spacing:.015em; }\n  .clock-kicker { display:flex; align-items:center; gap:12px; color:#a5b9cf; font-size:clamp(12px,1.1cqw,22px); letter-spacing:.2em; font-weight:500; }\n  .clock-dot { width:7px; height:7px; border-radius:50%; background:#8fdbed; box-shadow:0 0 18px #8fdbed55; }\n  .clock-weather { display:flex; align-items:center; gap:clamp(14px,2cqw,38px); text-align:left; min-width:0; }\n  .clock-weather ha-icon { color:#8fdbed; --mdc-icon-size:clamp(38px,min(5cqw,9cqh),90px); flex-shrink:0; }\n  .clock-current { flex:1; min-width:0; }\n  .clock-temp { color:#f1f5f9; font-size:clamp(25px,min(3.6cqw,6.5cqh),66px); line-height:1.15; font-weight:350; }\n  .clock-condition { color:#a5b9cf; font-size:clamp(12px,min(1.3cqw,2.5cqh),26px); margin-top:5px; white-space:normal; }\n  .clock-metric { min-width:clamp(60px,9cqw,180px); padding-left:clamp(14px,2.8cqw,50px); border-left:1px solid #ffffff15; }\n  .clock-metric-label { color:#a5b9cf; font-size:clamp(10px,1cqw,19px); margin-bottom:7px; }\n  .clock-metric-value { color:#e2edf5; font-size:clamp(16px,1.8cqw,34px); font-weight:400; }\n  .clock-link { color:#8fdbed; font-size:clamp(16px,2cqw,32px); padding-left:10px; }\n  @container (max-width:600px) { .clock-weather { flex-wrap:wrap; gap:16px; } .clock-metric { flex:1; border:0; padding:14px 0 0; border-top:1px solid #ffffff15; } .clock-metric-label { font-size:12px; } .clock-metric-value { font-size:20px; } .clock-current { flex-basis:60%; } .clock-link { display:none; } .clock-date { font-size:clamp(16px,4cqw,24px); } .clock-time { font-size:32cqw; } }\n",
+      "custom_fields": {
+        "title": "",
+        "heading": {
+          "card": {
+            "type": "horizontal-stack",
+            "cards": []
+          }
+        },
+        "face": "[[[\nconst isNight = states[variables.var_assistsat_entity]?.attributes?.mode === 'night';\nreturn `<div class=\"clock-face\"><div class=\"clock-time\" style=\"color:${isNight ? '#a52b2b' : '#f1f5f9'}\">${variables.var_current_time}</div>${isNight ? '' : '<div class=\"clock-date\">' + variables.var_date_long + '</div>'}</div>`;\n]]]",
+        "weather": {
+          "card": {
+            "type": "custom:button-card",
+            "show_name": false,
+            "show_icon": false,
+            "show_state": false,
+            "tap_action": {
+              "action": "call-service",
+              "service": "view_assist.navigate",
+              "service_data": {
+                "device": "[[[ return variables.var_assistsat_entity; ]]]",
+                "path": "[[[ return `${variables.var_dashboard}/weather`; ]]]"
+              }
+            },
+            "hold_action": {
+              "action": "none"
+            },
+            "double_tap_action": {
+              "action": "none"
+            },
+            "styles": {
+              "grid": [
+                {
+                  "grid-template-areas": "\"summary\""
+                },
+                {
+                  "grid-template-columns": "minmax(0, 1fr)"
+                }
+              ],
+              "card": [
+                {
+                  "background": "#bedef009"
+                },
+                {
+                  "border": "1px solid #bedef01c"
+                },
+                {
+                  "border-radius": "22px"
+                },
+                {
+                  "box-shadow": "none"
+                },
+                {
+                  "padding": "clamp(16px, 2.3cqw, 40px)"
+                }
+              ],
+              "custom_fields": {
+                "summary": [
+                  {
+                    "white-space": "normal"
+                  },
+                  {
+                    "min-width": 0
+                  }
+                ]
+              }
+            },
+            "extra_styles": "\n  .clock-face { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(10px,2cqh,30px); }\n  .clock-time { font-size:clamp(48px,min(25cqw,42cqh),480px); font-weight:250; letter-spacing:-.055em; line-height:1.05; font-variant-numeric:tabular-nums; white-space:nowrap; }\n  .clock-date { color:#a5b9cf; font-size:clamp(17px,min(2.5cqw,4cqh),48px); font-weight:400; letter-spacing:.015em; }\n  .clock-kicker { display:flex; align-items:center; gap:12px; color:#a5b9cf; font-size:clamp(12px,1.1cqw,22px); letter-spacing:.2em; font-weight:500; }\n  .clock-dot { width:7px; height:7px; border-radius:50%; background:#8fdbed; box-shadow:0 0 18px #8fdbed55; }\n  .clock-weather { display:flex; align-items:center; gap:clamp(14px,2cqw,38px); text-align:left; min-width:0; }\n  .clock-weather ha-icon { color:#8fdbed; --mdc-icon-size:clamp(38px,min(5cqw,9cqh),90px); flex-shrink:0; }\n  .clock-current { flex:1; min-width:0; }\n  .clock-temp { color:#f1f5f9; font-size:clamp(25px,min(3.6cqw,6.5cqh),66px); line-height:1.15; font-weight:350; }\n  .clock-condition { color:#a5b9cf; font-size:clamp(12px,min(1.3cqw,2.5cqh),26px); margin-top:5px; white-space:normal; }\n  .clock-metric { min-width:clamp(60px,9cqw,180px); padding-left:clamp(14px,2.8cqw,50px); border-left:1px solid #ffffff15; }\n  .clock-metric-label { color:#a5b9cf; font-size:clamp(10px,1cqw,19px); margin-bottom:7px; }\n  .clock-metric-value { color:#e2edf5; font-size:clamp(16px,1.8cqw,34px); font-weight:400; }\n  .clock-link { color:#8fdbed; font-size:clamp(16px,2cqw,32px); padding-left:10px; }\n  @container (max-width:600px) { .clock-weather { flex-wrap:wrap; gap:16px; } .clock-metric { flex:1; border:0; padding:14px 0 0; border-top:1px solid #ffffff15; } .clock-metric-label { font-size:12px; } .clock-metric-value { font-size:20px; } .clock-current { flex-basis:60%; } .clock-link { display:none; } .clock-date { font-size:clamp(16px,4cqw,24px); } .clock-time { font-size:32cqw; } }\n",
+            "custom_fields": {
+              "summary": "[[[\n\nconst va = states[variables.var_assistsat_entity]?.attributes || {};\nconst weatherState = states[va.weather_entity || 'weather.home'];\nconst attrs = weatherState?.attributes || {};\nconst available = weatherState && !['unknown','unavailable'].includes(weatherState.state);\nconst esc = s => String(s).replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));\nconst number = v => v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v));\nconst value = (v, unit) => available && number(v) ? esc(Number(v).toLocaleString(undefined, {maximumFractionDigits:1})) + esc(unit) : '\u2014';\nconst labels = {sunny:'Sunny', 'clear-night':'Clear night', partlycloudy:'Partly cloudy', cloudy:'Cloudy', rainy:'Rainy', pouring:'Heavy rain', snowy:'Snowy', 'snowy-rainy':'Sleet', lightning:'Thunderstorms', 'lightning-rainy':'Thundery rain', windy:'Windy', 'windy-variant':'Windy', fog:'Foggy', hail:'Hail', exceptional:'Exceptional weather'};\nconst condition = available ? (labels[weatherState.state] || weatherState.state.replace(/[-_]/g,' ')) : 'Weather unavailable';\nconst icon = available ? (variables.var_weather_icon || 'mdi:weather-cloudy') : 'mdi:weather-cloudy-alert';\nreturn `<div class=\"clock-weather\"><ha-icon icon=\"${esc(icon)}\"></ha-icon><div class=\"clock-current\"><div class=\"clock-temp\">${value(attrs.temperature, attrs.temperature_unit || '\u00b0')}</div><div class=\"clock-condition\">${esc(condition)} \u00b7 View forecast</div></div><div class=\"clock-metric\"><div class=\"clock-metric-label\">WIND</div><div class=\"clock-metric-value\">${value(attrs.wind_speed, attrs.wind_speed_unit ? ' ' + attrs.wind_speed_unit : '')}</div></div><div class=\"clock-metric\"><div class=\"clock-metric-label\">HUMIDITY</div><div class=\"clock-metric-value\">${value(attrs.humidity, '%')}</div></div><span class=\"clock-link\" aria-hidden=\"true\">\u2197</span></div>`;\n\n]]]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
