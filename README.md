@@ -94,6 +94,7 @@ python -m pip install -r requirements.txt
 python install.py verify
 python install.py choose --profile es8-gen2
 python install.py dashboards --profile es8-gen2
+python install.py prepare-dashboards --profile es8-gen2
 ```
 
 Streaming is optional. The wizard asks Y/N for Netflix, BBC iPlayer, ITVX and
@@ -113,13 +114,21 @@ open Music Assistant in HA on your computer and copy everything after the host
 and port; it may be an add-on ingress path. The suggested `/music-assistant` is
 only a placeholder. Create the VA sensor in step 7, then rerun the wizard if its ID differs.
 
-Default dashboard slugs are `athena-home`, `view-assist`, `athena-tv`. Portal uses
+Default dashboard slugs are `athena-home`, `view-assist-athena`, `athena-tv`. Portal uses
 `portal-home`, `view-assist-portal`, `portal-tv`. Use unique slugs if adding another
 display. The generated VA dashboard binds to one VA sensor; do not reuse one
 generated configuration for several different VA sensors.
 
 Prepared YAML/JSON and `android.conf` are under `installation-data/generated/es8-gen2/`. Local choices
 are under `installation-data/choices/es8-gen2.json`. Neither is published.
+
+**Prepare the landing pages before connecting VACAV to HA.** The last command
+asks for your HA base URL and an administrator's long-lived access token at a
+hidden prompt; the token is not saved. It creates Home, VA and TV setup pages
+only where those dashboard slugs do not already exist. Existing dashboards are
+kept untouched. No VA sensor is needed yet. Once signed into HA, the display
+will show a welcome/setup page while you complete steps 6–8, rather than a 404.
+If you change the slugs later, run `prepare-dashboards` again before using them.
 
 ## 2. Preserve what you need BEFORE wiping
 
@@ -163,6 +172,30 @@ This repo has no unattended wipe command. A data-only
 reset does not undo old system modifications; start your walkthrough from the
 known unlocked stock firmware baseline you intend to support, not a mixed install.
 Preserve the unlocked bootloader/recovery. Do not flash Gen 1/Crown images.
+
+### Clear this device's HA registrations as part of a clean reset
+
+After backing up HA and the device, but **before pairing the wiped device again**:
+
+1. Record the old ES8's name, address, VACAV display ID, VA sensor, assistant
+   pipeline and MA player mapping. These identify what to remove, not values to
+   copy blindly into the new installation.
+2. In **Settings → Devices & services → View Assist**, open the entry belonging
+   to this ES8 and delete that entry. Leave Master Configuration and every other
+   display alone.
+3. In **Settings → Devices & services → VACA_Vision**, delete the old ES8 entry.
+   Remove an old separate ESPHome/EDA voice entry only if it belongs to this same
+   ES8. Removing entries also removes their integration-owned devices/entities;
+   do not delete the entire integrations or shared dashboards.
+4. In Music Assistant, remove the obsolete Sendspin player/pairing for this ES8
+   if the wipe invalidated it. Preserve other players and providers.
+5. Check that the old ES8 VA/VACAV entries are gone. Recreate VACAV in step 6,
+   sign into HA on the display, then create a **new** VA device in step 7.
+   Update automations referencing old entity IDs only after the new IDs exist.
+
+A device wipe alone does not clear HA registrations. Keeping the old entries
+can leave stale display IDs and unknown microphone/player entities. This cleanup
+is for an explicitly requested clean reset, not a routine app upgrade.
 
 ## 3. Gather echo-dot-assist prerequisites on Linux
 
@@ -284,9 +317,10 @@ Two explicit options appear during installation:
   does not dismiss sign-in, payment or playback errors. Other enabled accessibility
   services are preserved.
 
-Follow VACAV onboarding and sign into HA on the display. Its HA connection port
-is **26900 on Athena**. Do not use the generic 10900 value for this ES8.
-Set the initial dashboard to `/athena-home/home` (or your chosen home slug).
+Open VACAV and complete its local onboarding. Its HA connection port is
+**26900 on Athena**. Do not use the generic 10900 value for this ES8.
+Continue with step 6 to pair HA. The initial dashboard must be the existing
+`/athena-home/home` setup page (or the home slug prepared in step 1).
 
 **Portal:** use `--profile portal_plus_gen_2` for both commands. The bundled standard Portal
 APK uses **10900**. No EDA installation, root/firewall changes, HOME selection or
@@ -322,6 +356,15 @@ In the EDA fields use port **26053**, and supply its ESPHome Noise PSK if encryp
 is enabled (from your EDA setup/settings; leave blank only if not configured).
 Keep the secret out of dashboard YAML and Git.
 
+Set **Home/startup dashboard** to `/athena-home/home` (or your prepared home
+slug), then sign into Home Assistant **on the ES8** using your normal HA
+account. Pairing the integration does not sign the display's browser in.
+Expect the welcome/setup page created in step 1. This first successful page
+load lets View Assist discover the new display ID; complete it before step 7.
+If a 404 appears, run `prepare-dashboards` with matching slugs, then use the
+VACAV device's **Refresh dashboard** button in HA. Do not recreate the pairing
+or wipe the device to fix a missing dashboard.
+
 Choose the desired Assist pipeline on the resulting VACAV assistant device.
 Use an HA internal HTTP address reachable from the ES8: this pinned EDA revision
 does not support native HTTPS reply fetching. That is distinct from browser HA
@@ -344,8 +387,12 @@ ES8 role. Keep Portal's existing pairing if it is already correct.
 
 ## 7. Required View Assist settings (manual mapping)
 
-Create/open the VA device in View Assist. Copy the actual IDs from your HA device
-pages; never reuse the old pre-wipe display UUID or example sensor names.
+After the ES8 is signed in and showing its setup page, use **Settings → Devices
+& services → Add integration → View Assist** to create a new device. Select the
+display-and-audio device type and give it the same friendly name as VACAV.
+Copy the actual IDs from the newly created VACAV HA device page; never reuse
+the old pre-wipe display UUID or example sensor names. For an upgrade without
+a wipe, open the existing device's options instead.
 
 | VA setting | ES8 EDA + VACAV value |
 |---|---|
@@ -353,8 +400,8 @@ pages; never reuse the old pre-wipe display UUID or example sensor names.
 | Microphone device | VACAV's combined `assist_satellite.*` entity |
 | Media player | VACAV's combined speaker/music proxy `media_player.*` |
 | Music player | The VACAV proxy mapped to EDA's MA Sendspin player |
-| Dashboard | `/view-assist` (or the profile's actual VA slug) |
-| Home/default view | `/view-assist/clock` or the view field `clock`, according to the VA UI field |
+| Dashboard | `/view-assist-athena` (or the profile's actual VA slug) |
+| Home/default view | `/view-assist-athena/clock` or the view field `clock`, according to the VA UI field |
 | Weather entity | Your actual `weather.*` entity |
 | Ducking | Start at zero in VA; this VACAV/EDA role owns voice/music focus to avoid double attenuation |
 | Screen/fullscreen mode | Choose the VA mode appropriate for the display; verify no unwanted HA header/sidebar |
@@ -362,6 +409,25 @@ pages; never reuse the old pre-wipe display UUID or example sensor names.
 
 If the installed VA selector cannot select `assist_satellite.*`, use a VA version
 that supports that domain; don't select an unrelated microphone just to continue.
+It must also support the **vaca_vision** integration: VA 2026.7.0's `vaca`
+filter alone does not include VACAV. For that version, create the device through
+VA's normal configuration API using the installer instead of its filtered picker:
+
+```sh
+python install.py create-view-assist --profile es8-gen2
+```
+
+Enter the HA URL/token, friendly device name, VACAV Assist entity, VACAV Music
+entity and the **value** of its display-device sensor. The command validates that
+the entities exist and that VA has discovered this display, then reviews the
+mapping before creating it. It never removes an existing device or patches VA.
+A missing display ID means the ES8 has not yet loaded a working HA page;
+return to the end of step 6 before retrying.
+
+After creation, open the new VA entry's **Configure** menu. Set the dashboard
+and default view under **Dashboard options**, and weather/ducking under the
+corresponding default options, using the table above. Copy the new **VA sensor
+entity ID** from this VA device; enter it in the choices wizard in step 8.
 For Portal + Dot, select VACAV's combined Dot satellite and reply Speaker entity;
 its music field uses the Portal's MA Sendspin player. Display-only Portal does not
 have an ES8 voice satellite to map.

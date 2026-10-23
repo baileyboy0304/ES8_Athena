@@ -1301,8 +1301,8 @@
   },
   {
     "path": "devices/es8-gen2/profile.json",
-    "bytes": 1424,
-    "sha256": "6015178e06767c7d4dc8ed36bf90ce2352e388cae23f1a3a21d21d745e56e893"
+    "bytes": 1431,
+    "sha256": "7dae6b93154c8e8f3f4ce9d8b488cbe17dd548aca1ba657f60b315072d0de6c0"
   },
   {
     "path": "devices/install-device.py",

@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 REAL = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location('installer', REAL / 'install.py')
@@ -56,5 +57,58 @@ class Dashboards(unittest.TestCase):
             if view['path']=='clock': nav=view['cards'][0]['custom_fields']['heading']['card']
             else: nav=view['cards'][0]['cards'][0]
             self.assertEqual([x['name'] for x in nav['cards']], ['Home','TV'])
+
+    def test_setup_pages_preserve_existing_dashboards_and_are_idempotent(self):
+        self.generate('es8-gen2', [])
+        original = {'title': 'Owner dashboard', 'views': []}
+        configs = {'athena-home': original}
+        writes = []
+        class FakeHA:
+            ws = type('Socket', (), {'close': lambda self: None})()
+            def call(self, kind, **kw):
+                if kind == 'lovelace/dashboards/list':
+                    return [{'url_path': slug} for slug in configs]
+                slug = kw['url_path']
+                if kind == 'lovelace/dashboards/create':
+                    if slug in configs: raise AssertionError('Duplicate creation')
+                    configs[slug] = None
+                elif kind == 'lovelace/config/save':
+                    writes.append(slug)
+                    configs[slug] = kw['config']
+                elif kind == 'lovelace/config': return configs[slug]
+        with patch.object(m, 'HA', return_value=FakeHA()), \
+             patch.object(m, 'ask', return_value='http://ha'), \
+             patch.object(m.getpass, 'getpass', return_value='test'):
+            m.prepare_dashboards('es8-gen2')
+            m.prepare_dashboards('es8-gen2')
+        self.assertIs(configs['athena-home'], original)
+        self.assertEqual(writes, ['view-assist-athena', 'athena-tv'])
+        self.assertEqual(configs['view-assist-athena']['views'][0]['path'], 'clock')
+        self.assertEqual(configs['athena-tv']['views'][0]['path'], 'tv')
+
+    def test_va_creation_requires_display_discovery_before_submitting_mapping(self):
+        self.generate('es8-gen2', [])
+        submitted = []
+        class FakeHA:
+            ws = type('Socket', (), {'close': lambda self: None})()
+            def call(self, kind):
+                return [{'entity_id': e, 'state': s} for e, s in [
+                    ('assist_satellite.test_assist', 'idle'),
+                    ('media_player.test_music', 'idle'),
+                    ('sensor.test_display_id', 'va-new-display')]]
+            def post(self, path, body):
+                submitted.append(body)
+                if len(submitted) == 1: return {'flow_id': 'test'}
+                return {'step_id': 'options', 'data_schema': [
+                    {'name': n} for n in ['name', 'mic_device', 'mediaplayer_device',
+                                         'musicplayer_device', 'display_device']]}
+        with patch.object(m, 'HA', return_value=FakeHA()), \
+             patch.object(m, 'ask', side_effect=['http://ha', 'Test',
+                 'assist_satellite.test_assist', 'media_player.test_music', 'va-new-display']), \
+             patch.object(m, 'yes', return_value=True), \
+             patch.object(m.getpass, 'getpass', return_value='test'):
+            with self.assertRaisesRegex(RuntimeError, 'has not discovered'):
+                m.create_view_assist('es8-gen2')
+        self.assertEqual(len(submitted), 2)  # No final device creation submitted.
 
 if __name__ == '__main__': unittest.main()

@@ -13,6 +13,8 @@ import shutil
 import subprocess
 import sys
 from urllib.parse import urlsplit
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 ROOT = Path(__file__).resolve().parent
 sys.dont_write_bytecode = True
@@ -144,6 +146,7 @@ class HA:
         parsed = urlsplit(url)
         if parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.query or parsed.fragment or parsed.path not in ('', '/'):
             raise ValueError('Enter the HA base URL, e.g. http://homeassistant.local:8123')
+        self.base_url, self.token = url.rstrip('/'), token
         self.ws = websocket.create_connection(('wss' if parsed.scheme == 'https' else 'ws') + '://' + parsed.netloc + '/api/websocket', timeout=30)
         self.seq = 0
         self.ws.recv()
@@ -159,6 +162,96 @@ class HA:
                 if not msg.get('success'):
                     raise RuntimeError(str(msg.get('error')))
                 return msg.get('result')
+
+    def post(self, path, body):
+        request = Request(self.base_url + '/api/' + path,
+            data=json.dumps(body).encode(), headers={
+                'Authorization': 'Bearer ' + self.token, 'Content-Type': 'application/json'})
+        try:
+            with urlopen(request, timeout=30) as response:
+                return json.load(response)
+        except HTTPError as error:
+            raise RuntimeError('HA rejected configuration: ' + error.read().decode()) from None
+
+def create_view_assist(name):
+    """Use VA's normal config flow, including on versions with an old UI filter."""
+    cfg = settings(name)
+    ha = HA(ask('Home Assistant base URL'),
+            getpass.getpass('HA administrator token (not saved): '))
+    try:
+        states = {s['entity_id']: s for s in ha.call('get_states')}
+        friendly = ask('New View Assist device name')
+        mic = ask('VACAV Assist entity (assist_satellite.*)')
+        speaker = ask('VACAV Music entity (media_player.*)')
+        display = ask('VACAV display ID value (va-..., not sensor.*)')
+        if not friendly or not display.startswith('va-'):
+            raise ValueError('A device name and the actual va- display ID are required')
+        for entity, domain in [(mic, 'assist_satellite.'), (speaker, 'media_player.')]:
+            if not entity.startswith(domain) or entity not in states:
+                raise ValueError('Missing/wrong entity: ' + entity)
+        if not any(s['state'] == display for s in states.values()):
+            raise ValueError('Display ID is not reported by HA; copy the VACAV display sensor value')
+        if any(s.get('attributes', {}).get('display_device') == display for s in states.values()):
+            raise ValueError('A VA device already uses this display ID; use its options instead')
+        print('Create VA:', friendly, '\nMicrophone:', mic, '\nPlayer:', speaker,
+              '\nDisplay:', display, '\nDashboard:', '/' + cfg['va_slug'])
+        if not yes('Create this View Assist device?'):
+            return
+        flow = ha.post('config/config_entries/flow', {'handler': 'view_assist', 'show_advanced_options': True})
+        path = 'config/config_entries/flow/' + flow['flow_id']
+        flow = ha.post(path, {'type': 'view_audio'})
+        fields = {f['name']: f for f in flow.get('data_schema', [])}
+        required = {'name', 'mic_device', 'mediaplayer_device', 'musicplayer_device', 'display_device'}
+        if flow.get('step_id') != 'options' or not required.issubset(fields):
+            raise RuntimeError('Unsupported VA setup form; complete setup in HA')
+        options = fields['display_device'].get('selector', {}).get('select', {}).get('options', [])
+        displays = {o['value'] if isinstance(o, dict) else o for o in options}
+        if display not in displays:
+            raise RuntimeError('VA has not discovered this display. Sign into HA on the display, '
+                               'load the prepared setup page, then run this command again.')
+        result = ha.post(path, {'name': friendly, 'mic_device': mic,
+            'mediaplayer_device': speaker, 'musicplayer_device': speaker, 'display_device': display})
+        if result.get('type') != 'create_entry':
+            raise RuntimeError('VA did not finish creation: ' + str(result.get('errors', result.get('type'))))
+        print('Created View Assist device:', friendly)
+        print('Now set its dashboard/defaults in HA as described in README step 7,')
+        print('then copy the new VA sensor ID into the choices wizard before step 8.')
+    finally:
+        ha.ws.close()
+
+def placeholder_dashboard(title, view_path):
+    return {'title': title, 'views': [{'title': 'Setup', 'path': view_path,
+        'cards': [{'type': 'markdown', 'content':
+            '# Welcome — setup is in progress\n\n'
+            'Your display has reached Home Assistant.\n\n'
+            'On the installation computer, finish the View Assist device settings '
+            'in README step 7, then install the dashboards in step 8. '
+            'This page will be replaced by your finished dashboard.\n\n'
+            'If setup has finished, refresh this page.'}]}]}
+
+def prepare_dashboards(name):
+    """Create safe landing pages before pairing; never overwrite a dashboard."""
+    cfg = settings(name)
+    ha = HA(ask('Home Assistant base URL'),
+            getpass.getpass('HA long-lived access token (not saved): '))
+    try:
+        known = {d['url_path'] for d in ha.call('lovelace/dashboards/list')}
+        for key, title, view in [('home_slug', 'Athena Home', 'home'),
+                                  ('va_slug', 'View Assist', 'clock'),
+                                  ('tv_slug', 'TV', 'tv')]:
+            slug = cfg[key]
+            if slug in known:
+                print('Kept existing dashboard:', slug)
+                continue
+            ha.call('lovelace/dashboards/create', url_path=slug, title=title,
+                    icon='mdi:tablet-dashboard', show_in_sidebar=True, require_admin=False)
+            config = placeholder_dashboard(title, view)
+            ha.call('lovelace/config/save', url_path=slug, config=config)
+            if ha.call('lovelace/config', url_path=slug) != config:
+                raise RuntimeError('Placeholder read-back mismatch: ' + slug)
+            print('Prepared setup page:', slug)
+    finally:
+        ha.ws.close()
 
 def deploy_dashboards(name):
     cfg = build(name)
@@ -237,7 +330,7 @@ def verify():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['choose', 'device', 'dashboards', 'deploy-dashboards', 'install-ha', 'verify'])
+    parser.add_argument('command', choices=['choose', 'device', 'dashboards', 'prepare-dashboards', 'create-view-assist', 'deploy-dashboards', 'install-ha', 'verify'])
     parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
     parser.add_argument('--ha-config')
     parser.add_argument('--serial', help='USB serial for device; optional with exactly one USB device connected')
@@ -257,6 +350,8 @@ def main():
     if args.command == 'verify': verify()
     elif args.command == 'choose': choose(args.profile)
     elif args.command == 'dashboards': build(args.profile)
+    elif args.command == 'prepare-dashboards': prepare_dashboards(args.profile)
+    elif args.command == 'create-view-assist': create_view_assist(args.profile)
     elif args.command == 'deploy-dashboards': deploy_dashboards(args.profile)
     elif args.command == 'install-ha':
         if not args.ha_config: parser.error('--ha-config is required')

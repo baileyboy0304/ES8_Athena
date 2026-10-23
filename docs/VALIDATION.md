@@ -17,13 +17,29 @@
 - Installed the matching HA integration/assets with backups. HA configuration
   check passed. Fixed the device-name schema's unsupported `str.strip` validator;
   after restarting HA, the configuration form rendered successfully.
-- All eight repository tests and component checksum verification passed. EDA source
+- Paired the new Garden Athena VACAV device and its EDA Sendspin player. HA's
+  assistant connection/TTS test completed, and Music Assistant radio FLAC
+  playback started and stopped on the intended device. Camera permission was
+  granted with the owner's approval. Streaming sign-ins are deferred by choice.
+- Removed the obsolete ES8 VACAV and View Assist registrations for this clean
+  reset. Added explicit HA cleanup and recreation order to the README.
+- Created and read back Home/VA/TV setup dashboards. The ES8's missing-dashboard
+  404 was replaced by the HA login screen; the authenticated desktop browser
+  renders the welcome/setup page. Display sign-in must precede VA discovery.
+- Ten repository tests and component checksum verification passed, including
+  preserving existing dashboards, safely repeating placeholder preparation and
+  refusing VA creation before display discovery. The live creation helper also
+  stopped with that explicit sign-in instruction. EDA source
   remains unchanged.
 
-**Not yet accepted end to end:** VACAV first-run permissions/onboarding, HA voice
-ownership and pipeline, View Assist mapping/dashboard deployment, Music Assistant
-pairing, streaming account sign-ins, DRM playback and the ITVX Home/audio regression
-still need completion. Installed APKs and firewall checks do not prove playback.
+**Not yet accepted end to end:** ES8 HA browser sign-in, fresh View Assist mapping
+and final dashboards, streaming account sign-ins, DRM playback and the ITVX
+Home/audio regression still need completion. ITVX currently stalls at its splash
+after dismissing its Play services warning. Netflix's missing Amazon-auth
+dependency was restored from the same original firmware as a user APK; its
+initial crash stopped reproducing, but its protected screen is not yet visually
+verified. iPlayer and Apple TV reached sign-in. Installed APKs and firewall checks
+do not prove playback.
 
 ## Original packaging checks
 
