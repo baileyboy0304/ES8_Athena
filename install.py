@@ -52,7 +52,9 @@ def settings(name):
 
 def choose(name):
     p = profile(name)
-    print('\n' + p['name'] + ': choose streaming services. All default to No.')
+    print('\n' + p['name'] + ': configure dashboards and optional streaming apps.')
+    print('Streaming is optional. Answer No to every app if you do not want streaming.')
+    print('This wizard also saves your View Assist sensor, weather entity and dashboard paths.')
     print('On ES8, selected apps receive internet TCP 80/443 access, including ads and telemetry.')
     print('Apple TV on ES8 uses Silk; its exception covers all sites opened in Silk.')
     selected = [s['id'] for s in p['services'] if yes('Include ' + s['name'] + '?')]

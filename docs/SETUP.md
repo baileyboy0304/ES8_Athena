@@ -4,7 +4,7 @@ This guide uses the **normal echo-dot-assist installer** and the tested VACAV
 upstream prototype. Do not use the separate Athena Assist or Crown Assist projects.
 Do not run the EDA or ES8 steps on Portal. Portal only uses steps 1, 5–8 with its profile.
 
-## 1. Prepare this folder and choose services
+## 1. Configure dashboards and choose optional streaming apps
 
 For the Windows-to-Linux move, complete [Linux handover](LINUX-HANDOVER.md) first.
 Run the device installation on Linux with physical USB access.
@@ -22,8 +22,13 @@ python install.py choose --profile es8-gen2
 python install.py dashboards --profile es8-gen2
 ```
 
-The wizard asks Y/N for Netflix, iPlayer, ITVX and Apple TV. No is the default.
-Apple TV uses Silk on ES8, not a native Apple TV APK. You can select none.
+Streaming is optional. The wizard asks Y/N for Netflix, BBC iPlayer, ITVX and
+Apple TV; every answer defaults to No. You can answer No to all four and still
+use View Assist and Music Assistant. Run the wizard even without streaming,
+because it also saves the dashboard settings described below.
+Apple TV uses the existing Silk browser on ES8, not a native Apple TV APK.
+With no streaming apps selected, the TV page shows an empty-state message and
+the fresh-install streaming firewall adaptation is skipped.
 Selected ES8 apps receive EDA firewall TCP 80/443 exceptions to any host, including
 advertising and telemetry; Silk's exception covers any website it opens. Other
 internet ports and UDP/QUIC stay blocked. No Settings/SystemUI retention is added.

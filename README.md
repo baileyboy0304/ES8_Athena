@@ -36,7 +36,11 @@ package; you do not need to edit it to install. Each support folder has a short 
 On Linux, from this repository's root, follow the guide in order:
 
 1. **echo-dot-assist:** `./echo-dot-assist/scripts/setup.sh athena`
-2. **Choose services:** `python install.py choose --profile es8-gen2`
+2. **Configure dashboards and choose optional streaming apps:**
+   `python install.py choose --profile es8-gen2`
+   Answer Y/N for Netflix, BBC iPlayer, ITVX and Apple TV. All default to No;
+   choosing none is supported. Run this wizard even without streaming, because
+   it also saves your View Assist sensor, weather entity and dashboard paths.
 3. **VACAV and selected streaming apps:**
    `python install.py device --profile es8-gen2 --serial YOUR_USB_SERIAL --apply`
 4. **Home Assistant and dashboards:** continue with steps 6–8 of the setup guide.
