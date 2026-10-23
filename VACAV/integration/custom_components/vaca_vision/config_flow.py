@@ -38,6 +38,8 @@ async def run_adb(hass, host, port, entry_key="setup"):
 
 def role_schema(roles, values):
     return {
+        vol.Required("name", default=values.get("name", "VACA_Vision")):
+            vol.All(str, str.strip, vol.Length(min=1, max=80)),
         vol.Required(
             "role", default=values.get("role", roles[0])
         ): selector.SelectSelector(
@@ -336,7 +338,7 @@ class VisionConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             "host": host,
             "port": port,
             "id": info.id,
-            "name": info.name,
+            "name": existing.title if existing else info.name,
             "roles": info.capabilities["roles"],
         }
         role = {
@@ -535,7 +537,7 @@ class VisionConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             },
         }
         self.hass.config_entries.async_update_entry(
-            entry, data={**entry.data, **values}, options=options
+            entry, title=values["name"], data={**entry.data, **values}, options=options
         )
         # Loaded entries have an update listener. Explicitly retry an unloaded
         # entry as well, e.g. after its previous APK stopped advertising this role.
@@ -553,6 +555,7 @@ class VisionOptionsFlow(config_entries.OptionsFlow):
     async def async_step_init(self, user_input=None):
         errors = {}
         values = {**self.config_entry.data, **self.config_entry.options}
+        values["name"] = self.config_entry.title
         roles = values["roles"]
         try:
             info = await probe(
@@ -602,6 +605,9 @@ class VisionOptionsFlow(config_entries.OptionsFlow):
                 except Exception:  # noqa: BLE001 - API boundary: keep pairing secrets out of errors
                     errors["base"] = "cannot_connect"
             if not errors:
+                self.hass.config_entries.async_update_entry(
+                    self.config_entry, title=values["name"]
+                )
                 return self.async_create_entry(title="", data=values)
         schema = role_schema(roles, values)
         schema.update({

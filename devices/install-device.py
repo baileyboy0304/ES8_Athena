@@ -131,7 +131,7 @@ def main():
             shell('settings put secure accessibility_enabled 1')
         shell('cmd package set-home-activity ' + ACTIVITY)
     shell('am start -n ' + ACTIVITY)
-    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using docs/SETUP.md.')
+    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using docs/SETUP.md.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
 
 if __name__ == '__main__':
     try: main()

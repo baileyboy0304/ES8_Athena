@@ -921,8 +921,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/config_flow.py",
-    "bytes": 26026,
-    "sha256": "479dacbabe48403341c2ed7abe198e5e732a4c65ae97d766bb1957a0a0474581"
+    "bytes": 26405,
+    "sha256": "13a3c27f27ff2a6925fbad25d49ec789855c4638eea49f1fbe750936788a6e8c"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/const.py",
@@ -1056,8 +1056,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/strings.json",
-    "bytes": 15447,
-    "sha256": "a4f7e75632bc3d5c4b4513c6f6881c878ed3af5c35b82ebb3a5cd54a2926b1fc"
+    "bytes": 15801,
+    "sha256": "6f907a07e67fbbf24a39339c742c6731d8bccb17a7aaf963e2c5e289006c9881"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/switch.py",
@@ -1066,8 +1066,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/translations/en.json",
-    "bytes": 15447,
-    "sha256": "a4f7e75632bc3d5c4b4513c6f6881c878ed3af5c35b82ebb3a5cd54a2926b1fc"
+    "bytes": 15801,
+    "sha256": "6f907a07e67fbbf24a39339c742c6731d8bccb17a7aaf963e2c5e289006c9881"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/update.py",
@@ -1306,8 +1306,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 8524,
-    "sha256": "a955589bf20d9ce6bfb95d70df3086988b0c397bc14d7e9f55313469c66b3182"
+    "bytes": 8603,
+    "sha256": "7557288dd421f26f0fc024980970d74384718dd8eb6a6a3ac0de2a39cb3f45dd"
   },
   {
     "path": "devices/portal_plus_gen_2/profile.json",

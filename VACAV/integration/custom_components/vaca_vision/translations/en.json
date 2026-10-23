@@ -19,8 +19,12 @@
         "title": "Configure {name}",
         "description": "Choose the device role. On Fire TV, the paired Dot supplies the microphone and wakeword; replies and Sendspin play through the TV while Vision keeps overlays. An existing Vision device will be updated in place.",
         "data": {
+          "name": "Device name",
           "role": "Device role",
           "dashboard": "Initial dashboard path"
+        },
+        "data_description": {
+          "name": "Name this display in Home Assistant, for example Kitchen Athena. Its unique device ID stays unchanged."
         }
       },
       "crown": {
@@ -158,6 +162,7 @@
         "title": "VACA_Vision device configuration",
         "description": "Configure this device. Crown owns audio on ES8. Display and Dot roles use the Dot microphone and play replies and Sendspin on the display; Fire TV retains overlays.",
         "data": {
+          "name": "Device name",
           "role": "Device role",
           "dashboard": "Initial dashboard path",
           "crown_port": "Crown Wyoming port",
@@ -167,7 +172,8 @@
           "eda_native_indicator": "Use EDA voice indicator only"
         },
         "data_description": {
-          "eda_native_indicator": "Install the no-animation View Assist overlay and select it only for the View Assist device linked to this satellite. Existing custom overlays are preserved."
+          "eda_native_indicator": "Install the no-animation View Assist overlay and select it only for the View Assist device linked to this satellite. Existing custom overlays are preserved.",
+          "name": "Name this display in Home Assistant, for example Kitchen Athena. Its unique device ID stays unchanged."
         }
       }
     },
