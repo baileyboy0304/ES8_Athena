@@ -6,6 +6,73 @@ A separate **Portal Plus Gen 2** profile is included for VACAV and dashboards.
 **Start with [the installation guide](docs/SETUP.md).** Moving from Windows?
 Read [the Linux handover](docs/LINUX-HANDOVER.md) first.
 
+## Additional preparation: unlock files and firmware
+
+Before connecting or wiping the ES8, create a private download folder on your Linux PC:
+
+```sh
+mkdir -p "$HOME/ES8-Athena/unlock"
+```
+
+Download the following files into that folder, keeping their original filenames:
+
+| File | Where to get it | When needed |
+|---|---|---|
+| `saiyaku-athena-v1.0.0.zip` | Attachments in the [XDA Athena unlock/root/TWRP thread](https://xdaforums.com/t/unlock-root-twrp-unbrick-amazon-echo-show-8-2nd-gen-2021-athena.4804958/) | For a device that still needs unlocking; retain it with your recovery files |
+| `boot-root.zip` | Attachments in the same XDA thread | Required for this clean installation, including the policy tool EDA uses |
+| `update-kindle-athena-PS75741_user_7080_0036274153604.bin` | The separate [stock firmware download reference linked by EDA](https://ftvdb.com/echo/firmware/com.amazon.athena.android.os/84ffb126664e1a3569404ba61d580e05-36274153604-fire-os-7574-1-ps75741-7080-2026-09-29/) | Required pinned firmware, PS75741.7080N |
+
+If you already unlocked the device, you may already have the XDA archives. Reuse
+those files only after checking the hashes below. Unlocking does not establish
+that you have this exact stock firmware, a recovery backup, or streaming APK exports.
+Do not run the unlock again merely to prepare these downloads. Keep the ZIPs intact;
+the unchanged EDA installer handles extraction and the applicable device steps.
+
+After cloning this repository **with submodules**, run these commands from its root
+to copy the required downloads to EDA's expected location:
+
+```sh
+mkdir -p echo-dot-assist/firmware/athena
+cp "$HOME/ES8-Athena/unlock/boot-root.zip" echo-dot-assist/firmware/athena/
+cp "$HOME/ES8-Athena/unlock/update-kindle-athena-PS75741_user_7080_0036274153604.bin" echo-dot-assist/firmware/athena/
+```
+
+If unlocking is needed, also copy its archive:
+
+```sh
+cp "$HOME/ES8-Athena/unlock/saiyaku-athena-v1.0.0.zip" echo-dot-assist/firmware/athena/
+```
+
+Check the copied files against the pinned upstream SHA256 values:
+
+```sh
+(cd echo-dot-assist/firmware/athena && sha256sum --check <<'SHA256'
+741d904f7e2616c70be2c10f3466efb515769632779546a869f5591a6a9c827a  boot-root.zip
+7a76fe6f84847c183e617fe6bb0c311faa9ad5ab56803b3a6115fb763c422a1a  update-kindle-athena-PS75741_user_7080_0036274153604.bin
+SHA256
+)
+```
+
+If you copied the unlock archive, check it too:
+
+```sh
+(cd echo-dot-assist/firmware/athena && sha256sum --check <<'SHA256'
+6d48b4b253fa6cbecb9166c87c0177be09c8a02e5f2efd2bc0d0aec939626218  saiyaku-athena-v1.0.0.zip
+SHA256
+)
+```
+
+Every checked file must report `OK`. Stop on a missing file or mismatch; do not
+rename a different firmware build or bypass EDA's verification.
+
+**Also preserve your own device data before a wipe ([setup step 2](docs/SETUP.md#2-preserve-what-you-need-before-wiping)).** A verified TWRP
+backup must be made from your ES8 and kept outside this repository. Streaming
+APKs must be exported from your existing installation or supplied separately if
+you select those services. Neither is included in the XDA unlock downloads.
+The first wipe waits until recovery and all required installation inputs are verified.
+
+Then follow [the installation guide](docs/SETUP.md) in order.
+
 ## Repository layout
 
 ```text
