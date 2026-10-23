@@ -26,11 +26,17 @@
 - Created and read back Home/VA/TV setup dashboards. The ES8's missing-dashboard
   404 was replaced by the HA login screen; the authenticated desktop browser
   renders the welcome/setup page. Display sign-in must precede VA discovery.
-- Ten repository tests and component checksum verification passed, including
+- Twelve repository tests and component checksum verification passed, including
   preserving existing dashboards, safely repeating placeholder preparation and
   refusing VA creation before display discovery. The live creation helper also
   stopped with that explicit sign-in instruction. EDA source
   remains unchanged.
+
+- Restored on-device text entry with official Simple Keyboard 6.8 (release 149),
+  verified against its published SHA-256. Android reports the IME selected, bound
+  and shown in the HA login field. The stock keyboard trial crashed because its
+  system-library access was missing; that trial APK was removed. The device
+  installer now supplies the offline keyboard when no selected IME exists.
 
 **Not yet accepted end to end:** ES8 HA browser sign-in, fresh View Assist mapping
 and final dashboards, streaming account sign-ins, DRM playback and the ITVX

@@ -80,6 +80,12 @@ def main():
         if shell('test -f /system/hassmic/boot.sh && echo yes || true') != 'yes':
             raise RuntimeError('echo-dot-assist system installation not found; run ./echo-dot-assist/scripts/setup.sh athena first')
     print('VACAV APK:', apk.name)
+    keyboard_needed = False
+    if a.profile == 'es8-gen2':
+        from devices.keyboard import needs_keyboard
+        keyboard_needed = needs_keyboard(shell)
+        print('Keyboard:', 'will install verified Simple Keyboard 6.8 (offline, vibration permission only)'
+              if keyboard_needed else 'existing selected input method retained')
     print('Streaming:', ', '.join(s['name'] for s in selected) or 'none')
     missing = []
     for service in selected:
@@ -93,6 +99,10 @@ def main():
         return
     if not yes('Install VACAV, selected apps, and the selected streaming policy on this USB device?'):
         return
+    keyboard_apk = None
+    if keyboard_needed:
+        from devices.keyboard import prepare
+        keyboard_apk = prepare(ROOT)
     backup = ROOT / 'installation-data/backups' / ('device-' + stamp())
     backup.mkdir(parents=True)
     # Save current permissions/settings for targeted rollback, without app data or sign-in tokens.
@@ -100,8 +110,14 @@ def main():
         'home': 'cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME',
         'accessibility_services': 'settings get secure enabled_accessibility_services',
         'accessibility_enabled': 'settings get secure accessibility_enabled',
+        'default_input_method': 'settings get secure default_input_method',
+        'enabled_input_methods': 'settings get secure enabled_input_methods',
+        'show_ime_with_hard_keyboard': 'settings get secure show_ime_with_hard_keyboard',
         'vacav_appops': 'appops get ' + PACKAGE + ' 2>/dev/null || true'}.items()}
     save(backup / 'before.json', old)
+    if keyboard_apk is not None:
+        from devices.keyboard import install as install_keyboard
+        install_keyboard(adb, shell, keyboard_apk)
     result = adb('install', '-r', str(apk))
     if 'Success' not in result: raise RuntimeError('VACAV APK installation failed: ' + result)
     for service in selected:

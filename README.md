@@ -299,6 +299,16 @@ the selected root-owned streaming policy, grants brightness/overlay access and s
 VACAV as Home. Existing app data is retained; incompatible signatures/downgrades
 stop instead of uninstalling apps.
 
+**On-screen keyboard:** EDA removes Athena's stock Amazon keyboard. If there is
+no installed, selected input method, this stage downloads and installs
+[Simple Keyboard 6.8 from its official release](https://github.com/rkkr/simple-keyboard/releases/tag/149),
+verifies its pinned SHA-256, and selects it before sign-in. This Android 7+
+keyboard requests only vibration permission and has no network permission.
+An existing selected keyboard is retained. The APK is cached privately at
+`installation-data/keyboard/simple-keyboard-6.8.apk`; no Amazon keyboard or
+Settings/SystemUI restoration is needed. Tap a text field to check that the
+keyboard opens before attempting HA or streaming sign-ins.
+
 When streaming is selected, this stage separately adapts the installed EDA firewall
 scripts and writes `/data/local/es8-athena-streaming.conf`. It backs up the original
 files and refuses an unexpected installed version. The existing EDA firewall
