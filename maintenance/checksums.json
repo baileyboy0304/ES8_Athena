@@ -1306,8 +1306,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 7691,
-    "sha256": "def7f3e4ebab5b22fc2eaa6eddebe54e97ac498ad9dfbe2dc5cd15ce8c3e2a81"
+    "bytes": 8524,
+    "sha256": "a955589bf20d9ce6bfb95d70df3086988b0c397bc14d7e9f55313469c66b3182"
   },
   {
     "path": "devices/portal_plus_gen_2/profile.json",
@@ -1316,8 +1316,8 @@
   },
   {
     "path": "devices/README.md",
-    "bytes": 944,
-    "sha256": "0e6a57f8af42a3146d90b63dfefabdaed712479a2f5acf116d43470cee092284"
+    "bytes": 1172,
+    "sha256": "e08e37ba4a86b836e01e495f1472c7b7d1a072d145d18018048eb534b9631303"
   },
   {
     "path": "devices/streaming/profile-functions.sh",

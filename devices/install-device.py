@@ -11,15 +11,30 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from install import ROOT, PACKAGE, ACTIVITY, profile, settings, build, yes, save, stamp, verify
 
+def resolve_serial(serial):
+    if serial is None:
+        try:
+            # ADB -d selects USB only and refuses zero/multiple USB devices.
+            # Resolve once, then pin every later command to that same serial.
+            serial = subprocess.check_output(
+                ['adb', '-d', 'get-serialno'], stderr=subprocess.STDOUT, timeout=15
+            ).decode().strip()
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            raise RuntimeError('Could not select one USB ADB device. Connect and authorise one device, '
+                               'or use --serial YOUR_USB_SERIAL when several are connected. '
+                               'Run adb devices -l to check.') from None
+    if not serial or serial == 'unknown' or not re.fullmatch(r'[A-Za-z0-9_-]+', serial):
+        raise ValueError('Provide a valid USB serial, not network ADB')
+    return serial
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--serial', required=True, help='Exact USB ADB serial; never an IP address')
+    parser.add_argument('--serial', help='USB ADB serial; optional with exactly one USB device connected')
     parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
     parser.add_argument('--apply', action='store_true', help='Install after review; otherwise inspect only')
     parser.add_argument('--export-apps', action='store_true', help='Export streaming APKs to private installation-data/apks before wiping')
     a = parser.parse_args()
-    if not re.fullmatch(r'[A-Za-z0-9_-]+', a.serial):
-        raise ValueError('Provide a USB serial, not network ADB')
+    a.serial = resolve_serial(a.serial)
     def adb(*args):
         return subprocess.check_output(['adb', '-s', a.serial, *args], stderr=subprocess.STDOUT, timeout=240).decode().strip()
     def shell(command):

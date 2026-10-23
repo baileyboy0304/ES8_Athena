@@ -240,16 +240,16 @@ def main():
     parser.add_argument('command', choices=['choose', 'device', 'dashboards', 'deploy-dashboards', 'install-ha', 'verify'])
     parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
     parser.add_argument('--ha-config')
-    parser.add_argument('--serial', help='USB serial for the device command')
+    parser.add_argument('--serial', help='USB serial for device; optional with exactly one USB device connected')
     parser.add_argument('--apply', action='store_true', help='Apply device installation after review')
     parser.add_argument('--export-apps', action='store_true', help='Export installed streaming APKs before wiping')
     args = parser.parse_args()
     if args.command != 'device' and (args.serial or args.apply or args.export_apps):
         parser.error('--serial, --apply and --export-apps require the device command')
     if args.command == 'device':
-        if not args.serial: parser.error('device requires --serial YOUR_USB_SERIAL')
         command = [sys.executable, '-B', str(ROOT / 'devices/install-device.py'),
-                   '--serial', args.serial, '--profile', args.profile]
+                   '--profile', args.profile]
+        if args.serial is not None: command.extend(['--serial', args.serial])
         if args.apply: command.append('--apply')
         if args.export_apps: command.append('--export-apps')
         subprocess.run(command, check=True)

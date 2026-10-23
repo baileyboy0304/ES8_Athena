@@ -1,8 +1,10 @@
 # Packaging checks — 23 October 2026
 
-- Four offline tests passed: complete ES8 view/service generation; no-service
+- Four offline dashboard tests passed: complete ES8 view/service generation; no-service
   configuration; Portal package/path isolation; Home/TV navigation on every VA view.
 - Installer imports and the `install.py device` helper dispatch passed offline checks.
+- Four mocked USB-selection checks cover single-device selection, no/multiple-device
+  refusal, explicit serial handling and the public CLI. No device was accessed.
 - All 265 bundled VACAV/device files passed SHA256 verification,
   including comparison with staged Git bytes to check Linux checkout consistency.
 - `echo-dot-assist/` is a clean Git submodule at `1c00727d332c3b0ee4d13b59f702c78839431694`;

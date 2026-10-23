@@ -42,7 +42,7 @@ On Linux, from this repository's root, follow the guide in order:
    choosing none is supported. Run this wizard even without streaming, because
    it also saves your View Assist sensor, weather entity and dashboard paths.
 3. **VACAV and selected streaming apps:**
-   `python install.py device --profile es8-gen2 --serial YOUR_USB_SERIAL --apply`
+   `python install.py device --profile es8-gen2 --apply`
 4. **Home Assistant and dashboards:** continue with steps 6–8 of the setup guide.
 
 The developer puts the installer in `scripts/setup.sh`; there is no upstream
@@ -50,7 +50,10 @@ The developer puts the installer in `scripts/setup.sh`; there is no upstream
 shell installer. In the guide, **EDA** is simply shorthand for echo-dot-assist.
 
 `install.py device` calls `devices/install-device.py` for you. Without `--apply`
-it inspects the device only. Use `--profile portal_plus_gen_2` for Portal Plus Gen 2;
+it inspects the device only. **`--serial` is optional when exactly one USB ADB
+device is connected.** With several USB devices, add `--serial YOUR_USB_SERIAL`;
+find it with `adb devices -l`. Automatic selection ignores network ADB and emulators.
+Use `--profile portal_plus_gen_2` for Portal Plus Gen 2;
 **do not run echo-dot-assist on Portal**. `python install.py --help` lists commands.
 
 ## Included dashboards and streaming

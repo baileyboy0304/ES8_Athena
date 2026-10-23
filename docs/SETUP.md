@@ -63,8 +63,13 @@ Export the installed streaming APKs (including split APKs) for personal reinstal
 
 ```sh
 adb devices -l
-python install.py device --serial YOUR_USB_SERIAL --profile es8-gen2 --export-apps
+python install.py device --profile es8-gen2 --export-apps
 ```
+
+`--serial` is optional with exactly one USB ADB device connected. With multiple
+USB devices, add `--serial YOUR_USB_SERIAL` using the serial from `adb devices -l`.
+Automatic selection uses USB only and stops if it cannot select one device.
+This applies to export, inspection and installation commands.
 
 This is read-only on the device. Exports go into ignored `installation-data/apks/es8-gen2/`,
 with hashes in `installation-data/es8-gen2-apps.json`. Missing apps are reported as zero APKs;
@@ -133,9 +138,12 @@ the handover guide. The same Python entry point also supports Windows ADB:
 
 ```sh
 adb devices -l
-python install.py device --serial YOUR_USB_SERIAL --profile es8-gen2
-python install.py device --serial YOUR_USB_SERIAL --profile es8-gen2 --apply
+python install.py device --profile es8-gen2
+python install.py device --profile es8-gen2 --apply
 ```
+
+These commands select the only connected USB ADB device. Add `--serial YOUR_USB_SERIAL`
+if several USB devices are connected. The detected target is shown before installation.
 
 The run without `--apply` inspects prerequisites only. `install.py device` calls
 `devices/install-device.py` for you. The apply run reviews the target and installs the bundled VACAV prototype.10 APK, installs missing selected apps, saves
