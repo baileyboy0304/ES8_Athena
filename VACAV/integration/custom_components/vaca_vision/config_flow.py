@@ -39,7 +39,7 @@ async def run_adb(hass, host, port, entry_key="setup"):
 def role_schema(roles, values):
     return {
         vol.Required("name", default=values.get("name", "VACA_Vision")):
-            vol.All(str, str.strip, vol.Length(min=1, max=80)),
+            vol.All(str, vol.Length(min=1, max=80)),
         vol.Required(
             "role", default=values.get("role", roles[0])
         ): selector.SelectSelector(

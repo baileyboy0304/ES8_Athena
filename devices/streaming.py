@@ -2,6 +2,8 @@
 import hashlib
 from pathlib import Path
 import re
+import subprocess
+import time
 from install import ROOT, save
 
 POLICY = '/data/local/es8-athena-streaming.conf'
@@ -17,6 +19,24 @@ def adapted_firewall():
     changed = changed.replace(rule, rule + b'    android_web_rules\n')
     changed = changed.replace(b'*uid-owner*) echo "!! OTA GUARD NOT ACTIVE', b'*uid-owner*DROP*) echo "!! OTA GUARD NOT ACTIVE')
     return original, changed
+
+def remount_read_only(shell):
+    """Release the watcher's replaced script before remounting system-as-root."""
+    shell('sync')
+    shell('setprop ctl.restart hassmic_fw')
+    time.sleep(2)
+    for attempt in range(3):
+        shell('sync')
+        try:
+            shell('/system/hassmic/otatool remount ro /system')
+            return
+        except subprocess.CalledProcessError as error:
+            output = error.output or b''
+            if isinstance(output, bytes):
+                output = output.decode(errors='replace')
+            if 'Device or resource busy' not in output or attempt == 2:
+                raise
+            time.sleep(1)
 
 def configure(adb, shell, cfg, backup):
     """Adapt only known active/factory scripts; atomically restore on write failure."""
@@ -90,8 +110,7 @@ def configure(adb, shell, cfg, backup):
         else: shell('rm -f '+POLICY)
         raise
     finally:
-        shell('/system/hassmic/otatool remount ro /system')
-    # Existing EDA watcher remains the single firewall owner; reload its script.
-    shell('setprop ctl.restart hassmic_fw')
+        remount_read_only(shell)
+    # The existing watcher was restarted before the read-only remount.
     print('Streaming firewall choice saved. Reboot once, then check playback and EDA firewall status.')
     print('Installed policy was adapted; upstream source/installer are unchanged. Rollback:',backup)

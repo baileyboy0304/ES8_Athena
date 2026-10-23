@@ -1,4 +1,31 @@
-# Packaging checks — 23 October 2026
+# Validation — 23 October 2026
+
+## Linux clean-install walkthrough (in progress)
+
+- Restored verified original system/vendor partition images, preserved matching
+  unlocked boot/recovery, and formatted userdata/cache. User-installed APKs were
+  absent before the new installation.
+- Applied the pinned root ZIP from TWRP, then ran the unchanged upstream EDA
+  installer at the recorded submodule commit. Source build, firmware probe, Wi-Fi
+  setup and the installer's reboot stability check completed successfully.
+- Installed VACAV prototype.10 and the supplied Netflix, iPlayer splits, ITVX and
+  Silk APKs. Fixed the streaming adapter's busy read-only remount by restarting
+  EDA's existing firewall watcher before the remount; the complete apply run passed.
+- After reboot, system/vendor were read-only, the EDA firewall watcher was running,
+  and all four selected app UIDs had TCP 80/443 rules before the final deny rule.
+  VACAV's DUMP permission and ITVX helper persisted.
+- Installed the matching HA integration/assets with backups. HA configuration
+  check passed. Fixed the device-name schema's unsupported `str.strip` validator;
+  after restarting HA, the configuration form rendered successfully.
+- All eight repository tests and component checksum verification passed. EDA source
+  remains unchanged.
+
+**Not yet accepted end to end:** VACAV first-run permissions/onboarding, HA voice
+ownership and pipeline, View Assist mapping/dashboard deployment, Music Assistant
+pairing, streaming account sign-ins, DRM playback and the ITVX Home/audio regression
+still need completion. Installed APKs and firewall checks do not prove playback.
+
+## Original packaging checks
 
 - Four offline dashboard tests passed: complete ES8 view/service generation; no-service
   configuration; Portal package/path isolation; Home/TV navigation on every VA view.

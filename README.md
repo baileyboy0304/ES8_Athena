@@ -82,11 +82,13 @@ For the Windows-to-Linux move, complete [Linux handover](docs/LINUX-HANDOVER.md)
 Run the device installation on Linux with physical USB access.
 
 Keep the repo in a path **without spaces**. Install Python 3.11+ and Android
-platform-tools (`adb` on PATH). In a terminal opened in this repo:
+platform-tools (`adb` on PATH). Check `python3.11 --version`: on older Ubuntu-based
+systems, `python3` may still be 3.10. Install a supported Python 3.11+ interpreter
+and its venv package first if needed; use its command below. In a terminal opened in this repo:
 
 ```sh
 git submodule update --init echo-dot-assist
-python3 -m venv .venv
+python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python install.py verify
@@ -128,7 +130,10 @@ an APK is only needed if it is missing after the reset and EDA installation.
 
 Do this while the currently working setup is still intact. Keep a verified TWRP
 backup of your own device outside this repo, including its matching firmware and
-recovery information. Retain EDA update/API keys and MA pairings privately if you
+recovery information. Verified raw partition images are another recovery source,
+but they are not a TWRP Restore-menu backup: record their partition sizes and SHA256
+hashes, establish when they were captured, and verify the restore procedure before
+writing them. Keep the working unlock and recovery intact. Retain EDA update/API keys and MA pairings privately if you
 intend to restore identities. A wipe can erase these and all streaming logins.
 
 Export the installed streaming APKs (including split APKs) for personal reinstall:
@@ -174,12 +179,50 @@ in `echo-dot-assist/firmware/athena/`:
 - The unlock archive only if EDA actually needs unlocking; an already unlocked
   device should use its detected existing state. Do not re-unlock just for this repo.
 
-EDA verifies the expected downloads and explains missing tools. Its Athena README
+EDA verifies the expected downloads and explains missing tools. On Debian/Ubuntu,
+`brotli` is required to unpack Athena firmware (`sudo apt install brotli`). Its Athena README
 links their sources and `device.conf` holds firmware hashes. Rooting is separate
 from unlocking: EDA needs its root prerequisites even on an unlocked device.
 Use the normal upstream installer's supported release/source choice. No patched
 EDA build is required. If building, the guided installer obtains its pinned Linux NDK.
 Do not substitute the older main-branch checkout lacking Athena support.
+
+### Already unlocked and currently in TWRP
+
+For a fresh stock baseline that is **already unlocked and in TWRP**, apply the
+verified root prerequisite before starting guided EDA setup. The pinned EDA
+revision checks for `saiyaku-athena-v1.0.0.zip` before reaching its automatic
+"TWRP is running already" check. Rooting first lets its normal already-rooted
+path avoid that unnecessary unlock download. Do not rename a newer unlock ZIP.
+
+Confirm `adb devices -l` shows exactly the intended USB ES8, then run from this
+repository's root (these `-d` commands refuse multiple USB devices):
+
+```sh
+adb -d shell getprop ro.product.device
+adb -d shell getprop ro.twrp.version
+adb -d push echo-dot-assist/firmware/athena/boot-root.zip /tmp/boot-root.zip
+adb -d shell sha256sum /tmp/boot-root.zip
+```
+
+The device must report `athena` and a TWRP version. The copied ZIP must match
+`741d904f7e2616c70be2c10f3466efb515769632779546a869f5591a6a9c827a`.
+Then use the root procedure documented by upstream:
+
+```sh
+adb -d shell twrp install /tmp/boot-root.zip
+adb -d reboot
+adb -d wait-for-device
+adb -d shell id -u
+adb -d shell getprop ro.build.display.id
+mkdir -p echo-dot-assist/firmware/athena/boot-root
+unzip -q -o echo-dot-assist/firmware/athena/boot-root.zip -d echo-dot-assist/firmware/athena/boot-root
+```
+
+Stop if TWRP reports an installation error, root is not `0`, or the firmware is
+not `PS75741.7080N`. In the next step, choose **Keep it as it is: skip the unlock,
+firmware and root steps**. This retains the fresh baseline just prepared; it does
+not carry forward the previous EDA/VACAV installation. Do not set up Amazon Alexa.
 
 ## 4. Run the developer's echo-dot-assist installer
 

@@ -32,7 +32,7 @@ version code `500037574`:
 Keep the base and all required splits together in
 `installation-data/apks/es8-gen2/iplayer/`; the installer uses `adb install-multiple`.
 Do not mix splits from different versions. The other service folders are `netflix`,
-`itvx` and `apple_tv` (Silk). Follow [setup step 2](../docs/SETUP.md#2-preserve-what-you-need-before-wiping)
+`itvx` and `apple_tv` (Silk). Follow [README step 2](../README.md#2-preserve-what-you-need-before-wiping)
 for supplying or exporting APKs.
 
 Known trial issue: ITVX live audio can continue after Home. Recording its version

@@ -215,7 +215,7 @@ def install_ha(target):
     # Own asset namespace: does not replace VA-managed assets or overlays.
     asset = target / 'www/es8-athena'
     shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
-    print('Files installed. Restart HA, then follow docs/SETUP.md for pairing and VA mapping.')
+    print('Files installed. Restart HA, then follow README.md steps 6–8 for pairing and VA mapping.')
 
 def verify():
     lock = read(ROOT / 'maintenance/source-versions.json')

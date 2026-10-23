@@ -921,8 +921,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/config_flow.py",
-    "bytes": 26405,
-    "sha256": "13a3c27f27ff2a6925fbad25d49ec789855c4638eea49f1fbe750936788a6e8c"
+    "bytes": 26394,
+    "sha256": "3330f94ff49a17f85d55886330afd7e9fff0b0a4615c71588130e38e19755d9e"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/const.py",
@@ -1121,8 +1121,8 @@
   },
   {
     "path": "devices/APK-VERSIONS.md",
-    "bytes": 2714,
-    "sha256": "df8730e92c58b801eb9986b5642e1fec50988488c8f8c039b147360a547fa028"
+    "bytes": 2711,
+    "sha256": "f4fa6938893c38dc08773adb1e0a0f472c885ec1d4b6b6f625655247e660d6fa"
   },
   {
     "path": "devices/dashboards/custom/clock.json",
@@ -1306,8 +1306,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 8603,
-    "sha256": "7557288dd421f26f0fc024980970d74384718dd8eb6a6a3ac0de2a39cb3f45dd"
+    "bytes": 8832,
+    "sha256": "062d1cc2049ff4bfd184ad4fcb0aa2f75c5d27fa60847acda91a18dfae56cb13"
   },
   {
     "path": "devices/portal_plus_gen_2/profile.json",
@@ -1326,7 +1326,7 @@
   },
   {
     "path": "devices/streaming.py",
-    "bytes": 6010,
-    "sha256": "8ae3d4be39f1831387ca8a9ab8d18a1e5e74565d858b0378d0ba7bb4cb4a0f7a"
+    "bytes": 6614,
+    "sha256": "0dfd36293d07a795f9d7749192904f821720b992444892fa2c0de52d6044a50b"
   }
 ]
