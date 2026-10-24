@@ -16,10 +16,10 @@ async def validate_music(hass, values):
     player_id = values.get("ma_player_id", "")
     if client.players.get(player_id) is None:
         raise ValueError("ma_player_missing")
-    if await client.config.get_player_config_value(
+    if not await client.config.get_player_config_value(
         player_id, "expose_player_to_ha", True
     ):
-        raise ValueError("ma_player_exposed")
+        raise ValueError("ma_player_not_exposed")
 
 
 class UpstreamMusic(OverlayEntity, MediaPlayerEntity):
@@ -30,7 +30,6 @@ class UpstreamMusic(OverlayEntity, MediaPlayerEntity):
     def __init__(self, runtime):
         super().__init__(runtime, "sendspin", "Music", "mdi:speaker")
         self.player_id = runtime.values["ma_player_id"]
-        self._visible_elsewhere = True
 
     @property
     def client(self):
@@ -43,23 +42,11 @@ class UpstreamMusic(OverlayEntity, MediaPlayerEntity):
         except HomeAssistantError:
             return None
 
-    async def async_update(self):
-        try:
-            self._visible_elsewhere = bool(
-                await self.client.config.get_player_config_value(
-                    self.player_id, "expose_player_to_ha", True
-                )
-            )
-        except Exception:  # noqa: BLE001 - disconnected MA must make the proxy unavailable
-            self._visible_elsewhere = True
-
     @property
     def available(self):
-        return (
-            not self._visible_elsewhere
-            and self.player is not None
-            and self.player.available
-        )
+        # MA's HA entity owns MA actions; this legacy control remains usable.
+        player = self.player
+        return player is not None and player.available
 
     @property
     def state(self):
@@ -105,7 +92,7 @@ class UpstreamMusic(OverlayEntity, MediaPlayerEntity):
 
     async def call(self, method, *args):
         if not self.available:
-            raise HomeAssistantError("Music is unavailable or separately exposed to HA")
+            raise HomeAssistantError("Music Assistant player is unavailable")
         await getattr(self.client.players, method)(self.player_id, *args)
 
     async def async_media_play(self):
@@ -134,5 +121,5 @@ class UpstreamMusic(OverlayEntity, MediaPlayerEntity):
 
     async def async_play_media(self, media_type, media_id, **kwargs):
         if not self.available:
-            raise HomeAssistantError("Music is unavailable or separately exposed to HA")
+            raise HomeAssistantError("Music Assistant player is unavailable")
         await self.client.player_queues.play_media(self.player_id, media_id)

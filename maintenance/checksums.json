@@ -972,7 +972,7 @@
   {
     "path": "VACAV/integration/custom_components/vaca_vision/manifest.json",
     "bytes": 726,
-    "sha256": "8891b9495544dae96ccee755bef9160c982463c11902caaa7b656d47ec817db1"
+    "sha256": "4457fb6a327c460c870be2011541bdcffae7762c58eb3c7f219cfab14438de34"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/media_player.py",
@@ -1056,8 +1056,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/strings.json",
-    "bytes": 15801,
-    "sha256": "6f907a07e67fbbf24a39339c742c6731d8bccb17a7aaf963e2c5e289006c9881"
+    "bytes": 15834,
+    "sha256": "abb4f852d8af1071c65956b34b909ae72067d102cd26fb9b18c6b0ecaa619cfc"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/switch.py",
@@ -1066,8 +1066,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/translations/en.json",
-    "bytes": 15801,
-    "sha256": "6f907a07e67fbbf24a39339c742c6731d8bccb17a7aaf963e2c5e289006c9881"
+    "bytes": 15834,
+    "sha256": "abb4f852d8af1071c65956b34b909ae72067d102cd26fb9b18c6b0ecaa619cfc"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/update.py",
@@ -1081,8 +1081,8 @@
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/upstream_music.py",
-    "bytes": 4696,
-    "sha256": "dc64de9ec83e0f87356083a812379db2e4fb3253398779173fc341b8ea6afc3a"
+    "bytes": 4271,
+    "sha256": "1b956667a276d278dc41ce5ff9981a66982bd4638d6c34ab57a101fbf8f72dc3"
   },
   {
     "path": "VACAV/integration/custom_components/vaca_vision/view_assist_indicator.py",
@@ -1373,5 +1373,10 @@
     "path": "reset-es8/tests/test_reset.py",
     "bytes": 8021,
     "sha256": "6177863d356e128c5f316686df99243c49aa459aa6f707b983d9edd7054dd5e1"
+  },
+  {
+    "path": "maintenance/tests/test_upstream_music.py",
+    "bytes": 2925,
+    "sha256": "a65a144972b10ffc4a02a0d409bb693b3c39a108a5332def02c8971b0f5cb89c"
   }
 ]

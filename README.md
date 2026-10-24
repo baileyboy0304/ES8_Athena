@@ -389,11 +389,25 @@ Use an HA internal HTTP address reachable from the ES8: this pinned EDA revision
 does not support native HTTPS reply fetching. That is distinct from browser HA
 sign-in, which may use HTTPS.
 
-For music, discover/pair EDA's Sendspin player in MA. In VACAV options choose the
-MA integration entry and **MA player ID** (`ma_player_id`, not an HA entity ID).
-VACAV exposes its music proxy on the same HA device. Turn **Expose player to Home Assistant** OFF for that EDA player
-in Music Assistant before saving VACAV's music mapping; the integration explicitly
-rejects a player still exposed separately. This does not disable the MA player.
+For music, discover/pair EDA's Sendspin player in MA and give it the device's
+friendly name. Turn **Expose player to Home Assistant** **ON** in that MA player's
+settings. Wait for the official **Music Assistant** integration to create an
+available `media_player.*` entity. Open its entity details and check the integration;
+entity names alone do not identify ownership (an older hardware name may persist).
+Test playback and stop from MA before continuing.
+
+In VACAV options choose the MA integration entry and **MA player ID**
+(`ma_player_id`, not an HA entity ID). This keeps the existing VACAV music controls
+working, but **MA actions and VA's Music player setting must target the official
+Music Assistant entity**, not the VACAV proxy. Do not import the proxy back into MA
+through the Home Assistant Media Players provider.
+
+If using lyrics, create the lyrics player, add it to MA, and create an MA sync group
+containing the physical Sendspin player and the lyrics player. Expose both members
+and the group to HA. Confirm the group's `group_members` attribute includes both
+MA entity IDs. Keep VA's music setting on the physical MA player: group-aware
+blueprints use that membership to select the sync group automatically.
+
 Avoid a second active voice connection from a separately configured ESPHome integration. VACAV creates an
 ESPHome Ignore marker to suppress duplicate discovery; this is expected.
 If an existing ESPHome owner blocks setup, first preserve its settings, then remove
@@ -417,8 +431,8 @@ a wipe, open the existing device's options instead.
 |---|---|
 | Display device / display ID | **Value** of VACAV's display-device sensor, the `va-…` identifier; not its `sensor.*` entity ID and not the HA registry device ID |
 | Microphone device | VACAV's combined `assist_satellite.*` entity |
-| Media player | VACAV's combined speaker/music proxy `media_player.*` |
-| Music player | The VACAV proxy mapped to EDA's MA Sendspin player |
+| Media player | ES8: the official MA entity for the physical EDA Sendspin player (standard playback/alerts). Portal: keep its working VACAV Speaker entity |
+| Music player | The official **Music Assistant** entity for the physical Sendspin player; never the VACAV proxy |
 | Dashboard | `/view-assist-athena` (or the profile's actual VA slug) |
 | Home/default view | `/view-assist-athena/clock` or the view field `clock`, according to the VA UI field |
 | Weather entity | Your actual `weather.*` entity |
@@ -436,9 +450,9 @@ VA's normal configuration API using the installer instead of its filtered picker
 python install.py create-view-assist --profile es8-gen2
 ```
 
-Enter the HA URL/token, friendly device name, VACAV Assist entity, VACAV Music
-entity and the **value** of its display-device sensor. The command validates that
-the entities exist and that VA has discovered this display, then reviews the
+Enter the HA URL/token, friendly device name, VACAV Assist entity, alerts/media entity, official MA
+music entity and the **value** of its display-device sensor. The command validates that
+the entities exist, the music entity belongs to MA and is available, and VA has discovered this display, then reviews the
 mapping before creating it. It never removes an existing device or patches VA.
 A missing display ID means the ES8 has not yet loaded a working HA page;
 return to the end of step 6 before retrying.
@@ -507,6 +521,23 @@ helper in place requires the original APK signing key. Do not uninstall VACAV
 to bypass a signing-key mismatch: that would discard its pairing and sign-in.
 Report the step number and what you saw if anything is unclear; there is no need
 for exhaustive automated testing before this walkthrough.
+
+### Music acceptance check
+
+Before calling setup complete, ask this display to play a known radio station.
+Inspect the automation trace: its base player must be the official MA entity and,
+when using the group blueprint, its selected group must contain that entity.
+Confirm sound on the ES8, MA reports playing, lyrics update where supported, and
+pause/stop and volume affect this device. Test an alert while music is playing
+and verify music resumes as intended. Assist replies continue through EDA; the
+VA media setting does not change voice ownership. A spoken “Playing…” response
+alone is not proof: some blueprints set that response before invoking playback.
+
+This follows [MA's HA installation convention](https://www.music-assistant.io/integration/installation/)
+and [HA's Music Assistant integration](https://www.home-assistant.io/integrations/music_assistant/).
+For an existing installation, enable exposure and correct the two VA player
+settings through its options; no device wipe or new pairing is needed.
+
 
 ## Repository layout
 

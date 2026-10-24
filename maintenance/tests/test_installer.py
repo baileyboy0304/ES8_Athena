@@ -97,6 +97,8 @@ class Dashboards(unittest.TestCase):
         class FakeHA:
             ws = type('Socket', (), {'close': lambda self: None})()
             def call(self, kind):
+                if kind == 'config/entity_registry/list':
+                    return [{'entity_id': 'media_player.test_music', 'platform': 'music_assistant'}]
                 return [{'entity_id': e, 'state': s} for e, s in [
                     ('assist_satellite.test_assist', 'idle'),
                     ('media_player.test_music', 'idle'),
@@ -109,11 +111,56 @@ class Dashboards(unittest.TestCase):
                                          'musicplayer_device', 'display_device']]}
         with patch.object(m, 'HA', return_value=FakeHA()), \
              patch.object(m, 'ask', side_effect=['http://ha', 'Test',
-                 'assist_satellite.test_assist', 'media_player.test_music', 'va-new-display']), \
+                 'assist_satellite.test_assist', 'media_player.test_music', 'media_player.test_music', 'va-new-display']), \
              patch.object(m, 'yes', return_value=True), \
              patch.object(m.getpass, 'getpass', return_value='test'):
             with self.assertRaisesRegex(RuntimeError, 'has not discovered'):
                 m.create_view_assist('es8-gen2')
         self.assertEqual(len(submitted), 2)  # No final device creation submitted.
+
+    def test_va_creation_preserves_separate_speaker_and_ma_music(self):
+        self.generate('es8-gen2', [])
+        submitted = []
+        class FakeHA:
+            ws = type('Socket', (), {'close': lambda self: None})()
+            def call(self, kind):
+                if kind == 'config/entity_registry/list':
+                    return [{'entity_id': 'media_player.ma', 'platform': 'music_assistant'}]
+                return [{'entity_id': e, 'state': state} for e, state in [
+                    ('assist_satellite.test', 'idle'), ('media_player.speaker', 'idle'),
+                    ('media_player.ma', 'idle'), ('sensor.display', 'va-test')]]
+            def post(self, path, body):
+                submitted.append(body)
+                if len(submitted) == 1: return {'flow_id': 'test'}
+                if len(submitted) == 3: return {'type': 'create_entry'}
+                fields = [{'name': n} for n in ['name', 'mic_device',
+                          'mediaplayer_device', 'musicplayer_device']]
+                fields.append({'name': 'display_device', 'selector': {
+                    'select': {'options': ['va-test']}}})
+                return {'step_id': 'options', 'data_schema': fields}
+        with patch.object(m, 'HA', return_value=FakeHA()), \
+             patch.object(m, 'ask', side_effect=['http://ha', 'Test',
+                 'assist_satellite.test', 'media_player.speaker', 'media_player.ma', 'va-test']), \
+             patch.object(m, 'yes', return_value=True), \
+             patch.object(m.getpass, 'getpass', return_value='test'):
+            m.create_view_assist('es8-gen2')
+        self.assertEqual(submitted[-1]['mediaplayer_device'], 'media_player.speaker')
+        self.assertEqual(submitted[-1]['musicplayer_device'], 'media_player.ma')
+
+class MusicMapping(unittest.TestCase):
+    def test_rejects_vacav_proxy_even_when_playing(self):
+        with self.assertRaisesRegex(ValueError, 'must belong'):
+            m.validate_music_entity({'media_player.proxy': {'state': 'playing'}},
+                {'media_player.proxy': {'platform': 'vaca_vision'}}, 'media_player.proxy')
+
+    def test_rejects_unavailable_ma_player(self):
+        with self.assertRaisesRegex(ValueError, 'unavailable'):
+            m.validate_music_entity({'media_player.ma': {'state': 'unavailable'}},
+                {'media_player.ma': {'platform': 'music_assistant'}}, 'media_player.ma')
+
+    def test_accepts_available_ma_player_regardless_of_name(self):
+        m.validate_music_entity({'media_player.old_hardware_name': {'state': 'idle'}},
+            {'media_player.old_hardware_name': {'platform': 'music_assistant'}},
+            'media_player.old_hardware_name')
 
 if __name__ == '__main__': unittest.main()

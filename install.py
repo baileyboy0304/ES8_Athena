@@ -216,6 +216,14 @@ class HA:
         except HTTPError as error:
             raise RuntimeError('HA rejected configuration: ' + error.read().decode()) from None
 
+def validate_music_entity(states, registry, entity):
+    """MA actions require an entity owned by the official MA integration."""
+    if registry.get(entity, {}).get('platform') != 'music_assistant':
+        raise ValueError('Music player must belong to the Music Assistant integration; '
+                         'enable Expose to Home Assistant in MA, then select that entity')
+    if states.get(entity, {}).get('state') in (None, 'unknown', 'unavailable'):
+        raise ValueError('Music Assistant player is unavailable: ' + entity)
+
 def create_view_assist(name):
     """Use VA's normal config flow, including on versions with an old UI filter."""
     cfg = settings(name)
@@ -225,18 +233,23 @@ def create_view_assist(name):
         states = {s['entity_id']: s for s in ha.call('get_states')}
         friendly = ask('New View Assist device name')
         mic = ask('VACAV Assist entity (assist_satellite.*)')
-        speaker = ask('VACAV Music entity (media_player.*)')
+        speaker = ask('Alerts/media entity (ES8: Music Assistant media_player.*)')
+        music = ask('Music Assistant music entity (media_player.*, not the VACAV proxy)')
         display = ask('VACAV display ID value (va-..., not sensor.*)')
         if not friendly or not display.startswith('va-'):
             raise ValueError('A device name and the actual va- display ID are required')
-        for entity, domain in [(mic, 'assist_satellite.'), (speaker, 'media_player.')]:
+        for entity, domain in [(mic, 'assist_satellite.'), (speaker, 'media_player.'), (music, 'media_player.')]:
             if not entity.startswith(domain) or entity not in states:
                 raise ValueError('Missing/wrong entity: ' + entity)
+        registry = {e['entity_id']: e for e in ha.call('config/entity_registry/list')}
+        validate_music_entity(states, registry, music)
+        if states[speaker]['state'] in ('unavailable', 'unknown'):
+            raise ValueError('Alerts/media entity is unavailable: ' + speaker)
         if not any(s['state'] == display for s in states.values()):
             raise ValueError('Display ID is not reported by HA; copy the VACAV display sensor value')
         if any(s.get('attributes', {}).get('display_device') == display for s in states.values()):
             raise ValueError('A VA device already uses this display ID; use its options instead')
-        print('Create VA:', friendly, '\nMicrophone:', mic, '\nPlayer:', speaker,
+        print('Create VA:', friendly, '\nMicrophone:', mic, '\nAlerts/media:', speaker, '\nMusic Assistant:', music,
               '\nDisplay:', display, '\nDashboard:', '/' + cfg['va_slug'])
         if not yes('Create this View Assist device?'):
             return
@@ -253,7 +266,7 @@ def create_view_assist(name):
             raise RuntimeError('VA has not discovered this display. Sign into HA on the display, '
                                'load the prepared setup page, then run this command again.')
         result = ha.post(path, {'name': friendly, 'mic_device': mic,
-            'mediaplayer_device': speaker, 'musicplayer_device': speaker, 'display_device': display})
+            'mediaplayer_device': speaker, 'musicplayer_device': music, 'display_device': display})
         if result.get('type') != 'create_entry':
             raise RuntimeError('VA did not finish creation: ' + str(result.get('errors', result.get('type'))))
         print('Created View Assist device:', friendly)
