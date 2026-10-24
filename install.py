@@ -89,10 +89,37 @@ def choose(name):
     save(dest, cfg)
     print('Saved', dest, '\nNext: python install.py dashboards --profile ' + name)
 
+BACKGROUND = 'radial-gradient(ellipse at 4% 5%, #1d3d59 0, transparent 55%), linear-gradient(120deg, #132b40, #101e30 72%)'
+
 def tile(name, icon, target, url=False):
-    return {'type': 'button', 'name': name, 'icon': icon,
-            'tap_action': {'action': 'url' if url else 'navigate',
-                           'url_path' if url else 'navigation_path': target}}
+    card = copy.deepcopy(read(ROOT / 'devices/dashboards/custom/navigation.json'))
+    card['styles']['name'].append({'white-space': 'normal'})
+    card.update(name=name, icon=icon, tap_action={
+        'action': 'url' if url else 'navigate',
+        'url_path' if url else 'navigation_path': target})
+    return card
+
+def launcher_view(title, path, cards, scale=1):
+    # One panel owns the full background; masonry must not split navigation and apps.
+    for card in cards:
+        if card['type'] == 'custom:button-card':
+            card['styles']['card'] += [{'width': 'calc(140px * var(--va-clock-shortcut-scale, 1))'},
+                                       {'height': 'calc(110px * var(--va-clock-shortcut-scale, 1))'}]
+            card['styles']['grid'] += [{'grid-template-rows': 'calc(34px * var(--va-clock-shortcut-scale, 1)) auto'}]
+            card['styles']['name'] += [{'text-overflow': 'clip'}, {'overflow': 'visible'}]
+    return {'title': title, 'path': path, 'type': 'panel', 'cards': [{
+        'type': 'custom:button-card', 'show_name': False, 'show_icon': False,
+        'tap_action': {'action': 'none'},
+        'styles': {
+            'card': [{'background': BACKGROUND}, {'border': 'none'}, {'border-radius': '0'},
+                     {'min-height': '100vh'}, {'padding': '28px'}, {'box-sizing': 'border-box'},
+                     {'--va-clock-shortcut-scale': str(scale)}],
+            'grid': [{'grid-template-areas': '"content"'}, {'grid-template-columns': '1fr'},
+                     {'align-items': 'start'}, {'align-content': 'start'}, {'height': '100%'},
+                     {'grid-template-rows': 'min-content'}],
+            'custom_fields': {'content': [{'position': 'absolute'}, {'top': '28px'}, {'left': '28px'}]}},
+        'custom_fields': {'content': {'card': {
+            'type': 'grid', 'columns': min(5, max(1, len(cards))), 'square': False, 'cards': cards}}}}]}
 
 def build(name):
     import yaml
@@ -112,7 +139,7 @@ def build(name):
             return [substitute(v) for v in value]
         return value
     home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['tv_slug'] + '/tv'
-    nav = {'type': 'horizontal-stack', 'cards': [tile('Home', 'mdi:home', home_path), tile('TV', 'mdi:television', tv_path)]}
+    nav = {'type': 'horizontal-stack', 'cards': [tile('Home', 'mdi:home-outline', home_path), tile('TV', 'mdi:television-classic', tv_path)]}
     clock = substitute(read(ROOT / 'devices/dashboards/custom/clock.json'))
     # Retain the user's updated clock face, responsive styling and weather strip.
     clock['cards'][0]['custom_fields']['heading']['card'] = copy.deepcopy(nav)
@@ -131,16 +158,21 @@ def build(name):
         views.append({'title': key.title(), 'path': key, 'type': 'panel',
                       'cards': [{'type': 'vertical-stack', 'cards': [copy.deepcopy(nav), substitute(card)]}]})
     va = {'title': 'View Assist', 'button_card_templates': substitute(templates), 'views': views}
-    home = {'title': p['name'], 'views': [{'title': 'Home', 'path': 'home', 'cards': [
-        {'type': 'grid', 'columns': 3, 'square': False, 'cards': [
-            tile('View Assist', 'mdi:microphone', '/' + cfg['va_slug'] + '/clock'),
-            tile('Music Assistant', 'mdi:music', cfg['music_path']),
-            tile('TV', 'mdi:television', tv_path)]}]}]}
+    home = {'title': p['name'], 'views': [launcher_view('Home', 'home', [
+        tile('View Assist', 'mdi:microphone', '/' + cfg['va_slug'] + '/clock'),
+        tile('Music Assistant', 'mdi:music-note-outline', '/' + cfg['home_slug'] + '/music'),
+        tile('TV', 'mdi:television-classic', tv_path)], p['shortcut_scale'])]}
+    music = {'type': 'custom:athena-music-card', 'home_path': home_path, 'path': cfg['music_path'], 'display_entity': cfg['va_entity']}
+    addon = re.fullmatch(r'/(?:app/)?([a-z0-9]+_music_assistant)', cfg['music_path'])
+    if addon:
+        music['addon'] = addon.group(1)
+    home['views'].append({'title': 'Music Assistant', 'path': 'music', 'type': 'panel', 'cards': [music]})
     services = [s for s in p['services'] if s['id'] in cfg['services']]
-    tv = {'title': 'TV', 'views': [{'title': 'TV', 'path': 'tv', 'cards': [copy.deepcopy(nav),
-        {'type': 'grid', 'columns': 3, 'square': False,
-         'cards': [tile(s['name'], s['icon'], s['url'], True) for s in services]} if services else
-        {'type': 'markdown', 'content': 'No streaming services selected. Run the installer to add services.'}]}]}
+    tv_cards = [tile('Home', 'mdi:home-outline', home_path)]
+    tv_cards += [tile(s['name'], s['icon'], s['url'], True) for s in services]
+    if not services:
+        tv_cards.append({'type': 'markdown', 'content': 'No streaming services selected. Run the installer to add services.'})
+    tv = {'title': 'TV', 'views': [launcher_view('TV', 'tv', tv_cards, p['shortcut_scale'])]}
     out = ROOT / 'installation-data/generated' / name
     for key, obj in [('va', va), ('home', home), ('tv', tv)]:
         save(out / (key + '.json'), obj)
@@ -287,6 +319,13 @@ def deploy_dashboards(name):
         print('Existing dashboard contents will be replaced. Backup:', backup)
         if not yes('Install these three prepared dashboards?'):
             return
+        resource_url = '/local/es8-athena/athena-music-card.js?v=2'
+        resources = ha.call('lovelace/resources')
+        existing_resource = next((r for r in resources if r.get('url', '').split('?')[0] == resource_url.split('?')[0]), None)
+        if existing_resource and existing_resource['url'] != resource_url:
+            ha.call('lovelace/resources/update', resource_id=existing_resource['id'], res_type='module', url=resource_url)
+        elif not existing_resource:
+            ha.call('lovelace/resources/create', res_type='module', url=resource_url)
         for kind, slug, before in plan:
             if before is not None and ha.call('lovelace/config', url_path=slug) != before:
                 raise RuntimeError(slug + ' changed since backup; stopped')
@@ -318,6 +357,7 @@ def install_ha(target):
     # Own asset namespace: does not replace VA-managed assets or overlays.
     asset = target / 'www/es8-athena'
     shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
+    shutil.copytree(ROOT / 'devices/dashboards/assets', asset, dirs_exist_ok=True)
     print('Files installed. Restart HA, then follow README.md steps 6–8 for pairing and VA mapping.')
 
 def verify():

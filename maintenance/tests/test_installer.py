@@ -35,14 +35,14 @@ class Dashboards(unittest.TestCase):
         self.assertEqual({v['path'] for v in data['va']['views']}, {'clock','weather',*m.STANDARD})
         self.assertIn({'grid-template-columns': 'minmax(0, 1fr)'},
                       data['va']['views'][0]['cards'][0]['styles']['grid'])
-        tiles = data['tv']['views'][0]['cards'][1]['cards']
+        tiles = data['tv']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards'][1:]
         self.assertEqual(len(tiles), 4)
         self.assertIn('B.fullscreen=true', tiles[-1]['tap_action']['url_path'])
         self.assertIn('com.netflix.mediaclient.echo', (out/'android.conf').read_text())
     def test_no_services_no_exceptions(self):
         data, out = self.generate('es8-gen2', [])
         self.assertEqual((out/'android.conf').read_text(), 'web_packages=\n')
-        self.assertEqual(data['tv']['views'][0]['cards'][1]['type'], 'markdown')
+        self.assertEqual(data['tv']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards'][1]['type'], 'markdown')
     def test_portal_paths_are_not_double_substituted(self):
         data, out = self.generate('portal_plus_gen_2', ['netflix','apple_tv','sstv'])
         text = json.dumps(data)
@@ -54,7 +54,7 @@ class Dashboards(unittest.TestCase):
         self.assertNotIn('sensor.portal_study', text)
     def test_navigation_and_home_three_buttons(self):
         data, _ = self.generate('es8-gen2', ['iplayer'])
-        self.assertEqual(len(data['home']['views'][0]['cards'][0]['cards']),3)
+        self.assertEqual(len(data['home']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards']),3)
         for view in data['va']['views']:
             if view['path']=='clock': nav=view['cards'][0]['custom_fields']['heading']['card']
             else: nav=view['cards'][0]['cards'][0]

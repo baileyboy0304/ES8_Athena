@@ -1333,5 +1333,15 @@
     "path": "devices/keyboard.py",
     "bytes": 2066,
     "sha256": "acfe266a0a6d6b7fa8ec587fa421a7ab8fddf732f534da26e993e89c0cb494d1"
+  },
+  {
+    "path": "devices/dashboards/custom/navigation.json",
+    "bytes": 1453,
+    "sha256": "94be39baab9abbc156bb584a034f1037ecae089d5161add9d50f5958a6312741"
+  },
+  {
+    "path": "devices/dashboards/assets/athena-music-card.js",
+    "bytes": 7778,
+    "sha256": "d340f891d616afd103b6d957dc8b726f24130e2eb701c05a85e99adf590d0c9d"
   }
 ]

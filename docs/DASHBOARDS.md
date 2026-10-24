@@ -6,6 +6,13 @@ shortcut scale and service entries (`id`, `name`, `icon`, `package`, `url`).
 The dashboard generator loads these definitions rather than hard-coding app lists.
 The USB installer supports only the two named hardware targets.
 
+Home includes a Music Assistant view with a persistent Home button.
+`assets/athena-music-card.js` adapts the owner’s existing HA Home Music frame,
+using a profile-specific return path and VA screen mode for kiosk height.
+`custom/navigation.json` retains the original clock shortcut styling.
+`install-ha` copies the frame to `/local/es8-athena/`; `deploy-dashboards` registers
+its versioned module resource. Existing Portal resources remain untouched.
+
 Installed pages are Home, TV and the following VA views:
 
 - Your updated **clock** and **weather**, with household navigation removed and

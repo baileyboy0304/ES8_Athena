@@ -536,7 +536,11 @@ package; you do not need to edit it to install. Each support folder has a short 
 
 Home has three launchers: **View Assist**, **Music Assistant** and **TV**.
 VA includes your updated clock/weather plus the standard upstream views, with
-Home and TV icons. TV shows only services selected in the Y/N wizard.
+Home and TV outline icons in the original blue styling. TV has one Home button
+and equally sized buttons for only the services selected in the Y/N wizard.
+Music Assistant opens inside a blue frame with its own Home button; its add-on
+uses HA authenticated ingress. The installer copies and registers the bundled
+frame card automatically, without changing existing Portal dashboards.
 
 ES8 choices are Netflix Echo, BBC iPlayer, ITVX and Apple TV through Silk.
 The [APK version reference](devices/APK-VERSIONS.md) lists the exact builds used.

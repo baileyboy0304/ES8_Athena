@@ -1,5 +1,15 @@
 # Validation — 24 October 2026
 
+## Dashboard correction — 24 October
+
+- Restored the original blue clock navigation style from the owner’s HA dashboard.
+- Replaced TV masonry with a single blue panel, one Home button and equally sized
+  streaming buttons; verified full labels on the ES8.
+- Adapted the existing Music Assistant frame to return to Athena Home. Verified
+  authenticated MA rendering and Home return on the ES8.
+- Deployment backs up and reads back only Athena’s three dashboards. The shared
+  Portal dashboards and their frontend module are unchanged.
+
 ## Linux clean-install walkthrough (in progress)
 
 - Restored verified original system/vendor partition images, preserved matching

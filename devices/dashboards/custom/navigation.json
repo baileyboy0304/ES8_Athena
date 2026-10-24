@@ -1,0 +1,72 @@
+{
+  "type": "custom:button-card",
+  "show_name": true,
+  "show_icon": true,
+  "hold_action": {
+    "action": "none"
+  },
+  "double_tap_action": {
+    "action": "none"
+  },
+  "styles": {
+    "grid": [
+      {
+        "grid-template-areas": "\"i\" \"n\""
+      },
+      {
+        "grid-template-columns": "1fr"
+      },
+      {
+        "grid-template-rows": "1fr auto"
+      },
+      {
+        "row-gap": "calc(7px * var(--va-clock-shortcut-scale, 1))"
+      }
+    ],
+    "card": [
+      {
+        "background": "#bedef00d"
+      },
+      {
+        "border": "1px solid #bedef035"
+      },
+      {
+        "border-radius": "calc(22px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "padding": "calc(12px * var(--va-clock-shortcut-scale, 1)) calc(16px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "width": "calc(96px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "height": "calc(88px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "box-shadow": "none"
+      },
+      {
+        "font-family": "Inter,Roboto,system-ui,sans-serif"
+      }
+    ],
+    "icon": [
+      {
+        "width": "calc(34px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "color": "#8fdbed"
+      }
+    ],
+    "name": [
+      {
+        "font-size": "calc(15px * var(--va-clock-shortcut-scale, 1))"
+      },
+      {
+        "font-weight": 450
+      },
+      {
+        "color": "#e2edf5"
+      }
+    ]
+  }
+}
