@@ -1,0 +1,22 @@
+{
+  "name": "Athena PS75741.7080N original system/vendor with reviewed unlocked boot and TWRP",
+  "twrp_version": "3.7.0_9-0",
+  "partitions": {
+    "system": {
+      "bytes": 3254779904,
+      "sha256": "cecc9bfde8eb77b4ca0064da9b286c1dfde1b2d739f693903f140f02bb48b608"
+    },
+    "vendor": {
+      "bytes": 299892736,
+      "sha256": "666bb071dc4c3901ed07772f48006d815732b69f3b62483c998d59c31ea27737"
+    },
+    "recovery": {
+      "bytes": 41943040,
+      "sha256": "8eb72888ccff7e2b1228e3c3945cc3da412ef1d531082d786e72017c750fb1ba"
+    },
+    "boot": {
+      "bytes": 16777216,
+      "sha256": "e456b0aca4d82b55f3db03033fda8222c9005fb929b582805f69cd705ce47ded"
+    }
+  }
+}

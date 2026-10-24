@@ -63,8 +63,11 @@ Exporting streaming APKs does not back up those apps' private data.
 ## EDA system recovery
 
 Consult the pinned EDA Athena README for `scripts/install-system.sh --uninstall`
-and its limitations. This package has not rehearsed uninstall or firmware restore.
-Use your own verified TWRP backup when returning to the agreed unlocked baseline.
+and its limitations. The [standalone ES8 reset tool](../reset-es8/README.md) packages the previously
+used original-image restore procedure, with preflight and read-back checks.
+The new script itself has not been run destructively. It requires the exact
+reviewed private raw images and leaves the device in TWRP; it is not a generic
+TWRP Restore-menu backup importer.
 EDA's stock-component removal includes Android Settings and SystemUI; their
 absence is expected. VACAV's Home/Keep on/Brightness panel supplies the agreed controls.
 If the display is blank, use USB to open VACAV's activity or inspect EDA's status;

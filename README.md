@@ -170,9 +170,10 @@ Service IDs are `netflix`, `iplayer`, `itvx`, `apple_tv` (the latter contains Si
 **The first wipe is deferred until the agent's Linux walkthrough.** The owner has
 authorised that first wipe once backup/recovery and installation inputs are ready.
 The second wipe, for the owner's own walkthrough, requires a later explicit OK.
-This repo has no unattended wipe command. A data-only
-reset does not undo old system modifications; start your walkthrough from the
-known unlocked stock firmware baseline you intend to support, not a mixed install.
+The standalone [ES8 reset tool](reset-es8/README.md) restores the reviewed original
+system/vendor and clears all user data while preserving unlock/TWRP. It defaults
+to read-only checks; applying a reset requires `--apply` and a typed serial-specific
+confirmation. A data-only reset does not undo EDA system modifications.
 Preserve the unlocked bootloader/recovery. Do not flash Gen 1/Crown images.
 
 ### Clear this device's HA registrations as part of a clean reset

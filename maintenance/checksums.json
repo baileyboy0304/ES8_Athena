@@ -1348,5 +1348,30 @@
     "path": "devices/dashboards/assets/athena-dashboard-surface.js",
     "bytes": 1538,
     "sha256": "da9a2be750607ca206a32d90f80db4bb87cab0dc8d8ef1dc855e21e480be22a7"
+  },
+  {
+    "path": "reset-es8/reset_es8.py",
+    "bytes": 11253,
+    "sha256": "fbc6bb8ccc1e928993a934c4905729515d8913e89eaf75cb5fc86e59c7957e82"
+  },
+  {
+    "path": "reset-es8/baseline.json",
+    "bytes": 677,
+    "sha256": "20b96fea96f1100cc5fdca9233676d8402367a258507e20b7c9cdf41dbc545ec"
+  },
+  {
+    "path": "reset-es8/README.md",
+    "bytes": 5697,
+    "sha256": "2492a8247e6c9e2aab1eebfe7b71abbac66345e9ca04ee5a505411bb7be102ab"
+  },
+  {
+    "path": "reset-es8/.gitignore",
+    "bytes": 28,
+    "sha256": "db249f33fdeaebf7660272d4878cc7502c50c6a11f0744a04443b15c666c55e3"
+  },
+  {
+    "path": "reset-es8/tests/test_reset.py",
+    "bytes": 8021,
+    "sha256": "6177863d356e128c5f316686df99243c49aa459aa6f707b983d9edd7054dd5e1"
   }
 ]
