@@ -1,5 +1,15 @@
 # Validation — 24 October 2026
 
+## Top-edge flash follow-up — 24 October
+
+- Extended the route-scoped surface styling to HA’s separate header background,
+  text, selection bar and border variables. Verified the rendered HA header
+  background is `rgb(16, 30, 48)` rather than the default theme colour.
+- Repeated the five ES8 dashboard transitions and inspected the top 24 pixel rows
+  of all 30 sampled screenshots; no white horizontal loading strip was captured.
+- Resource upgrades update the existing style and profile resource entry in place,
+  so a cached earlier module cannot prevent the new header rules from applying.
+
 ## Cross-dashboard loading background — 24 October
 
 - Replaced the earlier same-dashboard TV workaround. Home, VA and TV again use

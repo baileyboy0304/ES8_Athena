@@ -4,15 +4,19 @@ const source = new URL(import.meta.url);
 const dashboards = new Set((source.searchParams.get('dashboards') || '').split(',').filter(x => /^[a-z0-9]+(?:-[a-z0-9]+)+$/.test(x)));
 const attribute = 'data-athena-dashboard-surface';
 const styleId = 'athena-dashboard-surface';
-if (!document.getElementById(styleId)) {
-  const style = document.createElement('style');
+{
+  const style = document.getElementById(styleId) || document.createElement('style');
   style.id = styleId;
   style.textContent = `html[${attribute}],html[${attribute}] body,html[${attribute}] home-assistant {
     background-color:#101e30!important;
     --primary-background-color:#101e30!important;
     --lovelace-background:#101e30!important;
+    --app-header-background-color:#101e30!important;
+    --app-header-text-color:#e2edf5!important;
+    --app-header-selection-bar-color:#8fdbed!important;
+    --app-header-border-bottom:none!important;
   }`;
-  (document.head || document.documentElement).appendChild(style);
+  if (!style.isConnected) (document.head || document.documentElement).appendChild(style);
 }
 // Multiple installed profiles share the module, without overriding each other's routes.
 const routes = window.__athenaDashboardSurfaces ||= new Set();

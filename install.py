@@ -327,9 +327,15 @@ def deploy_dashboards(name):
             ha.call('lovelace/resources/update', resource_id=existing_resource['id'], res_type='module', url=resource_url)
         elif not existing_resource:
             ha.call('lovelace/resources/create', res_type='module', url=resource_url)
-        surface_url = '/local/es8-athena/athena-dashboard-surface.js?v=1&dashboards=' + ','.join(
+        surface_url = '/local/es8-athena/athena-dashboard-surface.js?v=3&dashboards=' + ','.join(
             cfg[key] for key in ('home_slug', 'va_slug', 'tv_slug'))
-        if not any(r.get('url') == surface_url for r in resources):
+        surface_suffix = surface_url.split('&dashboards=')[1]
+        existing_surface = next((r for r in resources
+            if r.get('url', '').split('?')[0] == surface_url.split('?')[0]
+            and r['url'].split('&dashboards=')[-1] == surface_suffix), None)
+        if existing_surface and existing_surface['url'] != surface_url:
+            ha.call('lovelace/resources/update', resource_id=existing_surface['id'], res_type='module', url=surface_url)
+        elif not existing_surface:
             ha.call('lovelace/resources/create', res_type='module', url=surface_url)
         for kind, slug, before in plan:
             if before is not None and ha.call('lovelace/config', url_path=slug) != before:
