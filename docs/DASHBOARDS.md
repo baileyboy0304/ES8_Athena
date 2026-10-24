@@ -13,6 +13,15 @@ using a profile-specific return path and VA screen mode for kiosk height.
 `install-ha` copies the frame to `/local/es8-athena/`; `deploy-dashboards` registers
 its versioned module resource. Existing Portal resources remain untouched.
 
+`assets/athena-dashboard-surface.js` colours the HA document background and its
+base background variables during transitions between generated dashboard URLs.
+It listens for HA navigation and browser Back/Forward and removes its styling
+outside the configured slugs. It does not merge dashboards, intercept navigation,
+or recolour embedded websites. `deploy-dashboards` registers it with the profile’s
+three slugs; `install-ha` copies it with the other frontend assets.
+This covers HA dashboard navigation after resources load, not arbitrary external
+websites or the native WebView’s initial pre-document startup.
+
 Installed pages are Home, TV and the following VA views:
 
 - Your updated **clock** and **weather**, with household navigation removed and

@@ -138,7 +138,7 @@ def build(name):
         if isinstance(value, list):
             return [substitute(v) for v in value]
         return value
-    home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['home_slug'] + '/tv'
+    home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['tv_slug'] + '/tv'
     nav = {'type': 'horizontal-stack', 'cards': [tile('Home', 'mdi:home-outline', home_path), tile('TV', 'mdi:television-classic', tv_path)]}
     clock = substitute(read(ROOT / 'devices/dashboards/custom/clock.json'))
     # Retain the user's updated clock face, responsive styling and weather strip.
@@ -173,9 +173,6 @@ def build(name):
     if not services:
         tv_cards.append({'type': 'markdown', 'content': 'No streaming services selected. Run the installer to add services.'})
     tv_view = launcher_view('TV', 'tv', tv_cards, p['shortcut_scale'])
-    home['views'].append(copy.deepcopy(tv_view))
-    # Retain the previous dashboard URL for existing bookmarks. All generated
-    # navigation uses Home's TV view to avoid replacing the dashboard on each tap.
     tv = {'title': 'TV', 'views': [tv_view]}
     out = ROOT / 'installation-data/generated' / name
     for key, obj in [('va', va), ('home', home), ('tv', tv)]:
@@ -330,6 +327,10 @@ def deploy_dashboards(name):
             ha.call('lovelace/resources/update', resource_id=existing_resource['id'], res_type='module', url=resource_url)
         elif not existing_resource:
             ha.call('lovelace/resources/create', res_type='module', url=resource_url)
+        surface_url = '/local/es8-athena/athena-dashboard-surface.js?v=1&dashboards=' + ','.join(
+            cfg[key] for key in ('home_slug', 'va_slug', 'tv_slug'))
+        if not any(r.get('url') == surface_url for r in resources):
+            ha.call('lovelace/resources/create', res_type='module', url=surface_url)
         for kind, slug, before in plan:
             if before is not None and ha.call('lovelace/config', url_path=slug) != before:
                 raise RuntimeError(slug + ' changed since backup; stopped')

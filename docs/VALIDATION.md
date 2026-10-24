@@ -1,12 +1,16 @@
 # Validation — 24 October 2026
 
-## Home-to-TV transition — 24 October
+## Cross-dashboard loading background — 24 October
 
-- TV now resides at `/athena-home/tv` within the Home dashboard. The previous
-  TV dashboard remains for bookmarks; generated shortcuts use the in-dashboard view.
-- Verified Home → TV on the ES8. Eight sampled transition screenshots retained
-  the blue lower background with no white frame captured. This is a sampled check,
-  not a frame-by-frame video measurement. Other dashboard transitions are unchanged.
+- Replaced the earlier same-dashboard TV workaround. Home, VA and TV again use
+  their separate dashboard URLs.
+- Added a route-scoped HA frontend resource which keeps the document background
+  dark blue while HA replaces dashboard content. The captured Home → VA loading
+  gap itself is solid dark blue, rather than white.
+- Checked VA → Home, Home → VA, VA → Home again, Home → TV and TV → Home on the
+  ES8, with six screenshots per transition. All reached their intended pages;
+  no white loading frame was captured. This is sampled verification, not a
+  frame-by-frame video measurement. Native initial startup is outside this fix.
 
 ## Dashboard correction — 24 October
 

@@ -1343,5 +1343,10 @@
     "path": "devices/dashboards/assets/athena-music-card.js",
     "bytes": 7778,
     "sha256": "d340f891d616afd103b6d957dc8b726f24130e2eb701c05a85e99adf590d0c9d"
+  },
+  {
+    "path": "devices/dashboards/assets/athena-dashboard-surface.js",
+    "bytes": 1314,
+    "sha256": "27ad76815036d3df75914fa3a36518057ae16236347f9b3b89256637a234d7f0"
   }
 ]
