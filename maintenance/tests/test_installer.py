@@ -55,6 +55,9 @@ class Dashboards(unittest.TestCase):
     def test_navigation_and_home_three_buttons(self):
         data, _ = self.generate('es8-gen2', ['iplayer'])
         self.assertEqual(len(data['home']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards']),3)
+        home_tiles = data['home']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards']
+        self.assertEqual(home_tiles[-1]['tap_action']['navigation_path'], '/athena-home/tv')
+        self.assertEqual(data['home']['views'][-1], data['tv']['views'][0])
         for view in data['va']['views']:
             if view['path']=='clock': nav=view['cards'][0]['custom_fields']['heading']['card']
             else: nav=view['cards'][0]['cards'][0]

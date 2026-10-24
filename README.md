@@ -538,6 +538,8 @@ Home has three launchers: **View Assist**, **Music Assistant** and **TV**.
 VA includes your updated clock/weather plus the standard upstream views, with
 Home and TV outline icons in the original blue styling. TV has one Home button
 and equally sized buttons for only the services selected in the Y/N wizard.
+Home → TV switches to the TV view within the same Home dashboard, avoiding
+a dashboard reload. The older TV dashboard URL remains available for bookmarks.
 Music Assistant opens inside a blue frame with its own Home button; its add-on
 uses HA authenticated ingress. The installer copies and registers the bundled
 frame card automatically, without changing existing Portal dashboards.

@@ -107,7 +107,7 @@ def launcher_view(title, path, cards, scale=1):
                                        {'height': 'calc(110px * var(--va-clock-shortcut-scale, 1))'}]
             card['styles']['grid'] += [{'grid-template-rows': 'calc(34px * var(--va-clock-shortcut-scale, 1)) auto'}]
             card['styles']['name'] += [{'text-overflow': 'clip'}, {'overflow': 'visible'}]
-    return {'title': title, 'path': path, 'type': 'panel', 'cards': [{
+    return {'title': title, 'path': path, 'type': 'panel', 'background': BACKGROUND, 'cards': [{
         'type': 'custom:button-card', 'show_name': False, 'show_icon': False,
         'tap_action': {'action': 'none'},
         'styles': {
@@ -138,7 +138,7 @@ def build(name):
         if isinstance(value, list):
             return [substitute(v) for v in value]
         return value
-    home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['tv_slug'] + '/tv'
+    home_path, tv_path = '/' + cfg['home_slug'] + '/home', '/' + cfg['home_slug'] + '/tv'
     nav = {'type': 'horizontal-stack', 'cards': [tile('Home', 'mdi:home-outline', home_path), tile('TV', 'mdi:television-classic', tv_path)]}
     clock = substitute(read(ROOT / 'devices/dashboards/custom/clock.json'))
     # Retain the user's updated clock face, responsive styling and weather strip.
@@ -172,7 +172,11 @@ def build(name):
     tv_cards += [tile(s['name'], s['icon'], s['url'], True) for s in services]
     if not services:
         tv_cards.append({'type': 'markdown', 'content': 'No streaming services selected. Run the installer to add services.'})
-    tv = {'title': 'TV', 'views': [launcher_view('TV', 'tv', tv_cards, p['shortcut_scale'])]}
+    tv_view = launcher_view('TV', 'tv', tv_cards, p['shortcut_scale'])
+    home['views'].append(copy.deepcopy(tv_view))
+    # Retain the previous dashboard URL for existing bookmarks. All generated
+    # navigation uses Home's TV view to avoid replacing the dashboard on each tap.
+    tv = {'title': 'TV', 'views': [tv_view]}
     out = ROOT / 'installation-data/generated' / name
     for key, obj in [('va', va), ('home', home), ('tv', tv)]:
         save(out / (key + '.json'), obj)

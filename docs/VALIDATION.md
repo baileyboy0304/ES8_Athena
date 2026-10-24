@@ -1,5 +1,13 @@
 # Validation — 24 October 2026
 
+## Home-to-TV transition — 24 October
+
+- TV now resides at `/athena-home/tv` within the Home dashboard. The previous
+  TV dashboard remains for bookmarks; generated shortcuts use the in-dashboard view.
+- Verified Home → TV on the ES8. Eight sampled transition screenshots retained
+  the blue lower background with no white frame captured. This is a sampled check,
+  not a frame-by-frame video measurement. Other dashboard transitions are unchanged.
+
 ## Dashboard correction — 24 October
 
 - Restored the original blue clock navigation style from the owner’s HA dashboard.
