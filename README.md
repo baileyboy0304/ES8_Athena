@@ -436,6 +436,7 @@ a wipe, open the existing device's options instead.
 | Dashboard | `/view-assist-athena` (or the profile's actual VA slug) |
 | Home/default view | `/view-assist-athena/clock` or the view field `clock`, according to the VA UI field |
 | Weather entity | Your actual `weather.*` entity |
+| Use announce | Enable for the ES8 MA media player so blueprints that honour this setting use announcement playback instead of replacing music |
 | Ducking | Start at zero in VA; this VACAV/EDA role owns voice/music focus to avoid double attenuation |
 | Screen/fullscreen mode | Choose the VA mode appropriate for the display; verify no unwanted HA header/sidebar |
 | Voice indicator | Leave VACAV's **Use EDA voice indicator only** on for ES8 |
@@ -588,11 +589,11 @@ on a fresh install.
 
 ## Review status
 
-This is a private installation candidate. Limited offline checks pass; the Linux
-clean install and owner testing are pending. ITVX live audio continuing after Home
+This is a private installation candidate. The Linux clean install and basic
+checks have been performed; full owner acceptance is still pending. ITVX live audio continuing after Home
 is a known unresolved trial issue. See [validation](docs/VALIDATION.md).
 
 The owner reviewed this layout and approved the private GitHub transfer on
 23 October 2026: [baileyboy0304/ES8_Athena](https://github.com/baileyboy0304/ES8_Athena).
-Device work waits for Linux; the second wipe requires your later explicit OK. Community
+A second wipe requires your later explicit OK. Community
 publication follows acceptance. Licences and attribution are in [NOTICE](docs/NOTICE.md).

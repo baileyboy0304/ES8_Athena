@@ -128,3 +128,31 @@ The original trial's acceptance does not establish that this new installer is
 fully tested. Repository review and private transfer approval are complete. Next:
 the agent's Linux clean install/basic checks followed by the owner's testing.
 See `LINUX-HANDOVER.md` for the private files GitHub will not carry.
+
+## Music Assistant convention correction — 24 October 2026
+
+The original instructions incorrectly disabled MA's HA exposure and assigned the
+VACAV proxy as VA's music player. Both supplied failed traces targeted that proxy.
+The instructions now require an available official MA entity before VA setup;
+the installer rejects proxies and unavailable MA entities. VACAV 0.2.4 no longer
+makes its legacy controls unavailable when MA exposure is enabled.
+
+On Garden Athena, both VA playback fields now reference the official MA physical
+player. The MA sync group exposes the physical player and lyrics player.
+The original, unmodified group blueprint was temporarily enabled for a test; its
+trace selected the physical MA player, found the sync group, and sent Radio 2 to
+that group. MA reported both members playing. Pause stopped radio playback (MA
+reports idle for this radio source); resume and stop worked, and the original
+volume was restored. The owner's listening check confirmed radio sound.
+Claude's existing automation copy was re-enabled afterwards, with the original
+left disabled, preserving the prior selection without duplicate handlers.
+
+Nineteen offline installer/integration regression tests passed, along with the
+installer integrity check. EDA source remains unchanged.
+
+The owner also confirmed the longer announcement tone played and radio resumed
+after it. A first quiet half-second tone was not heard, so that attempt was not
+counted as success. VA's Use announce setting is now enabled for the official MA
+media player; EDA retains voice ownership and VA ducking remains zero. Android
+audio diagnostics showed an active output track with no write errors during the
+test. Tests ended with playback stopped and the original volume restored.
