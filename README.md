@@ -113,6 +113,8 @@ weather entity and the actual Music Assistant sidebar path. To get the MA path,
 open Music Assistant in HA on your computer and copy everything after the host
 and port; it may be an add-on ingress path. The suggested `/music-assistant` is
 only a placeholder. Create the VA sensor in step 7, then rerun the wizard if its ID differs.
+Choose the device's IANA timezone too, for example `Europe/London`. A clean
+Athena can otherwise remain on GMT; the USB install applies the saved timezone.
 
 Default dashboard slugs are `athena-home`, `view-assist-athena`, `athena-tv`. Portal uses
 `portal-home`, `view-assist-portal`, `portal-tv`. Use unique slugs if adding another
@@ -309,6 +311,12 @@ An existing selected keyboard is retained. The APK is cached privately at
 Settings/SystemUI restoration is needed. Tap a text field to check that the
 keyboard opens before attempting HA or streaming sign-ins.
 
+For the exported Echo Netflix APK, this stage also verifies and reinstalls the
+matching Amazon authentication APK from the extracted pinned firmware as a
+normal user app, and enables Netflix's tablet launcher. EDA removes that auth
+dependency; without it Netflix can crash at startup. It is not downloaded from
+an APK mirror or included in Git, and no extra firewall exception is added for it.
+
 When streaming is selected, this stage separately adapts the installed EDA firewall
 scripts and writes `/data/local/es8-athena-streaming.conf`. It backs up the original
 files and refuses an unexpected installed version. The existing EDA firewall
@@ -438,6 +446,22 @@ After creation, open the new VA entry's **Configure** menu. Set the dashboard
 and default view under **Dashboard options**, and weather/ducking under the
 corresponding default options, using the table above. Copy the new **VA sensor
 entity ID** from this VA device; enter it in the choices wizard in step 8.
+
+On VA 2026.7.0, use the full `/view-assist-athena/clock` path in **Home**.
+Verify the VA sensor's `home_screen` attribute matches. That version may restore
+an older `home_screen` attribute over the new setting after reload. If it does,
+use **Developer tools → Actions → View Assist: Set state or attributes** with:
+
+```yaml
+action: view_assist.set_state
+target:
+  entity_id: sensor.YOUR_NEW_VA_SENSOR
+data:
+  home_screen: /view-assist-athena/clock
+```
+
+Use your actual sensor/path, and verify the resulting attribute. This changes
+only that satellite; do not alter Master Configuration to fix one device.
 For Portal + Dot, select VACAV's combined Dot satellite and reply Speaker entity;
 its music field uses the Portal's MA Sendspin player. Display-only Portal does not
 have an ES8 voice satellite to map.
@@ -475,6 +499,11 @@ In VA set its default view to the corresponding `/view-assist.../clock`.
 
 Sign into each chosen streaming service on the device. Check [manual acceptance](docs/ACCEPTANCE.md).
 Known issue to check explicitly: ITVX live audio may continue after returning Home.
+On this clean-install trial, ITVX reaches its catalogue after tapping **OK** on
+the Google Play services warning. The current helper's Back action does not
+reliably dismiss that dialog; manual OK remains necessary. Updating the bundled
+helper in place requires the original APK signing key. Do not uninstall VACAV
+to bypass a signing-key mismatch: that would discard its pairing and sign-in.
 Report the step number and what you saw if anything is unclear; there is no need
 for exhaustive automated testing before this walkthrough.
 

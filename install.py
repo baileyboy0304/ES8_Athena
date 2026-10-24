@@ -12,6 +12,7 @@ import re
 import shutil
 import subprocess
 import sys
+from zoneinfo import ZoneInfo
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
@@ -67,7 +68,14 @@ def choose(name):
     ma = ask('Music Assistant HA sidebar path (copy from your browser)', '/music-assistant')
     if not ma.startswith('/') or ma.startswith('//') or any(c.isspace() for c in ma):
         raise ValueError('Use a local HA path starting with one slash')
-    cfg = dict(profile=name, services=selected, va_entity=entity, weather_entity=weather,
+    local_zone = Path('/etc/timezone')
+    timezone = ask('Device timezone (IANA name, e.g. Europe/London)',
+                   local_zone.read_text().strip() if local_zone.exists() else 'UTC')
+    try:
+        ZoneInfo(timezone)
+    except (KeyError, ValueError):
+        raise ValueError('Use a valid IANA timezone, e.g. Europe/London') from None
+    cfg = dict(profile=name, services=selected, va_entity=entity, weather_entity=weather, timezone=timezone,
                music_path=ma, **{k: p[k] for k in ('va_slug', 'home_slug', 'tv_slug')})
     for key in ('va_slug', 'home_slug', 'tv_slug'):
         cfg[key] = ask(key.replace('_', ' ').title(), cfg[key])
@@ -108,6 +116,8 @@ def build(name):
     clock = substitute(read(ROOT / 'devices/dashboards/custom/clock.json'))
     # Retain the user's updated clock face, responsive styling and weather strip.
     clock['cards'][0]['custom_fields']['heading']['card'] = copy.deepcopy(nav)
+    # body_template supplies two columns; this clock has one named-area column.
+    clock['cards'][0]['styles']['grid'].append({'grid-template-columns': 'minmax(0, 1fr)'})
     weather = substitute(read(ROOT / 'devices/dashboards/custom/weather.json'))
     weather['cards'] = [{'type': 'vertical-stack', 'cards': [copy.deepcopy(nav)] + weather['cards']}]
     upstream = ROOT / 'devices/dashboards/upstream'

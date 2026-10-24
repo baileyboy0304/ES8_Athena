@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import shlex
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from install import ROOT, PACKAGE, ACTIVITY, profile, settings, build, yes, save, stamp, verify
@@ -94,6 +95,14 @@ def main():
             if not files: missing.append(service['id'])
     if missing:
         raise RuntimeError('Missing app(s): ' + ', '.join(missing) + '. Put their lawful APK/splits in installation-data/apks/PROFILE/SERVICE/ or export before wiping.')
+    netflix_auth = None
+    auth_package = 'com.amazon.identity.auth.device.authorization'
+    if a.profile == 'es8-gen2' and 'netflix' in cfg['services'] and not package_paths(auth_package).startswith('package:'):
+        netflix_auth = ROOT / 'echo-dot-assist/firmware/athena/rootfs/system/priv-app' / auth_package / (auth_package + '.apk')
+        digest = '32250136099320489033be5b32a158862a4f69a495f185121738a7dfab3ad7a0'
+        if not netflix_auth.exists() or hashlib.sha256(netflix_auth.read_bytes()).hexdigest() != digest:
+            raise RuntimeError('Netflix requires the matching original Amazon auth APK in the extracted pinned Athena firmware; missing or wrong hash')
+        print('Netflix: will install matching original Amazon auth dependency as a user app')
     if not a.apply:
         print('Inspection complete. Repeat with --apply when ready; no device changes made.')
         return
@@ -113,11 +122,19 @@ def main():
         'default_input_method': 'settings get secure default_input_method',
         'enabled_input_methods': 'settings get secure enabled_input_methods',
         'show_ime_with_hard_keyboard': 'settings get secure show_ime_with_hard_keyboard',
+        'timezone': 'getprop persist.sys.timezone',
         'vacav_appops': 'appops get ' + PACKAGE + ' 2>/dev/null || true'}.items()}
     save(backup / 'before.json', old)
     if keyboard_apk is not None:
         from devices.keyboard import install as install_keyboard
         install_keyboard(adb, shell, keyboard_apk)
+    if netflix_auth is not None:
+        result = adb('install', '-r', str(netflix_auth))
+        if 'Success' not in result: raise RuntimeError('Netflix auth dependency installation failed: ' + result)
+    if a.profile == 'es8-gen2' and cfg.get('timezone'):
+        shell('cmd alarm set-timezone ' + shlex.quote(cfg['timezone']))
+        if shell('getprop persist.sys.timezone') != cfg['timezone']:
+            raise RuntimeError('Device timezone did not persist')
     result = adb('install', '-r', str(apk))
     if 'Success' not in result: raise RuntimeError('VACAV APK installation failed: ' + result)
     for service in selected:
@@ -129,6 +146,8 @@ def main():
             raise RuntimeError('APK did not install the expected package: ' + service['package'])
     shell('appops set ' + PACKAGE + ' WRITE_SETTINGS allow')
     if a.profile == 'es8-gen2':
+        if 'netflix' in cfg['services']:
+            shell('pm enable com.netflix.mediaclient.echo/com.netflix.mediaclient.ui.launch.UIWebViewTabletActivity')
         from devices.streaming import configure
         configure(adb, shell, cfg, backup)
         shell('appops set ' + PACKAGE + ' SYSTEM_ALERT_WINDOW allow')

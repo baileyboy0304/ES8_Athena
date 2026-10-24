@@ -1,4 +1,4 @@
-# Validation — 23 October 2026
+# Validation — 24 October 2026
 
 ## Linux clean-install walkthrough (in progress)
 
@@ -38,14 +38,35 @@
   system-library access was missing; that trial APK was removed. The device
   installer now supplies the offline keyboard when no selected IME exists.
 
-**Not yet accepted end to end:** ES8 HA browser sign-in, fresh View Assist mapping
-and final dashboards, streaming account sign-ins, DRM playback and the ITVX
-Home/audio regression still need completion. ITVX currently stalls at its splash
-after dismissing its Play services warning. Netflix's missing Amazon-auth
-dependency was restored from the same original firmware as a user APK; its
-initial crash stopped reproducing, but its protected screen is not yet visually
-verified. iPlayer and Apple TV reached sign-in. Installed APKs and firewall checks
-do not prove playback.
+- The owner completed HA sign-in on the ES8. Created the fresh Garden Athena
+  VA device through its normal configuration API with the correct VACAV Assist,
+  Music and display ID. Configured its own dashboard, weather and zero ducking;
+  the native-only indicator is selected. Corrected VA's restored stale
+  `home_screen` attribute through its supported set-state action.
+- Generated, installed and read back the final Home, VA and TV dashboards with
+  backups. Verified the full-width clock/weather on the ES8 and corrected its
+  GMT timezone to Europe/London. Home → VA, VA → Home/TV and Home → Music
+  Assistant navigation work on the device; MA shows Garden Athena selected.
+- Netflix opens from the actual TV dashboard button without the original auth
+  dependency crash. Its protected screen prevents automated visual confirmation
+  of the login UI. The installer now restores the exact matching firmware auth
+  APK and enables the tablet launcher for the selected Echo Netflix package.
+- ITVX reaches its catalogue after manually tapping **OK** on the Google Play
+  services warning. A cold-start retry confirmed that the current Back-based
+  helper does not reliably dismiss it. A compatible replacement VACAV APK needs
+  the original signing key, which is not available on this Linux host. The app
+  was not uninstalled and the user's new HA sign-in was preserved.
+
+- Final reboot retained VACAV as Home, HA browser sign-in, Simple Keyboard and
+  Europe/London timezone. The Home dashboard rendered without a login prompt;
+  EDA processes and the firewall service were running, with system/vendor read-only.
+
+**Still pending:** streaming account sign-ins and DRM/audio playback (deferred by
+owner), physical wake/mute checks and the ITVX live-audio-after-Home regression.
+ITVX warning automation remains a known failure; manual OK works. Optional VA
+calendar/sports/camera views need their own HA entities, resources and blueprints
+as described in the dashboard guide. This is basic setup validation, not full
+streaming acceptance.
 
 ## Original packaging checks
 

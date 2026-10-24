@@ -1306,8 +1306,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 9704,
-    "sha256": "a2d4973fd15b99964de35a823f681d0679c0ec7b4c54b8f6edb629d9913ff101"
+    "bytes": 11172,
+    "sha256": "518a601c032f1ffd4eef8b346be90db127e3b2279ee6d5ca9337129d1e8ff396"
   },
   {
     "path": "devices/portal_plus_gen_2/profile.json",

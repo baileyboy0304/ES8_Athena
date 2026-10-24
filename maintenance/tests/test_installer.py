@@ -33,6 +33,8 @@ class Dashboards(unittest.TestCase):
     def test_es8_all_services_and_standard_views(self):
         data, out = self.generate('es8-gen2', ['netflix','iplayer','itvx','apple_tv'])
         self.assertEqual({v['path'] for v in data['va']['views']}, {'clock','weather',*m.STANDARD})
+        self.assertIn({'grid-template-columns': 'minmax(0, 1fr)'},
+                      data['va']['views'][0]['cards'][0]['styles']['grid'])
         tiles = data['tv']['views'][0]['cards'][1]['cards']
         self.assertEqual(len(tiles), 4)
         self.assertIn('B.fullscreen=true', tiles[-1]['tap_action']['url_path'])
