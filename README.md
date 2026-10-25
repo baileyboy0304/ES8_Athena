@@ -174,6 +174,10 @@ account sign-in still need your input.
 
 On the ES8, allow VACAVision’s camera and photos/media/files permission prompts.
 These prompts are separate from the voice microphone supplied by Echo Dot Assist.
+Select **Allow** on the touchscreen, then complete the next permission prompt.
+
+<img src="docs/images/setup/06-es8-permission.png" alt="Echo Show touchscreen asking permission for VACA_Vision to take pictures and record video; select Allow" width="640">
+
 The app may show **Waiting for connection** until the next step.
 
 VACAVision always receives TCP 80/443 web access for artwork and embedded content.
@@ -198,6 +202,12 @@ the Echo Dot Assist done-screen or settings page (`http://DEVICE_IP:28931/`).
 Reuse an existing valid pairing. VACAVision enables that physical player’s exposure
 to HA automatically. Echo Dot Assist runs Sendspin; VACAVision’s own engine stays
 disabled in this role.
+
+In **Music Assistant → Settings → Players**, open the Echo Show player marked
+**Requires setup**. Paste its Echo Dot Assist pairing token into this dialog and
+select **Next**. This is a device-pairing token, not a Home Assistant access token.
+
+<img src="docs/images/setup/07-ma-pair-player.png" alt="Music Assistant setup dialog with an empty field for the Echo Show pairing token" width="400">
 
 ### Connect Home Assistant to VACAVision
 
@@ -226,6 +236,12 @@ Select **Add integration**, search for `VACA`, and choose **VACA_Vision**.
 If you already have the integration, open it and select **Add device**.
 
 <img src="docs/images/setup/01-select-integration.png" alt="Add integration search results: choose VACA_Vision" width="338">
+
+If HA first shows **Want to add these discovered devices?**, select the discovered
+**VACA_Vision** entry to use discovery. To continue with the IP-address fallback,
+choose **Set up another instance of VACA_Vision**.
+
+<img src="docs/images/setup/08-ha-another-instance.png" alt="Home Assistant offers the discovered VACA_Vision device or Set up another instance" width="400">
 
 Choose **Connect an installed device by IP address**.
 
@@ -262,12 +278,24 @@ restoring the key. Network failures never trigger provisioning. Only an Echo sec
 asks for that existing key, available from Echo Dot Assist's settings or original
 setup records. The installer does not print keys; back up HA's configuration.
 
-**3. Select the voice assistant.** Open the new VACAVision device in HA and choose
-its Assist pipeline. HA may guide you through a connection test and ask you to
-say “Alexa” twice. If the first test runs before the voice connection is ready,
-wait for the satellite to become available, then retry. For spoken replies, HA's internal URL must be an HTTP
-address reachable from the Echo Show; this version of Echo Dot Assist cannot
-fetch those replies over HTTPS.
+**3. Complete HA’s voice setup.** When the **Voice Satellite setup** dialog appears,
+wait for the initial connection check. If it does not open automatically, open the new VACAVision
+device in HA to configure its voice assistant.
+
+<img src="docs/images/setup/09-voice-setup.png" alt="Home Assistant Voice Satellite setup Hello screen while the connection check runs" width="400">
+
+Follow the connection test; HA may ask you to say “Alexa” twice. If the first test
+runs before the voice connection is ready, wait for the satellite to become
+available, then retry. Select the device’s area when asked.
+
+On **Ready to Assist!**, choose your existing Assist pipeline under **Assistant**.
+Use **Try** to check the selected voice, then select **Done**. The pipeline and voice
+shown below are from the walkthrough; select your own configuration.
+
+<img src="docs/images/setup/10-voice-ready.png" alt="Ready to Assist dialog showing device name, Assistant pipeline, Voice, Try and Done controls" width="400">
+
+For spoken replies, HA's internal URL must be an HTTP address reachable from the
+Echo Show; this version of Echo Dot Assist cannot fetch those replies over HTTPS.
 
 ### Sign into Home Assistant on the Echo Show
 
@@ -311,6 +339,11 @@ existing View Assist frontend must already be installed.
 The Home page links to View Assist, Music Assistant in a frame with a Home button,
 and TV. The TV page shows the selected services. A tap on the clock can enable VA
 hold mode; tap the hand icon again to return to normal mode.
+
+Open **Home → Music Assistant** to check the embedded player. The **Home** button
+stays above the frame so you can return to the launcher.
+
+<img src="docs/images/setup/11-music-assistant-home.png" alt="Music Assistant running inside the Echo Show dashboard with its Home button above the player frame" width="640">
 
 **Check on the Echo itself:** ask a voice question and play music. Confirm both
 come from this Echo, not another device. Sign into each streaming service, answer
