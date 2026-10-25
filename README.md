@@ -19,12 +19,10 @@ The setup has three parts:
 - **VACAVision** provides the display companion and Home Assistant integration for
   [View Assist](https://dinki.github.io/View-Assist/).
   View Assist's development repository is [dinki/View-Assist](https://github.com/dinki/View-Assist).
-  VACAVision is inspired by **MSP1974 (Mark Parker)** and his
+  VACAVision is inspired by **MSP1974** and his
   [View Assist Companion App](https://github.com/msp1974/ViewAssistCompanionApp).
   This variant replaces the companion's microWakeWord approach with Amazon's
-  wake word through Echo Dot Assist and adds Sendspin audio integration.
-  On this Echo Show, Echo Dot Assist runs the Sendspin player; VACAVision connects
-  the display and controls to Home Assistant and Music Assistant.
+  wake word through Echo Dot Assist.
 - **Optional streaming and example dashboards** add launchers for Netflix,
   BBC iPlayer, ITVX and Apple TV, alongside Home, clock/weather and other
   View Assist views. Apple TV opens in Silk; the other services use Android apps.
