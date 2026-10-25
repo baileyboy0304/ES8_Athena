@@ -204,26 +204,6 @@ def prepare_connection(ha, cfg, serial):
     print('Saved device name and dashboard in HA for', match[1])
 
 
-def handoff(cfg):
-    print(f'''
-GO TO HOME ASSISTANT NOW
-1. In Music Assistant, pair this Echo's Sendspin player if not already paired.
-   Use the Sendspin pairing token from Echo Dot Assist's installer/settings page.
-2. Settings → Devices & services → Discovered → VACA_Vision → Add.
-   Confirm the device name. The role, dashboard, ports and encryption are automatic.
-   If music cannot be matched automatically, choose this Echo by name from the list.
-   If there is no discovery card, Add integration → VACA_Vision → Connect by IP.
-3. Sign into HA ON THE ES8. Choose the desired Assist pipeline on its HA device.
-4. In your EXISTING View Assist installation, add/configure this ES8 device:
-   display = VACAVision display sensor VALUE (va-...), microphone = its Assist
-   satellite, alerts AND music = official Music Assistant physical-player entity.
-   Set weather through VA, Use announce on, ducking zero, native voice indicator.
-   Dashboard: /{cfg['va_slug']}    Home: /{cfg['va_slug']}/clock
-5. Verify a spoken reply and music playback come from THIS Echo Show.
-Return here when ready. The next stage checks HA before offering dashboards.
-''')
-
-
 def write_handoff(serial, cfg):
     """Only non-secret, allowlisted choices cross USB into the app's private files."""
     plan = {"version": 1, "name": cfg['device_name'], "services": cfg['services'],
@@ -249,7 +229,7 @@ def write_handoff(serial, cfg):
 def run(check_only=False):
     core.verify()
     if check_only:
-        print('Open VACAV Setup in the HA sidebar and select Refresh connections. No Linux HA login is needed.')
+        print('Open your VACAVision device in HA: Configure → Install example dashboards → Open the dashboard installer. Select Refresh connections.')
         return True
     serial = resolve_usb()
     print('USB target:', serial)
@@ -262,14 +242,12 @@ def run(check_only=False):
         services = [s['id'] for s in p['services'] if core.yes('Install/use ' + s['name'] + '?')]
         cfg = dict(profile=PROFILE, services=services, va_entity='sensor.es8_setup',
                    weather_entity='weather.home', music_path='/music-assistant')
-        for key in ('home_slug', 'va_slug', 'tv_slug'):
-            cfg[key] = core.ask(key.replace('_', ' ').title(), p[key])
-            if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)+', cfg[key]):
-                raise ValueError('Dashboard names need a hyphen and lowercase letters/digits.')
-        if len({cfg[k] for k in ('home_slug', 'va_slug', 'tv_slug')}) != 3:
-            raise ValueError('Use three distinct dashboard names.')
         cfg['device_name'] = core.ask('Device name')
-    if not cfg.get('device_name') or len(cfg['device_name']) > 80:
+        slug = re.sub(r'[^a-z0-9]+', '-', cfg['device_name'].lower()).strip('-') or 'echo-show'
+        cfg.update(home_slug=slug+'-home', va_slug='view-assist-'+slug, tv_slug=slug+'-tv')
+    if not cfg.get('device_name'):
+        cfg['device_name'] = core.ask('Device name')
+    if not 1 <= len(cfg['device_name']) <= 80:
         raise ValueError('Enter a device name between 1 and 80 characters.')
     # HA supplies timezone when the display connects; never assume the PC's zone.
     cfg.pop('timezone', None)
@@ -278,7 +256,7 @@ def run(check_only=False):
     gather_apks(serial, cfg)
     command = [sys.executable, str(core.ROOT / 'devices/install-device.py'), '--profile', PROFILE, '--serial', serial]
     subprocess.run(command, check=True)
-    fingerprint = hashlib.sha256(json.dumps({'services': cfg['services'], 'app': 17}, sort_keys=True).encode()).hexdigest()
+    fingerprint = hashlib.sha256(json.dumps({'services': cfg['services'], 'app': 18}, sort_keys=True).encode()).hexdigest()
     previous = core.read(progress_file) if progress_file.exists() else {}
     completed = previous.get('serial') == serial and previous.get('usb_choices') == fingerprint
     if not (completed and core.yes('USB installation previously completed. Keep it and continue to HA?')):
@@ -290,16 +268,19 @@ def run(check_only=False):
         wait_for_app(serial)
     print("""
 Linux installation finished. Continue in Home Assistant:
-1. Install/update VACAVision 0.4.0 through HACS and restart HA.
-2. Pair this Echo's Sendspin player in Music Assistant using Echo Dot Assist's settings page.
-3. Add the discovered VACA_Vision device and confirm its name.
-4. Allow the app's on-screen permissions and sign into HA ON THE ECHO SHOW.
-5. Complete its voice-assistant setup and select the Assist pipeline.
-6. Open VACAV Setup in the HA sidebar. Configure View Assist, refresh, then install dashboards.
-   The setup page checks the mappings and backs up dashboards before replacing them.
+1. Install/update VACAVision 0.5.0 through HACS and restart HA.
+2. Add the discovered VACA_Vision device and confirm its name.
+3. Complete its voice-assistant setup and select the Assist pipeline.
+4. Allow the app's on-screen permissions and sign into HA on the Echo Show.
+5. Create this device in View Assist. Follow the README field-by-field settings.
+6. For the example dashboards: VACAVision → your device → Configure → Install example dashboards.
 7. Test voice and music on this Echo. Sign into streaming services and test playback.
-No Home Assistant username, password or token is needed in this terminal.
 """)
+    print('Device name:', cfg['device_name'])
+    print('Example dashboard paths:')
+    print('  Dashboard: /'+cfg['va_slug'])
+    for label, view in [('Home','clock'),('Music','music'),('Intent','intent'),('List','list')]:
+        print('  '+label+': /'+cfg['va_slug']+'/'+view)
     return True
 
 

@@ -1,4 +1,24 @@
-# Validation — 24 October 2026
+# Validation — 25 October 2026
+
+## Device Configure flow — VACAVision 0.5.0
+
+- 29 integration tests and 52 Linux installer tests pass with the project Python
+  environment. Tests cover device-bound matching, reading weather from the matched
+  View Assist entry, preserving custom VA paths, and the microphone selector.
+- Android release build and ten unit tests pass. Prototype.12 (version code 18)
+  installed over prototype.11 on Garden Athena with app data and HA sign-in intact.
+- The live View Assist manual form offers Garden Athena’s Assist satellite. Name,
+  physical Music Assistant player and display selections were filled for screenshots
+  and cancelled without creating another View Assist entry.
+- HA configuration checks passed before restarting with integration 0.5.0.
+- README screenshots show the actual Configure menu and View Assist forms.
+- Live dashboard preparation found the existing microphone, display, official MA
+  player and VA weather and reached the backup/install confirmation. Cancel was
+  verified; existing dashboards and the View Assist entry were preserved.
+- This update is an in-place validation. A fresh wipe/install and a new audible
+  voice/music test have not been repeated for this release.
+
+# Earlier validation — 24 October 2026
 
 ## Top-edge flash follow-up — 24 October
 

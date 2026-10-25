@@ -109,7 +109,7 @@ class CredentialFreeInstall(unittest.TestCase):
              patch.object(g, 'write_handoff') as handoff, patch.object(g.subprocess, 'run'):
             self.assertTrue(g.run())
             ha.assert_not_called()
-            self.assertEqual(ask.call_count, 4)
+            self.assertEqual(ask.call_count, 1)
             cfg = handoff.call_args.args[1]
             self.assertNotIn('token', cfg)
             self.assertNotIn('password', cfg)

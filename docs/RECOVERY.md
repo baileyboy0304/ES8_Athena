@@ -6,7 +6,7 @@ installer directly for its system work; follow its Athena recovery guidance.
 
 ## Dashboards
 
-The HA **VACAV Setup** page shows the backup path before replacement:
+The device’s **Configure → Install example dashboards** action shows the backup path before replacement:
 `.storage/vaca_vision.dashboard_backup_TIMESTAMP` in HA’s configuration folder.
 Its JSON `data` maps each dashboard URL to its previous config. Open the affected
 dashboard’s Raw configuration editor and restore that config (JSON is valid YAML).

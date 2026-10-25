@@ -51,8 +51,7 @@ Home Assistant. Commands and folders use `VACAV`.
   This setup uses its physical Echo Show player for music and announcements.
 - The dashboard card dependencies, including `custom:button-card`, from
   [the dashboard inventory](docs/DASHBOARDS.md).
-- An existing Home Assistant administrator browser session for **VACAV Setup**.
-  The Linux installer needs no HA login, password, MFA code or access token.
+- A Home Assistant administrator account for adding devices and installing dashboards.
 - Your own compatible streaming APKs if you choose those services. The wizard
   asks for their folder and installs them; proprietary APKs are not bundled or
   automatically downloaded. See [tested versions](devices/APK-VERSIONS.md).
@@ -120,13 +119,6 @@ there should be only one voice owner for this Echo Show. Keep existing ESPHome
 entries for other devices. If this Echo Show already has one, preserve its API
 key/settings before removing that duplicate ownership.
 
-Echo Dot Assist installs and runs Sendspin and supplies the Music Assistant
-pairing token. Pair the player in Music Assistant; VACAVision will enable its
-exposure to HA. View Assist's device mappings are completed during the HA handoff.
-
-To log into the Echo Dot Assist settings page, choose **Ask the Echo**, then press
-both volume buttons together and release within about **one second**. Athena has
-no action button. Holding both for two seconds invokes Echo pairing instead.
 Back up `echo-dot-assist/secrets/update.key`; it signs device updates. The secrets
 folder also contains your Wi-Fi credentials—keep it private.
 
@@ -137,7 +129,7 @@ installed-firewall adaptation. Retain USB access for the next step.
 
 In HA, open **HACS → ⋮ → Custom repositories**, add
 `https://github.com/baileyboy0304/VACAV` as an **Integration**, then download
-**VACAVision 0.4.0 or later** and restart HA. The recursive clone also fetches the
+**VACAVision 0.5.0 or later** and restart HA. The recursive clone also fetches the
 tested VACAV app/source revision.
 
 From this repository’s root:
@@ -152,8 +144,8 @@ on Android’s signature mismatch and never uninstalls it automatically. Preserv
 the working installation until you can use the original signing key or deliberately
 reinstall VACAV and sign into HA on the display again. Fresh installs are unaffected.
 
-The wizard asks for the device name, dashboard names and Y/N for Netflix, BBC
-iPlayer, ITVX and Apple TV. Use unique dashboard names for each additional display.
+The wizard asks for the device name and Y/N for Netflix, BBC iPlayer, ITVX and
+Apple TV. It derives the example dashboard names from your device name.
 It installs VACAVision and the selected apps, prepares the keyboard, Home app and
 permissions, and offers a reboot. It waits for Android, Wi-Fi and VACAVision to
 start rather than immediately trying to connect.
@@ -185,29 +177,11 @@ Selected streaming apps receive the same access, including advertising/telemetry
 other internet ports and UDP/QUIC remain blocked. The installer backs up and checks
 the installed firewall before adapting it.
 
-The wizard writes **non-secret choices** into VACAVision’s private app folder over
-USB: device name, dashboard names, selected services and public Sendspin identity.
-It does not send HA passwords, access tokens or encryption keys to the Echo. These
-choices are proposals; adding the device and replacing dashboards still require
-your existing HA administrator session.
-
-Choices and USB progress stay in ignored `installation-data/`. Run the same
-command to resume. After Linux setup finishes, continue in HA—there is no terminal
-HA login and no need to return to the terminal to install dashboards.
+The wizard saves your device name, selected services and example dashboard names
+on the Echo. Choices and USB progress are also saved in `installation-data/` on
+Linux. Run the same command to resume an interrupted installation.
 
 ## 3. Add the Echo in Home Assistant
-
-Pair this Echo’s Sendspin player in Music Assistant using the pairing token on
-the Echo Dot Assist done-screen or settings page (`http://DEVICE_IP:28931/`).
-Reuse an existing valid pairing. VACAVision enables that physical player’s exposure
-to HA automatically. Echo Dot Assist runs Sendspin; VACAVision’s own engine stays
-disabled in this role.
-
-In **Music Assistant → Settings → Players**, open the Echo Show player marked
-**Requires setup**. Paste its Echo Dot Assist pairing token into this dialog and
-select **Next**. This is a device-pairing token, not a Home Assistant access token.
-
-<img src="docs/images/setup/07-ma-pair-player.png" alt="Music Assistant setup dialog with an empty field for the Echo Show pairing token" width="400">
 
 ### Connect Home Assistant to VACAVision
 
@@ -262,21 +236,9 @@ Continue with selecting the voice assistant below.
 
 </details>
 
-VACAVision reads the choices from the Echo, including its public Sendspin identity.
-This also matches MA universal players that do not report their IP address.
-The initial page is HA’s built-in dashboard (`/lovelace/0`), so no unfinished
-dashboard path needs to exist before browser sign-in.
-
-If more than one player matches, or its address is unavailable, select this Echo
-Show from the named player list. If no player is available, the form tells you to
-pair it in Music Assistant and retry. You do not need to find a player ID.
-
-For a new Echo, the API encryption key is created automatically and stored
-privately in HA. A known key is checked before reuse. If a reset Echo rejects it,
-VACAVision checks the same hardware identity and initial-provisioning state before
-restoring the key. Network failures never trigger provisioning. Only an Echo secured with an unknown key
-asks for that existing key, available from Echo Dot Assist's settings or original
-setup records. The installer does not print keys; back up HA's configuration.
+VACAVision reads the installation choices from the Echo and identifies its voice
+connection and Music Assistant player. Its initial display page is HA’s built-in
+dashboard. If several players match, select this Echo from the named player list.
 
 **3. Complete HA’s voice setup.** When the **Voice Satellite setup** dialog appears,
 wait for the initial connection check. If it does not open automatically, open the new VACAVision
@@ -308,33 +270,82 @@ After signing in, the display opens HA’s built-in dashboard. This lets View As
 discover the browser display ID. HA supplies the Android timezone after connection.
 Existing Athena dashboards remain untouched until you approve replacement below.
 
-## 4. Finish in the HA “VACAV Setup” sidebar page
+## 4. Create the View Assist device
 
-Open **VACAV Setup** in the HA sidebar and select this Echo Show. If it was added
-before this update, select **Read installer choices from Echo** after running the
-new Linux installer; you do not need to remove the working integration.
+Open **Settings → Devices & services → View Assist → Add device**. Select
+**View Assist device with display**, then **Next**.
 
-1. **Refresh connections.** The page shows this device’s microphone, display ID and
-   official Music Assistant physical-player entity. If something is unavailable,
-   follow the displayed instruction and refresh after it connects.
-2. Check the weather selection, inherited from an existing View Assist device
-   where possible. The Music Assistant sidebar path is detected automatically;
-   if blank, open Music Assistant from HA’s sidebar and copy the path after the
-   host/port (often `/<addon-id>_music_assistant`).
-3. Select **Configure View Assist**. The integration creates a **View Assist device
-   with display** using this Echo’s microphone/display and the same official MA
-   player for music and alerts. This handles VA versions whose UI picker excludes
-   VACAV satellites. It sets weather, announce on, ducking zero and this device’s
-   Home, Music, Intent and List dashboard paths. It reuses a correctly mapped
-   existing VA device rather than creating a duplicate.
-4. Wait for VA to reload, then **Refresh connections** again. Select **Install
-   dashboards**, review the three destination names and confirm replacement.
-   Existing dashboard configurations are backed up to a private HA `.storage`
-   file whose path is shown. Each saved dashboard is read back and checked.
+<img src="docs/images/setup/12-va-device-type.png" alt="View Assist device type set to View Assist device with display" width="290">
 
-The integration serves the included dashboard assets itself: no mounted HA folder,
-manual asset copying or extra command is required. `custom:button-card` and your
-existing View Assist frontend must already be installed.
+Use the name entered in the Linux installer to find this Echo’s entities. The
+following example uses **Garden Athena**; substitute your own device name.
+
+| Field | What to enter or select | Garden Athena example |
+|---|---|---|
+| Satellite Name | The name entered in the installer | `Garden Athena` |
+| Microphone device | The Assist satellite on this VACAVision device | `assist_satellite.garden_athena_assist` |
+| Media player device | This Echo’s Music Assistant player | `media_player.echo_show_8_2nd_gen_a57772` |
+| Music player device | The same Music Assistant player | `media_player.echo_show_8_2nd_gen_a57772` |
+| Intent Device | Leave empty for this setup | Empty |
+| Orientation Sensor | Leave empty for this setup | Empty |
+| Display Device | The value of this VACAVision device’s **View Assist display device** sensor | `va-vision-a2ac0a84-4a88-4a5d-ae07-de5090a49ae8` |
+
+To find the microphone and display ID, open **VACAVision → your device** in another
+HA tab. Its entities include **Assist** and **View Assist display device**. Open the
+display sensor and copy its value, then select that exact value in View Assist.
+
+Music Assistant may name the player after the hardware, such as **Echo Show 8 2nd
+gen a57772**. Open its device under **Music Assistant** and check its address against
+the Echo’s address. Use that player in both player fields.
+
+<img src="docs/images/setup/13-va-device-fields.png" alt="View Assist form with Garden Athena's name and both Music Assistant player fields filled" width="290">
+
+<img src="docs/images/setup/13b-va-display.png" alt="View Assist microphone and display fields for Garden Athena" width="290">
+
+Select **Submit**. Open the new View Assist device’s **Configure** menu:
+
+- Under **Default Options**, enable announcements and set ducking volume to **0**.
+- In the same **Default Options**, use your existing View Assist weather setting, such
+  as `weather.home`, or select the weather entity for this display. View Assist
+  applies its master settings when the device has no override.
+
+<img src="docs/images/setup/14-va-weather.png" alt="View Assist default settings showing the weather entity" width="290">
+
+## 5. Install the example dashboards (optional)
+
+Open **Settings → Devices & services → VACAVision → your device → Configure →
+Install example dashboards**, then follow **Open the dashboard installer**.
+
+<img src="docs/images/setup/15-vacav-configure.png" alt="VACAVision Configure menu offering Device settings and Install example dashboards" width="290">
+
+The installer reads the microphone, display, Music Assistant player and weather
+from your completed View Assist setup. It detects the Music Assistant page in HA.
+If that page cannot be identified, open Music Assistant and copy the URL path after
+the host and port into the requested field.
+
+<img src="docs/images/setup/16-dashboard-review.png" alt="Dashboard installer showing Garden Athena's detected View Assist settings and dashboard destinations" width="400">
+
+Select **Install example dashboards**, review the three destination names, then
+select **Back up and install**. Existing dashboard configurations are backed up in
+HA before replacement. The completion screen shows the backup location and the
+View Assist dashboard paths.
+
+Open **View Assist → your device → Configure → Dashboard Options** and enter
+those paths. For a new install named **Garden Athena**, they are:
+
+| View Assist setting | Path |
+|---|---|
+| Dashboard | `/view-assist-garden-athena` |
+| Home | `/view-assist-garden-athena/clock` |
+| Music | `/view-assist-garden-athena/music` |
+| Intent | `/view-assist-garden-athena/intent` |
+| List | `/view-assist-garden-athena/list` |
+
+Resumed installations retain their saved dashboard names; use the paths shown on
+the completion screen. VACAV’s startup page is set to the installed Home launcher.
+
+The integration serves the dashboard assets. Install `custom:button-card` and
+the View Assist frontend before installing the example dashboards.
 
 The Home page links to View Assist, Music Assistant in a frame with a Home button,
 and TV. The TV page shows the selected services. A tap on the clock can enable VA
@@ -345,14 +356,16 @@ stays above the frame so you can return to the launcher.
 
 <img src="docs/images/setup/11-music-assistant-home.png" alt="Music Assistant running inside the Echo Show dashboard with its Home button above the player frame" width="640">
 
-**Check on the Echo itself:** ask a voice question and play music. Confirm both
+## 6. Test on the Echo Show
+
+Ask a voice question and play music. Confirm both
 come from this Echo, not another device. Sign into each streaming service, answer
 ITVX’s cookie prompt, and test picture, sound, floating Home controls and mute.
 A “Playing…” reply alone is not proof of audio playback. **Known issue:** ITVX live
 audio can continue after returning Home. Lyrics installation is **coming soon**.
 
-For repeat readiness checks, reopen **VACAV Setup → Refresh connections**.
-`./vacav_setup.sh --check-ha` points to that page without contacting HA.
+For connection checks, reopen the device’s dashboard installer and select
+**Refresh connections**.
 See [reruns and backups](docs/RECOVERY.md).
 
 ### Clear this device’s HA registrations as part of a clean reset
@@ -362,16 +375,14 @@ The [reset tool](reset-es8/README.md) wipes the Echo, not HA. For a clean reinst
 - Remove only this Echo’s old **View Assist** and **VACA_Vision** entries under
   **Settings → Devices & services**. Do not remove unrelated devices.
 - In **Music Assistant → Settings → Players**, remove its stale/unavailable player
-  through its menu. Pair the reset Echo again. Check any sync group that contained
+  through its menu. Check any sync group that contained
   the old player and replace only that member; preserve lyrics players and other
   devices.
 - Keep its ESPHome discovery ignored. VACAVision owns this Echo’s voice connection.
 - Keep shared dashboards. Existing Athena dashboards can also remain: the setup
   page backs them up before an explicitly confirmed replacement.
-- Update to VACAVision **0.4.0** before adding the reset Echo. Stored keys are now
-  checked and reset adoption is handled automatically; do not delete arbitrary
-  `.storage` files. An explicitly identified `.old-pre-reset` backup from the old
-  workaround is no longer used, but is not removed by the installer.
+- Update to VACAVision **0.5.0** before adding the reset Echo. Stored encryption
+  keys are checked against the device during adoption.
 
 ## Project files and status
 
