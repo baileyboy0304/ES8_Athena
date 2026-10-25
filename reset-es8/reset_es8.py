@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Restore the reviewed Athena baseline; default operation is read-only."""
+from contextlib import contextmanager
 import argparse
 import datetime as dt
 import hashlib
@@ -10,6 +11,8 @@ import re
 import shlex
 import subprocess
 import sys
+import threading
+import time
 
 HERE = Path(__file__).resolve().parent
 BY_NAME = '/dev/block/platform/bootdevice/by-name/'
@@ -17,11 +20,47 @@ PARTITIONS = ('boot', 'recovery', 'system', 'vendor')
 WRITABLE = ('system', 'vendor')
 
 
+@contextmanager
+def progress(label, interval=5):
+    """Show elapsed time without implying that a quiet ADB command is advancing."""
+    started = time.monotonic()
+    stopped = threading.Event()
+
+    def report():
+        while not stopped.wait(interval):
+            print(f'{label}: still waiting ({time.monotonic() - started:.0f}s elapsed)', flush=True)
+
+    print(label + '...', flush=True)
+    worker = threading.Thread(target=report, daemon=True)
+    worker.start()
+    try:
+        yield
+    except BaseException:
+        print(f'{label}: stopped before completion', flush=True)
+        raise
+    else:
+        print(f'{label}: completed ({time.monotonic() - started:.0f}s)', flush=True)
+    finally:
+        stopped.set()
+        worker.join()
+
+
 def digest(path):
     h = hashlib.sha256()
+    total = path.stat().st_size
+    done = 0
+    last = time.monotonic()
+    print(f'Checking image {path.name}: 0%', flush=True)
     with path.open('rb') as source:
         for chunk in iter(lambda: source.read(8 * 1024 * 1024), b''):
             h.update(chunk)
+            done += len(chunk)
+            now = time.monotonic()
+            if now - last >= 2:
+                print(f'Checking image {path.name}: {done * 100 / total:.0f}% '
+                      f'({done / 1048576:.0f}/{total / 1048576:.0f} MiB)', flush=True)
+                last = now
+    print(f'Checking image {path.name}: 100%', flush=True)
     return h.hexdigest()
 
 
@@ -90,7 +129,9 @@ class Reset:
         return node
 
     def partition_hash(self, part):
-        return self.shell('sha256sum ' + shlex.quote(self.node(part))).split()[0]
+        node = self.node(part)
+        with progress('Reading and hashing ' + part + ' on the ES8'):
+            return self.shell('sha256sum ' + shlex.quote(node)).split()[0]
 
     def mounts(self, node):
         mounted = []
@@ -144,9 +185,11 @@ class Reset:
         self.report['status'] = 'writing_' + part
         self.save()
         print('Restoring', part, '(boot/recovery are never written)', flush=True)
-        with source.open('rb') as stream:
-            self.run('exec-in', 'dd of=' + shlex.quote(node) + ' bs=1048576', stdin=stream)
-        self.shell('sync')
+        with progress(f'Transferring {part} ({expected["bytes"] / 1048576:.0f} MiB) over USB'):
+            with source.open('rb') as stream:
+                self.run('exec-in', 'dd of=' + shlex.quote(node) + ' bs=1048576', stdin=stream)
+        with progress('Flushing writes on the ES8'):
+            self.shell('sync')
         actual = self.partition_hash(part)
         require(actual == expected['sha256'], part + ' read-back SHA256 mismatch. Remain in TWRP.')
         self.report['verified'][part] = actual
@@ -154,7 +197,8 @@ class Reset:
         self.save()
 
     def twrp(self, command):
-        output = self.shell('twrp ' + command)
+        with progress('TWRP ' + command):
+            output = self.shell('twrp ' + command)
         print(output, flush=True)
         require(not re.search(r'(?im)(\bfailed\b|\bfailure\b|\berror\b|\bunable\b|^E:)', output),
                 'TWRP reported a problem during ' + command + '; inspect recovery before continuing.')
@@ -183,7 +227,7 @@ class Reset:
         self.check_files()
         self.check_device()
         print('\nERASE ' + self.serial + ': restore stock system/vendor; format ALL userdata/internal storage and cache.')
-        print('This removes EDA, VACAV, downloaded APKs, logins, Wi-Fi and local files. Stock firmware apps remain.')
+        print('This removes Echo Dot Assist, VACAV, downloaded APKs, logins, Wi-Fi and local files. Stock firmware apps remain.')
         print('Bootloader/unlock partitions, boot and TWRP recovery are preserved. HA is not modified.')
         phrase = 'ERASE'
         require(confirm('Type exactly "' + phrase + '" to proceed: ').strip() == phrase, 'Confirmation did not match; no writes performed.')

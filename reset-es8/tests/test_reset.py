@@ -1,3 +1,6 @@
+import contextlib
+import io
+import threading
 import importlib.util
 from pathlib import Path
 import subprocess
@@ -39,6 +42,27 @@ class ResetTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.reset = FakeReset(self.root)
     def tearDown(self): self.temp.cleanup()
+
+    def test_progress_reports_wait_and_completion(self):
+        notified = threading.Event()
+        lines = []
+        def capture(message, **kwargs):
+            lines.append(message)
+            if 'still waiting' in message:
+                notified.set()
+        with patch('builtins.print', side_effect=capture):
+            with m.progress('Transfer', interval=0.01):
+                self.assertTrue(notified.wait(2))
+        self.assertTrue(any('completed' in line for line in lines))
+
+    def test_progress_failure_never_reports_completion(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            with self.assertRaisesRegex(RuntimeError, 'failed'):
+                with m.progress('Transfer'):
+                    raise RuntimeError('failed')
+        self.assertIn('stopped before completion', output.getvalue())
+        self.assertNotIn('completed', output.getvalue())
 
     def test_wrong_confirmation_cannot_write(self):
         with self.assertRaises(RuntimeError): self.reset.apply(lambda _: 'ERASE TEST_USB')

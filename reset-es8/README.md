@@ -100,6 +100,12 @@ The script then:
 4. Wipes cache and checks for unexpected remaining top-level contents.
 5. Rechecks boot/recovery hashes and remains in TWRP.
 
+Local image checks show a percentage. USB transfers, disk flushing, partition
+hashing and TWRP format/wipe commands print their stage and elapsed time every
+five seconds. These device commands do not expose a reliable byte counter: a
+“still waiting” message means the command has not returned, not proof that data
+is moving. Keep power and USB connected until verification finishes.
+
 Reports are in `reset-es8/reports/` (ignored by Git), or use `--report-dir` for a
 private location. A failed/interrupted run is **not** a successful reset. Leave the
 ES8 in TWRP and inspect the failed stage before attempting recovery or another run.
