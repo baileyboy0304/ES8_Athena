@@ -179,7 +179,7 @@ cause of the earlier isolated listening-session stall.
 
 ## Guided companion installer — 25 October 2026
 
-`./setup.sh` now prepares the Python environment and runs the companion wizard.
+`./vacav_setup.sh` now prepares the Python environment and runs the companion wizard.
 The upstream installer remains responsible for unlocking and system installation.
 The companion wizard reuses operational VA weather and HA timezone, gathers local
 APK inputs, installs via the existing USB helper, pauses for HA configuration,

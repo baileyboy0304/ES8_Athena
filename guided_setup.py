@@ -214,7 +214,7 @@ def run(check_only=False):
         ha.ws.close(); ha = None
         while True:
             if not check_only and not core.yes('Finished the HA steps and ready for connection checks?'):
-                print('Progress saved. Run ./setup.sh again when ready.'); return False
+                print('Progress saved. Run ./vacav_setup.sh again when ready.'); return False
             try:
                 ha = core.HA(url, token)
                 states, registry = snapshot(ha)
@@ -233,7 +233,7 @@ def run(check_only=False):
                 if core.deploy_dashboards(PROFILE, ha):
                     print('Setup complete. Sign into selected streaming apps on the ES8 and test playback.')
                     return True
-                print('Dashboard installation cancelled. Run ./setup.sh again to resume.'); return False
+                print('Dashboard installation cancelled. Run ./vacav_setup.sh again to resume.'); return False
             except (ValueError, RuntimeError, OSError) as error:
                 print('Not ready:', error)
                 if check_only:
@@ -254,6 +254,6 @@ if __name__ == '__main__':
     try:
         sys.exit(0 if run(args.check_ha) else 1)
     except (KeyboardInterrupt, EOFError):
-        print('\nStopped. Run ./setup.sh again to resume.'); sys.exit(1)
+        print('\nStopped. Run ./vacav_setup.sh again to resume.'); sys.exit(1)
     except Exception as error:
-        print('Stopped:', error, '\nCorrect the problem and run ./setup.sh again.'); sys.exit(1)
+        print('Stopped:', error, '\nCorrect the problem and run ./vacav_setup.sh again.'); sys.exit(1)

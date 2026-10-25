@@ -14,10 +14,10 @@ for candidate in .venv/bin/python python3 python3.14 python3.13 python3.12 pytho
   fi
 done
 if [[ -z $python_bin ]]; then
-  echo 'Install Python 3.11 or newer and its venv package, then run ./setup.sh again.' >&2
+  echo 'Install Python 3.11 or newer and its venv package, then run ./vacav_setup.sh again.' >&2
   exit 1
 fi
-command -v adb >/dev/null || { echo 'Install Android platform-tools (adb), then run ./setup.sh again.' >&2; exit 1; }
+command -v adb >/dev/null || { echo 'Install Android platform-tools (adb), then run ./vacav_setup.sh again.' >&2; exit 1; }
 if [[ $python_bin != .venv/bin/python ]]; then
   "$python_bin" -m venv .venv
 fi

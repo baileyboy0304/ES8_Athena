@@ -8,8 +8,6 @@
 
 <img src="docs/images/es8-lyrics.png" alt="Music player with artwork and lyrics on the Echo Show" width="640">
 
-*Preview from the working device; lyrics setup is not yet included in this installer.*
-
 ### Streaming services support
 
 <img src="docs/images/es8-tv.png" alt="Netflix, BBC iPlayer, ITVX and Apple TV launchers" width="640">
@@ -44,7 +42,7 @@ Home Assistant. Commands and folders use `VACAV`.
   Python **3.11+** and its venv package. Keep the checkout path free of spaces.
 - **View Assist already installed and operational in Home Assistant**, including
   its frontend resources and a working Assist pipeline. This guide adds an Echo
-  Show to your existing setup; it does not install a new View Assist system.
+  Show to your existing setup.
   See [View Assist documentation](https://dinki.github.io/View-Assist/) if needed.
 - Music Assistant server and its official HA integration already working if you
   want the music/announcement setup described here. The current guided flow checks
@@ -107,19 +105,16 @@ installed-firewall adaptation. Retain USB access for the next step.
 From this repository's root, run:
 
 ```sh
-./setup.sh
+./vacav_setup.sh
 ```
 
-This prepares its Python environment and starts a guided setup. No sequence of
-separate `choose`, `device` and `deploy` commands is needed.
+This prepares the Python environment and starts the guided setup.
 
 The wizard:
 
 1. Connects to HA and checks that View Assist is already operational.
 2. Reuses the weather entity from an existing View Assist device and the timezone
-   from HA. Weather remains configured through View Assist; it is not a new global
-   setting created by this installer. The HA timezone is also applied to Android,
-   which can otherwise remain on GMT after a reset.
+   from HA. The HA timezone is also applied to Android.
 3. Asks Y/N for Netflix, BBC iPlayer, ITVX and Apple TV. Apple TV uses Silk.
    It reuses installed apps and asks for your APK folder when selected apps are
    missing. Include all required split APKs together.
@@ -139,11 +134,10 @@ The wizard:
 VACAVision always receives its required web access for artwork and embedded
 content. Selected streaming apps also receive TCP 80/443 access, including any
 web advertising/telemetry. Other internet ports and UDP/QUIC remain blocked.
-This adapts installed firewall files with backups/version checks; it does not
-change Echo Dot Assist's source. The installer does not wipe your device.
+The installer backs up and checks the installed firewall files before adapting them.
 
 Choices and USB progress are saved under ignored `installation-data/`. If you
-stop, run **the same `./setup.sh` command** and choose to resume. It rechecks USB
+stop, run **the same `./vacav_setup.sh` command** and choose to resume. It rechecks USB
 prerequisites and lets you retain a completed USB installation. HA credentials are
 requested again, not stored. Answer No at the HA pause to finish another day.
 
@@ -226,23 +220,19 @@ Echo Show's View Assist sensor. The installer checks:
   proxy or an MA sync-group entity.
 - Its VA weather entity is available and its Home path matches the planned clock.
 
-If a check fails, it explains what to correct and waits for you to retry. It does
-not deploy dashboards simply because you answered Yes. It also asks you to confirm
-physical voice/music playback, which HA entity checks alone cannot prove.
+If a check fails, the installer explains what to correct and waits for you to
+retry. It also asks you to confirm voice and music playback on the Echo Show.
 
-**This is the correct point to install the finished dashboards:** the new VA
-sensor and playback/display mappings now exist. The wizard reads the actual VA
-weather setting, backs up existing dashboard configurations, lists the three
-targets and asks before replacing them. Only then does it install the dashboards.
-Your other VA devices and shared Master Configuration are left alone.
+Once the checks pass, the wizard reads the VA weather setting, backs up existing
+dashboard configurations, lists the three targets and asks before installing them.
 
 The resulting Home page links to View Assist, Music Assistant in a frame with a
 Home button, and TV. The TV page shows only selected services. Sign into those
 services on the Echo Show, then test picture, sound and the floating Home control.
 **Known issue:** ITVX live audio can continue after returning Home.
-Lyrics installation remains **coming soon**; the screenshot is a preview.
+Lyrics installation is **coming soon**.
 
-For a read-only repeat of the HA checks, use `./setup.sh --check-ha`.
+For a read-only repeat of the HA checks, use `./vacav_setup.sh --check-ha`.
 For recovery, see [reruns and backups](docs/RECOVERY.md). The separate
 [reset tool](reset-es8/README.md) is only for an explicitly requested clean reset;
 a normal install or upgrade does not require it. A clean reset also needs removal
@@ -250,7 +240,7 @@ of only this device's stale VA/VACAVision entries and invalidated MA pairing.
 
 ## Project files and status
 
-`setup.sh` is the guided entry point; `install.py` retains individual commands for
+`vacav_setup.sh` is the guided entry point; `install.py` retains individual commands for
 maintenance. `echo-dot-assist/` is the unchanged upstream installer; `VACAV/`
 contains the app/integration; `devices/` contains the ES8 profile and dashboards.
 Private inputs, generated files and backups stay in ignored `installation-data/`.
