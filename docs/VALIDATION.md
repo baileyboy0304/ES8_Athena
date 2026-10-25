@@ -30,26 +30,26 @@
 - Adapted the existing Music Assistant frame to return to Athena Home. Verified
   authenticated MA rendering and Home return on the ES8.
 - Deployment backs up and reads back only Athena’s three dashboards. The shared
-  Portal dashboards and their frontend module are unchanged.
+  Unrelated dashboards and their frontend module are unchanged.
 
 ## Linux clean-install walkthrough (in progress)
 
 - Restored verified original system/vendor partition images, preserved matching
   unlocked boot/recovery, and formatted userdata/cache. User-installed APKs were
   absent before the new installation.
-- Applied the pinned root ZIP from TWRP, then ran the unchanged upstream EDA
+- Applied the pinned root ZIP from TWRP, then ran the unchanged upstream Echo Dot Assist
   installer at the recorded submodule commit. Source build, firmware probe, Wi-Fi
   setup and the installer's reboot stability check completed successfully.
 - Installed VACAV prototype.10 and the supplied Netflix, iPlayer splits, ITVX and
   Silk APKs. Fixed the streaming adapter's busy read-only remount by restarting
-  EDA's existing firewall watcher before the remount; the complete apply run passed.
-- After reboot, system/vendor were read-only, the EDA firewall watcher was running,
+  Echo Dot Assist's existing firewall watcher before the remount; the complete apply run passed.
+- After reboot, system/vendor were read-only, the Echo Dot Assist firewall watcher was running,
   and all four selected app UIDs had TCP 80/443 rules before the final deny rule.
   VACAV's DUMP permission and ITVX helper persisted.
 - Installed the matching HA integration/assets with backups. HA configuration
   check passed. Fixed the device-name schema's unsupported `str.strip` validator;
   after restarting HA, the configuration form rendered successfully.
-- Paired the new Garden Athena VACAV device and its EDA Sendspin player. HA's
+- Paired the new Garden Athena VACAV device and its Echo Dot Assist Sendspin player. HA's
   assistant connection/TTS test completed, and Music Assistant radio FLAC
   playback started and stopped on the intended device. Camera permission was
   granted with the owner's approval. Streaming sign-ins are deferred by choice.
@@ -61,7 +61,7 @@
 - Twelve repository tests and component checksum verification passed, including
   preserving existing dashboards, safely repeating placeholder preparation and
   refusing VA creation before display discovery. The live creation helper also
-  stopped with that explicit sign-in instruction. EDA source
+  stopped with that explicit sign-in instruction. Echo Dot Assist source
   remains unchanged.
 
 - Restored on-device text entry with official Simple Keyboard 6.8 (release 149),
@@ -91,7 +91,7 @@
 
 - Final reboot retained VACAV as Home, HA browser sign-in, Simple Keyboard and
   Europe/London timezone. The Home dashboard rendered without a login prompt;
-  EDA processes and the firewall service were running, with system/vendor read-only.
+  Echo Dot Assist processes and the firewall service were running, with system/vendor read-only.
 
 **Still pending:** streaming account sign-ins and DRM/audio playback (deferred by
 owner), physical wake/mute checks and the ITVX live-audio-after-Home regression.
@@ -103,7 +103,7 @@ streaming acceptance.
 ## Original packaging checks
 
 - Four offline dashboard tests passed: complete ES8 view/service generation; no-service
-  configuration; Portal package/path isolation; Home/TV navigation on every VA view.
+  configuration; Home/TV navigation on every VA view.
 - Installer imports and the `install.py device` helper dispatch passed offline checks.
 - Four mocked USB-selection checks cover single-device selection, no/multiple-device
   refusal, explicit serial handling and the public CLI. No device was accessed.
@@ -127,7 +127,7 @@ dashboard QA or end-to-end clean-install test was performed in this packaging pa
 The original trial's acceptance does not establish that this new installer is
 fully tested. Repository review and private transfer approval are complete. Next:
 the agent's Linux clean install/basic checks followed by the owner's testing.
-See `LINUX-HANDOVER.md` for the private files GitHub will not carry.
+Firmware, recovery images and streaming APK exports are private inputs, not supplied through GitHub.
 
 ## Music Assistant convention correction — 24 October 2026
 
@@ -148,31 +148,31 @@ Claude's existing automation copy was re-enabled afterwards, with the original
 left disabled, preserving the prior selection without duplicate handlers.
 
 Nineteen offline installer/integration regression tests passed, along with the
-installer integrity check. EDA source remains unchanged.
+installer integrity check. Echo Dot Assist source remains unchanged.
 
 The owner also confirmed the longer announcement tone played and radio resumed
 after it. A first quiet half-second tone was not heard, so that attempt was not
 counted as success. VA's Use announce setting is now enabled for the official MA
-media player; EDA retains voice ownership and VA ducking remains zero. Android
+media player; Echo Dot Assist retains voice ownership and VA ducking remains zero. Android
 audio diagnostics showed an active output track with no write errors during the
 test. Tests ended with playback stopped and the original volume restored.
 
-## Automatic EDA arbitration pairing — 25 October 2026
+## Automatic Echo Dot Assist arbitration pairing — 25 October 2026
 
 Garden Athena's VACAV connection previously carried voice without an API key and
-without forwarding EDA's pairing tags. HA Tags was already enabled; enabling it
+without forwarding Echo Dot Assist's pairing tags. HA Tags was already enabled; enabling it
 again or adding a second ESPHome voice owner was not the missing step.
 
-VACAV 0.2.5 provisions and privately retains an EDA API key, reconnects encrypted,
-and bridges only EDA arbitration tags and their state requests. Existing supplied
+VACAV 0.2.5 provisions and privately retains an Echo Dot Assist API key, reconnects encrypted,
+and bridges only Echo Dot Assist arbitration tags and their state requests. Existing supplied
 keys are retained. Interrupted provisioning reuses the stored pending key rather
 than rotating it. The README includes adoption, backup and pairing verification.
 
 Live validation on Garden Athena confirmed encrypted API connections and the
 voice subscription. After restarting its voice service to trigger immediate tag
-retries, EDA logged that it joined the network using a key from another Echo,
+retries, Echo Dot Assist logged that it joined the network using a key from another Echo,
 confirmed by Home Assistant; the encrypted diagnostic API reported one arbitration
 peer. No manual volume-button pairing or general HA action permission was needed.
-The EDA source checkout remains unchanged. Thirty offline regression tests and
+The Echo Dot Assist source checkout remains unchanged. Thirty offline regression tests and
 `install.py verify` passed. This fixes the pairing gap; it does not establish the
 cause of the earlier isolated listening-session stall.

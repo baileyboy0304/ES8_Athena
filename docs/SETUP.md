@@ -1,5 +1,5 @@
 # Installation guide
 
-The complete installation instructions are now in the [repository README](../README.md).
-Start with **Additional preparation**, then follow **steps 1–8** there in order.
-There is no separate setup sequence in this file.
+The complete Linux installation guide is the [repository README](../README.md).
+If already unlocked, start at step 1; otherwise follow the linked upstream unlock
+instructions first. There is no separate setup sequence in this file.

@@ -65,7 +65,7 @@ def choose(name):
         print('VACAV needs web access for external dashboard artwork and embedded web content.')
         print('This permits VACAV TCP 80/443 to any internet host, including content telemetry.')
         print('VACAV web access is included automatically when VACAV is installed.')
-    entity = ask('View Assist sensor entity', 'sensor.es8' if name == 'es8-gen2' else 'sensor.portal')
+    entity = ask('View Assist sensor entity', 'sensor.es8')
     weather = ask('Weather entity', 'weather.home')
     if not re.fullmatch(r'sensor\.[a-z0-9_]+', entity) or not re.fullmatch(r'weather\.[a-z0-9_]+', weather):
         raise ValueError('Use real sensor.* and weather.* entity IDs from Home Assistant')
@@ -279,8 +279,8 @@ def create_view_assist(name):
         if result.get('type') != 'create_entry':
             raise RuntimeError('VA did not finish creation: ' + str(result.get('errors', result.get('type'))))
         print('Created View Assist device:', friendly)
-        print('Now set its dashboard/defaults in HA as described in README step 7,')
-        print('then copy the new VA sensor ID into the choices wizard before step 8.')
+        print('Now set its dashboard/defaults in HA as described in README step 6,')
+        print('then copy the new VA sensor ID into the choices wizard before step 7.')
     finally:
         ha.ws.close()
 
@@ -290,7 +290,7 @@ def placeholder_dashboard(title, view_path):
             '# Welcome — setup is in progress\n\n'
             'Your display has reached Home Assistant.\n\n'
             'On the installation computer, finish the View Assist device settings '
-            'in README step 7, then install the dashboards in step 8. '
+            'in README step 6, then install the dashboards in step 7. '
             'This page will be replaced by your finished dashboard.\n\n'
             'If setup has finished, refresh this page.'}]}]}
 
@@ -391,16 +391,16 @@ def install_ha(target):
     asset = target / 'www/es8-athena'
     shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
     shutil.copytree(ROOT / 'devices/dashboards/assets', asset, dirs_exist_ok=True)
-    print('Files installed. Restart HA, then follow README.md steps 6–8 for pairing and VA mapping.')
+    print('Files installed. Restart HA, then follow README.md steps 4–7 for pairing and VA mapping.')
 
 def verify():
     lock = read(ROOT / 'maintenance/source-versions.json')
     eda = ROOT / 'echo-dot-assist'
     if not (eda / '.git').exists():
-        raise RuntimeError('EDA submodule missing. Run: git submodule update --init echo-dot-assist')
+        raise RuntimeError('Echo Dot Assist submodule missing. Run: git submodule update --init echo-dot-assist')
     head = subprocess.check_output(['git','-C',str(eda),'rev-parse','HEAD'], text=True).strip()
     if head != lock['eda_base']:
-        raise RuntimeError('EDA commit differs from maintenance/source-versions.json')
+        raise RuntimeError('Echo Dot Assist commit differs from maintenance/source-versions.json')
     subprocess.run(['git','-C',str(eda),'diff','--exit-code','HEAD','--'],check=True,stdout=subprocess.DEVNULL)
     bad = []
     for f in read(ROOT / 'maintenance/checksums.json'):
@@ -409,12 +409,12 @@ def verify():
             bad.append(f['path'])
     if bad:
         raise RuntimeError('Component checksums differ: ' + ', '.join(bad))
-    print('EDA checkout is unchanged at the recorded upstream commit. Component/dashboard checksums match.')
+    print('Echo Dot Assist checkout is unchanged at the recorded upstream commit. Component/dashboard checksums match.')
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['choose', 'device', 'dashboards', 'prepare-dashboards', 'create-view-assist', 'deploy-dashboards', 'install-ha', 'verify'])
-    parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
+    parser.add_argument('--profile', choices=['es8-gen2'], default='es8-gen2')
     parser.add_argument('--ha-config')
     parser.add_argument('--serial', help='USB serial for device; optional with exactly one USB device connected')
     parser.add_argument('--apply', action='store_true', help='Apply device installation after review')

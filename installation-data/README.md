@@ -10,8 +10,8 @@ The installer creates files here as needed. Only this README is tracked by Git.
 | `generated/DEVICE/` | Generated Home, TV and VA dashboard JSON/YAML and streaming policy |
 | `backups/` | Previous dashboards, integration files and device settings saved during installation |
 
-`DEVICE` is `es8-gen2` or `portal_plus_gen_2`. Service folders use IDs such as
-`netflix`, `iplayer`, `itvx`, `apple_tv` and, on Portal, `sstv`.
+`DEVICE` is `es8-gen2`. Service folders use IDs such as
+`netflix`, `iplayer`, `itvx` and `apple_tv`.
 
 Copy needed APK exports and choices separately when moving to Linux. Generated
 dashboards can be recreated. Keep backups until you have accepted the installation.

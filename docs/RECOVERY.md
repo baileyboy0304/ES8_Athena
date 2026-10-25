@@ -28,14 +28,13 @@ The device installer records installed script paths, hashes and SELinux labels i
 `installation-data/backups/device-TIMESTAMP/streaming-rollback.json`, alongside the saved firewall
 scripts and (if present) `streaming-before.conf`. Keep this folder private.
 The policy is `/data/local/es8-athena-streaming.conf`, owned by root with mode 0600.
-Do not remove the EDA firewall itself to fix playback.
+Do not remove the Echo Dot Assist firewall itself to fix playback.
 
-For the supported return to the pinned stock firewall, choose No for every service
-and rerun `python install.py device --serial YOUR_USB_SERIAL --profile es8-gen2 --apply`.
-It restores the original scripts from the unchanged `echo-dot-assist/` checkout and removes
-its policy, provided the installed scripts still match this adapter or that original.
-It stops on an unknown version. Reboot once. A write failure attempts to restore
-the saved script/policy state; preserve the error and backups if recovery also fails.
+VACAVision always retains its required web access. Choosing No for every streaming
+service removes those services' exceptions, but does not restore a completely
+stock firewall while VACAVision remains installed. Reapply the device step to
+update the selected policy. The adapter stops on an unknown installed version;
+keep its backups and error output if it cannot apply safely.
 
 Selecting fewer services and rerunning USB apply replaces the profile and removes
 their internet exceptions; it does not uninstall their APKs or delete logins.
@@ -60,15 +59,15 @@ Android APK updates must keep the signer and cannot normally downgrade. Do not
 uninstall just to bypass an error without accepting loss of app data/sign-ins.
 Exporting streaming APKs does not back up those apps' private data.
 
-## EDA system recovery
+## Echo Dot Assist system recovery
 
-Consult the pinned EDA Athena README for `scripts/install-system.sh --uninstall`
+Consult the pinned Echo Dot Assist Athena README for `scripts/install-system.sh --uninstall`
 and its limitations. The [standalone ES8 reset tool](../reset-es8/README.md) packages the previously
 used original-image restore procedure, with preflight and read-back checks.
 The new script itself has not been run destructively. It requires the exact
 reviewed private raw images and leaves the device in TWRP; it is not a generic
 TWRP Restore-menu backup importer.
-EDA's stock-component removal includes Android Settings and SystemUI; their
+Echo Dot Assist's stock-component removal includes Android Settings and SystemUI; their
 absence is expected. VACAV's Home/Keep on/Brightness panel supplies the agreed controls.
-If the display is blank, use USB to open VACAV's activity or inspect EDA's status;
-do not run a different recovery installer or flash Crown files.
+If the display is blank, use USB to open VACAV's activity or inspect Echo Dot Assist's status;
+do not run a different recovery installer or flash images for another model.

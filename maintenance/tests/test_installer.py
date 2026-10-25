@@ -54,15 +54,6 @@ class Dashboards(unittest.TestCase):
         self.assertEqual((out/'android.conf').read_text(),
                          'web_packages=com.mph1970.vacavision\n')
         self.assertEqual(data['tv']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards'][1]['type'], 'markdown')
-    def test_portal_paths_are_not_double_substituted(self):
-        data, out = self.generate('portal_plus_gen_2', ['netflix','apple_tv','sstv'])
-        text = json.dumps(data)
-        self.assertNotIn('portal-portal', text)
-        self.assertNotIn('@@', text)
-        self.assertNotIn('com.netflix.mediaclient.echo', text)
-        self.assertIn('com.apple.atve.androidtv.appletv', text)
-        self.assertIn('/view-assist-portal/clock', text)
-        self.assertNotIn('sensor.portal_study', text)
     def test_navigation_and_home_three_buttons(self):
         data, _ = self.generate('es8-gen2', ['iplayer'])
         self.assertEqual(len(data['home']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards']),3)

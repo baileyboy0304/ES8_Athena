@@ -1,17 +1,16 @@
 # Dashboard profiles
 
-`devices/es8-gen2/profile.json` and `devices/portal_plus_gen_2/profile.json` are the installable device
-definitions. Add further profiles using the same fields: distinct ID/slugs,
+`devices/es8-gen2/profile.json` defines the Echo Show installation. Add further profiles using the same fields: distinct ID/slugs,
 shortcut scale and service entries (`id`, `name`, `icon`, `package`, `url`).
 The dashboard generator loads these definitions rather than hard-coding app lists.
-The USB installer supports only the two named hardware targets.
+The USB installer targets Echo Show 8 Gen 2 only.
 
 Home includes a Music Assistant view with a persistent Home button.
 `assets/athena-music-card.js` adapts the owner’s existing HA Home Music frame,
 using a profile-specific return path and VA screen mode for kiosk height.
 `custom/navigation.json` retains the original clock shortcut styling.
 `install-ha` copies the frame to `/local/es8-athena/`; `deploy-dashboards` registers
-its versioned module resource. Existing Portal resources remain untouched.
+its versioned module resource. Existing unrelated resources remain untouched.
 
 `assets/athena-dashboard-surface.js` colours the HA document background and its
 base background variables during transitions between generated dashboard URLs.
@@ -26,7 +25,7 @@ Installed pages are Home, TV and the following VA views:
 
 - Your updated **clock** and **weather**, with household navigation removed and
   Home/TV controls added. Clock face, weather layout, day/night styling and shared
-  templates come from the saved updated Portal dashboard.
+  templates come from the saved clock dashboard.
 - Standard upstream **alarm, alert, calendar, camera, info, infopic, intent, list,
   locate, music, sports, thermostat, webpage**.
 

@@ -11,11 +11,11 @@ View Assist: https://github.com/dinki/View-Assist
 
 Derived from the supplied V13Overlay, V13OverlayIntegration and Android 7.1.2
 ES8 sources. Vision adds separate application/integration identities, a shared
-display protocol, role-aware entities, Crown integration, revised BLE setup,
+display protocol, role-aware entities, voice integration, revised BLE setup,
 and a matching picker companion. Original native VACA audio is excluded.
 
 Retain all upstream LICENSE and NOTICE files. See standard/LICENSE,
-overlay/LICENSE and crown-assist/PROVENANCE.md in the app source bundle;
+overlay/LICENSE in the app source bundle;
 the integration's Apache-2.0 license is retained in LICENSE.
 
 The Display and Dot role interoperates with unmodified echo-dot-assist by

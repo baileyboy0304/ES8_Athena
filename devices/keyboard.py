@@ -1,4 +1,4 @@
-"""Provide a pinned offline keyboard after EDA removes Athena's stock IME."""
+"""Provide a pinned offline keyboard after Echo Dot Assist removes Athena's stock IME."""
 import hashlib
 from pathlib import Path
 import time

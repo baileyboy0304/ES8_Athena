@@ -32,7 +32,7 @@ version code `500037574`:
 Keep the base and all required splits together in
 `installation-data/apks/es8-gen2/iplayer/`; the installer uses `adb install-multiple`.
 Do not mix splits from different versions. The other service folders are `netflix`,
-`itvx` and `apple_tv` (Silk). Follow [README step 2](../README.md#2-preserve-what-you-need-before-wiping)
+`itvx` and `apple_tv` (Silk). Follow [README step 3](../README.md#3-install-vacavision-and-optional-streaming-apps)
 for supplying or exporting APKs.
 
 Known trial issue: ITVX live audio can continue after Home. Recording its version
@@ -40,13 +40,8 @@ does not mean that issue is resolved. Recheck it during the Linux walkthrough.
 
 ## Bundled VACAV builds
 
-Both use package `com.mph1970.vacavision` and are included in this repository.
+The bundled app uses package `com.mph1970.vacavision` and is included in this repository.
 
 | Device | Version name | Version code | Bundled file |
 |---|---|---|---|
 | ES8 Gen 2 | `0.2.3-upstream-prototype.10` | `16` | `VACAV/integration/custom_components/vaca_vision/packages/vision-standard.apk` |
-| Portal Plus Gen 2 | `0.2.3-mute-preview.1` | `6` | `VACAV/payloads/portal_plus_gen_2.apk` |
-
-Portal streaming-app versions have not been verified from a saved APK set for this
-package. Its profile records launchers only; do not assume the ES8 versions or
-Netflix Echo package apply to Portal.

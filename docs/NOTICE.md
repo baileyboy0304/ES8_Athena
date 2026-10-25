@@ -7,8 +7,7 @@
   The separate optional streaming installer adapts only installed device files.
 - **VACA Vision** — the user's local VACAV work based on MSP1974's VACA and Dinki's
   View Assist. Existing NOTICE/LICENSE/upstream notes are retained beside the app
-  and integration sources. ES8 build `0.2.3-upstream-prototype.10` (16); Portal
-  standard build `0.2.3-mute-preview.1` (6).
+  and integration sources. ES8 build `0.2.3-upstream-prototype.10` (16).
 - **View Assist** — Dinki and contributors. Dashboard source and licence retained
   in `devices/dashboards/upstream`, pinned to `9a9ad40879543d51fcc86a34ef645e9a356ecc5a`.
   Updated clock/weather/templates derive from the user's saved dashboard changes.

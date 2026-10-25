@@ -1,19 +1,18 @@
 # Reset ES8 Gen 2 to the unlocked TWRP baseline
 
 This standalone folder resets **Echo Show 8 2nd generation (2021), `athena`**, using
-our reviewed original PS75741.7080N images and TWRP **3.7.0_9-0**. It is not a Gen 1,
-Crown, Portal, bootloader-unlock or generic firmware-flashing tool.
+our reviewed original PS75741.7080N images and TWRP **3.7.0_9-0**. It is not a bootloader-unlock or generic firmware-flashing tool.
 
 “TWRP baseline” means original system/vendor, empty user data/internal storage and
 cache, with the existing unlocked boot and TWRP recovery retained. There is no
 universal “TWRP default firmware”. **Stock firmware APKs remain**; all user-installed
 APKs, VACAV, streaming sign-ins, Wi-Fi settings and internal-storage files are erased.
-Restoring system/vendor also removes EDA and the installed root/firewall changes.
+Restoring system/vendor also removes Echo Dot Assist and the installed root/firewall changes.
 The script stops in TWRP: it does not reboot into stock Fire OS or reinstall root.
 
 ## Inputs
 
-Use Linux, Python 3.10+ and Android platform-tools (`adb`). No pip packages or EDA
+Use Linux, Python 3.10+ and Android platform-tools (`adb`). No pip packages or Echo Dot Assist
 checkout are needed. Keep USB and power connected throughout the restore.
 
 Provide these four **raw, full partition images**, uncompressed, in a private folder:
@@ -23,8 +22,7 @@ Provide these four **raw, full partition images**, uncompressed, in a private fo
 - `system-original.img`
 - `vendor-original.img`
 
-These are the previously verified original images from the owner's Windows
-`athena-assist/backup` folder. They are not included in GitHub. `baseline.json` pins
+These are the previously verified original images from the reviewed recovery backup. They are not included in GitHub. `baseline.json` pins
 all four sizes and SHA256 hashes from that reviewed backup. Other image sets and
 TWRP versions are deliberately rejected; do not edit the hashes merely to bypass
 a mismatch. The boot/recovery files are checked as recovery prerequisites but
@@ -34,8 +32,7 @@ Before resetting, export any APKs you need to reinstall and save anything you wa
 from the device. An APK export does not preserve account sign-ins. The script does
 not create a backup of the working installation.
 
-The current Linux recovery-image folder is:
-`/home/martin/projects/ES8_Athena/installation-data/windows-recovery`
+Keep the recovery images in a private folder outside the checkout.
 
 ## 1. Check local images without contacting the ES8
 
@@ -43,8 +40,8 @@ Run from the repository root (replace the serial and directory for your machine)
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial G091GG102472015L \
-  --backup-dir /home/martin/projects/ES8_Athena/installation-data/windows-recovery \
+  --serial YOUR_USB_SERIAL \
+  --backup-dir /path/to/private/recovery-images \
   --check-files
 ```
 
@@ -56,7 +53,7 @@ When you are ready for downtime, connect the intended ES8 by USB, inspect
 `adb devices -l`, and boot it into TWRP. From working, authorised Android ADB:
 
 ```sh
-adb -s G091GG102472015L reboot recovery
+adb -s YOUR_USB_SERIAL reboot recovery
 ```
 
 Wait for TWRP to finish starting. Do not allow TWRP to mount system/vendor again
@@ -64,8 +61,8 @@ while the reset is running. Then run the command **without** `--apply`:
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial G091GG102472015L \
-  --backup-dir /home/martin/projects/ES8_Athena/installation-data/windows-recovery
+  --serial YOUR_USB_SERIAL \
+  --backup-dir /path/to/private/recovery-images
 ```
 
 This verifies the USB connection, device serial, Athena identity, root recovery,
@@ -77,15 +74,15 @@ A mismatch stops the process; inspect it instead of bypassing the check.
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial G091GG102472015L \
-  --backup-dir /home/martin/projects/ES8_Athena/installation-data/windows-recovery \
+  --serial YOUR_USB_SERIAL \
+  --backup-dir /path/to/private/recovery-images \
   --apply
 ```
 
 An interactive terminal is required. After the checks pass, type exactly:
 
 ```text
-ERASE G091GG102472015L
+ERASE YOUR_USB_SERIAL
 ```
 
 The script then:
@@ -114,7 +111,7 @@ MA pairing. Preserve other devices, shared dashboards and providers. Recreate th
 entries at the documented installation steps, after VACAV/HA browser sign-in.
 
 Continue with the main [installation guide](../README.md), including its root
-prerequisite and the unchanged EDA installer. The reset script does not perform
+prerequisite and the unchanged Echo Dot Assist installer. The reset script does not perform
 any part of the new installation.
 
 ## Validation status

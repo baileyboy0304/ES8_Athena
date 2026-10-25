@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install VACAV and selected apps over USB after the normal EDA installer."""
+"""Install VACAV and selected apps over USB after the normal Echo Dot Assist installer."""
 import argparse
 import hashlib
 import json
@@ -31,7 +31,7 @@ def resolve_serial(serial):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--serial', help='USB ADB serial; optional with exactly one USB device connected')
-    parser.add_argument('--profile', choices=['es8-gen2', 'portal_plus_gen_2'], default='es8-gen2')
+    parser.add_argument('--profile', choices=['es8-gen2'], default='es8-gen2')
     parser.add_argument('--apply', action='store_true', help='Install after review; otherwise inspect only')
     parser.add_argument('--export-apps', action='store_true', help='Export streaming APKs to private installation-data/apks before wiping')
     a = parser.parse_args()
@@ -46,8 +46,6 @@ def main():
     firmware = shell('getprop ro.build.display.id')
     if a.profile == 'es8-gen2' and (model != 'athena' or firmware != 'PS75741.7080N'):
         raise RuntimeError('Expected athena on PS75741.7080N; no changes made')
-    if a.profile == 'portal_plus_gen_2' and model == 'athena':
-        raise RuntimeError('Portal profile cannot provision Athena')
     print('USB target:', a.serial, model, firmware)
     p = profile(a.profile)
     if a.export_apps:
@@ -74,10 +72,10 @@ def main():
     cfg = build(a.profile)
     selected = [s for s in p['services'] if s['id'] in cfg['services']]
     package_dir = ROOT / 'VACAV/integration/custom_components/vaca_vision/packages'
-    apk = package_dir / 'vision-standard.apk' if a.profile == 'es8-gen2' else ROOT / 'VACAV/payloads/portal_plus_gen_2.apk'
+    apk = package_dir / 'vision-standard.apk'
     if a.profile == 'es8-gen2':
         if shell('id -u') != '0':
-            raise RuntimeError('Run EDA setup first: root USB ADB is required')
+            raise RuntimeError('Run Echo Dot Assist setup first: root USB ADB is required')
         if shell('test -f /system/hassmic/boot.sh && echo yes || true') != 'yes':
             raise RuntimeError('echo-dot-assist system installation not found; run ./echo-dot-assist/scripts/setup.sh athena first')
     print('VACAV APK:', apk.name)
@@ -166,7 +164,7 @@ def main():
             shell('settings put secure accessibility_enabled 1')
         shell('cmd package set-home-activity ' + ACTIVITY)
     shell('am start -n ' + ACTIVITY)
-    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using README.md steps 6–8.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
+    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using README.md steps 4–7.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
 
 if __name__ == '__main__':
     try: main()

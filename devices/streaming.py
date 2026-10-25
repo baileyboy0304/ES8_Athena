@@ -1,4 +1,4 @@
-"""Optional installed-firewall adaptation. Never edits the bundled EDA source."""
+"""Optional installed-firewall adaptation. Never edits the bundled Echo Dot Assist source."""
 import hashlib
 from pathlib import Path
 import re
@@ -56,7 +56,7 @@ def configure(adb, shell, cfg, backup):
         if remote in paths: continue
         paths.append(remote)
     if '/system/hassmic/lockdown.sh' not in paths:
-        raise RuntimeError('EDA factory firewall missing')
+        raise RuntimeError('Echo Dot Assist factory firewall missing')
     record = []
     for index, remote in enumerate(paths):
         digest = shell('sha256sum ' + remote).split()[0]
@@ -74,7 +74,7 @@ def configure(adb, shell, cfg, backup):
     if policy_exists: adb('pull', POLICY, str(backup / 'streaming-before.conf'))
     save(backup / 'streaming-rollback.json', {'files':record, 'policy_existed':policy_exists})
     if not selected and all(x['sha256'] == baseline for x in record) and not policy_exists:
-        print('No app web access selected: installed EDA firewall left unchanged.')
+        print('No app web access selected: installed Echo Dot Assist firewall left unchanged.')
         return
     target = backup / 'firewall-requested.sh'
     target.write_bytes(changed if selected else original)
@@ -94,9 +94,9 @@ def configure(adb, shell, cfg, backup):
         else:
             shell('rm -f '+POLICY)
         for item in record:
-            # Refuse a concurrent EDA update after the read-only preparation.
+            # Refuse a concurrent Echo Dot Assist update after the read-only preparation.
             if shell('sha256sum '+item['remote']).split()[0] != item['sha256']:
-                raise RuntimeError('EDA changed during streaming installation')
+                raise RuntimeError('Echo Dot Assist changed during streaming installation')
             touched.append(item)
             replace('/data/local/tmp/es8-athena-firewall.sh',item['remote'],item['context'])
             if shell('sha256sum '+item['remote']).split()[0] != (adapted if selected else baseline):
@@ -113,5 +113,5 @@ def configure(adb, shell, cfg, backup):
     finally:
         remount_read_only(shell)
     # The existing watcher was restarted before the read-only remount.
-    print('Streaming firewall choice saved. Reboot once, then check playback and EDA firewall status.')
+    print('Streaming firewall choice saved. Reboot once, then check playback and Echo Dot Assist firewall status.')
     print('Installed policy was adapted; upstream source/installer are unchanged. Rollback:',backup)
