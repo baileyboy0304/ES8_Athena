@@ -171,28 +171,52 @@ is disabled in this role.
 ### Connect Home Assistant to VACAVision
 
 **1. Add the discovered device.** Open **Settings → Devices & services**.
-Under **Discovered**, select **Add** on the Echo Show's **VACA_Vision** card.
+Under **Discovered**, select **Add** on the **VACA_Vision** card.
 
-<img src="docs/images/setup/00-discovered-device.png" alt="HA Discovered section: select Add on VACA_Vision" width="640">
+<img src="docs/images/setup/00-discovered-device.png" alt="VACA_Vision discovered card with Add button" width="618">
+
+If you already have VACA_Vision devices, you can also open the integration and
+select **Add** on its **Discovered** row.
+
+<img src="docs/images/setup/01-discovered-integration.png" alt="Discovered VACA_Vision device within the integration page" width="593">
+
+**2. Confirm the device name**, then select **Submit**. The Echo Show role,
+dashboard and voice connection are selected automatically. VACAVision connects
+the matching Music Assistant player and exposes it to Home Assistant.
+
+<img src="docs/images/setup/02-confirm-discovered.png" alt="Add this Echo Show: confirm the device name and submit" width="313">
 
 <details>
 <summary>If the Echo Show does not appear under Discovered</summary>
 
 Check that VACAVision is running and HA can reach the Echo Show's IP address.
 Select **Add integration**, search for `VACA`, and choose **VACA_Vision**.
+If you already have the integration, open it and select **Add device**.
 
-<img src="docs/images/setup/01-select-integration.png" alt="Search results showing VACA_Vision" width="460">
+<img src="docs/images/setup/01-select-integration.png" alt="Add integration search results: choose VACA_Vision" width="338">
 
-Choose **Connect an installed device by IP address** and enter the IP printed by
-the installer. The app port is detected automatically.
+Choose **Connect an installed device by IP address**.
+
+<img src="docs/images/setup/03-connect-menu.png" alt="Connect VACAVision menu with the IP-address connection option" width="314">
+
+Enter the Echo Show's IP address printed by the installer and select **Submit**.
+If **Vision port** is shown, leave it blank for automatic detection; only enter
+a port for a custom installation. The screenshot shows the usual Echo Show port,
+`26900`.
+
+<img src="docs/images/setup/04-manual-address.png" alt="Enter the Echo Show IP address; Vision port can be left blank" width="311">
+
+Confirm the device name and select **Submit**.
+
+<img src="docs/images/setup/05-confirm-manual.png" alt="Confirm the device name after connecting by IP address" width="314">
+
+Continue with selecting the voice assistant below.
 
 </details>
 
-**2. Confirm the device name.** The installer has already supplied the startup
-dashboard. VACAVision detects the Echo Show role, connects voice, finds the
-physical Music Assistant player and sets up encryption. The installer supplies
-the public Sendspin identity, so this also works with MA universal players that
-do not report their IP address.
+The installer supplies the startup dashboard and public Sendspin identity, so
+player matching also works with MA universal players that do not report their
+IP address.
 
 If more than one player matches, or its address is unavailable, select this Echo
 Show from the named player list. If no player is available, the form tells you to

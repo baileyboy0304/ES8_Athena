@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 4358,
-    "sha256": "44589ae61b9d7ae5f45936244525fbdcd322d33c51b113f169569c4640ad6766"
+    "bytes": 5957,
+    "sha256": "71ff83377e3281b008d918a7637ae5761a714f0a1e5a62d4bb1c797428a945af"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -1128,6 +1128,41 @@
     "path": "VACAV/custom_components/vaca_vision/view_assist_indicator.py",
     "bytes": 9701,
     "sha256": "01cc69e843e60b9679b434b48d69dad40cab8fbacb71e2e05768c8fde3135a9b"
+  },
+  {
+    "path": "VACAV/docs/images/setup/00-discovered-device.png",
+    "bytes": 21910,
+    "sha256": "e4860cccfad1f3036706c7d515cda9fab7ce1d32a31552c5e5abce1a779759b9"
+  },
+  {
+    "path": "VACAV/docs/images/setup/01-discovered-integration.png",
+    "bytes": 28798,
+    "sha256": "047493daf76bb75d5b60ddeb9defd6dec9e7276b7cb45f13862a05fad3c84cb8"
+  },
+  {
+    "path": "VACAV/docs/images/setup/01-select-integration.png",
+    "bytes": 25321,
+    "sha256": "446482095da1dc3ab7d9f09502d358bef061dc3736e6b67ceeb876614cf69a1d"
+  },
+  {
+    "path": "VACAV/docs/images/setup/02-confirm-discovered.png",
+    "bytes": 30291,
+    "sha256": "fcd0efc47a188ba94339a3fe372b52b7ab604e0256b7506e8125a8ccad1abdf8"
+  },
+  {
+    "path": "VACAV/docs/images/setup/03-connect-menu.png",
+    "bytes": 36138,
+    "sha256": "a3e56f9e26f43e1b0dfcd2bdad29455d19b2ce3eaef9479c0b51efd00be2b8e4"
+  },
+  {
+    "path": "VACAV/docs/images/setup/04-manual-address.png",
+    "bytes": 32949,
+    "sha256": "639888c9815bfade21fc7a73634750513f92033ba39fe9579bfcdcae4f221694"
+  },
+  {
+    "path": "VACAV/docs/images/setup/05-confirm-manual.png",
+    "bytes": 30697,
+    "sha256": "a213b7c0ab37764a1dba32a6ec4e405abd13601dfebc41be571ee2c523ea2f03"
   },
   {
     "path": "VACAV/hacs.json",
