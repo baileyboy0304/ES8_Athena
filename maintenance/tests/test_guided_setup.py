@@ -60,24 +60,12 @@ class Readiness(unittest.TestCase):
         self.assertTrue(self.errors())
 
 class HandoffGate(unittest.TestCase):
-    setUp = Readiness.setUp
-    def test_read_only_mode_never_installs_or_accesses_usb(self):
-        from unittest.mock import Mock, patch
-        ha=Mock()
-        ha.call.side_effect=lambda kind: {'get_config':{'components':['view_assist']},
-            'get_states':[dict(v,entity_id=k) for k,v in self.states.items()],
-            'config/entity_registry/list':[dict(v,entity_id=k) for k,v in self.registry.items()]}[kind]
-        with patch.object(g.core,'verify'), patch.object(g.core,'HA',return_value=ha), \
-             patch.object(g.core,'ask',return_value='http://ha.local:8123'), \
-             patch.object(g.getpass,'getpass',return_value='test-token'), \
-             patch.object(g.core,'settings',return_value=self.cfg), \
-             patch.object(g,'select',return_value='sensor.va'), \
-             patch.object(g,'resolve_usb') as usb, patch.object(g.core,'deploy_dashboards') as deploy:
+    def test_read_only_mode_never_logs_in_or_accesses_usb(self):
+        from unittest.mock import patch
+        with patch.object(g.core, 'verify'), patch.object(g.core, 'HA') as ha, patch.object(g, 'resolve_usb') as usb:
             self.assertTrue(g.run(check_only=True))
-            usb.assert_not_called(); deploy.assert_not_called()
-            self.states['assist_satellite.es8']['state']='unavailable'
-            self.assertFalse(g.run(check_only=True))
-            deploy.assert_not_called()
+            ha.assert_not_called()
+            usb.assert_not_called()
 
 
 if __name__ == "__main__": unittest.main()
@@ -103,6 +91,39 @@ class ConnectionPreparation(unittest.TestCase):
         from unittest.mock import Mock, patch
         ha=Mock(); ha.post.side_effect=[{'type':'menu','flow_id':'test-flow','menu_options':['manual']},{'type':'form','step_id':'manual'},{'type':'abort','reason':'setup_prepared','flow_id':'finished'}]
         with patch.object(g,'usb',side_effect=['inet addr:192.0.2.1','']):
-            with self.assertRaisesRegex(ValueError,'0.3.2'):
+            with self.assertRaisesRegex(ValueError,'HACS integration version'):
                 g.prepare_connection(ha,{'device_name':'Test','home_slug':'test-home'},'serial')
         ha.delete.assert_not_called()
+
+class CredentialFreeInstall(unittest.TestCase):
+    def test_normal_wizard_never_connects_to_ha(self):
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp, patch.object(g.core, 'ROOT', Path(tmp)), \
+             patch.object(g.core, 'verify'), patch.object(g.core, 'HA') as ha, \
+             patch.object(g.core, 'profile', return_value={'services':[], 'home_slug':'test-home','va_slug':'test-va','tv_slug':'test-tv'}), \
+             patch.object(g.core, 'ask', side_effect=['test-home','test-va','test-tv','Test Echo']) as ask, \
+             patch.object(g.core, 'yes', return_value=False), patch.object(g.core, 'build'), \
+             patch.object(g, 'resolve_usb', return_value='USB'), patch.object(g, 'gather_apks'), \
+             patch.object(g, 'write_handoff') as handoff, patch.object(g.subprocess, 'run'):
+            self.assertTrue(g.run())
+            ha.assert_not_called()
+            self.assertEqual(ask.call_count, 4)
+            cfg = handoff.call_args.args[1]
+            self.assertNotIn('token', cfg)
+            self.assertNotIn('password', cfg)
+            self.assertNotIn('timezone', cfg)
+
+    def test_wait_timeout_reports_boot_and_permissions_not_hacs(self):
+        from unittest.mock import patch
+        with patch.object(g.time, 'monotonic', side_effect=[0, 2]):
+            with self.assertRaisesRegex(ValueError, 'permission dialogs'):
+                g.wait_for_app('USB', timeout=1)
+
+    def test_wait_checks_boot_then_reachable_app(self):
+        from unittest.mock import patch, MagicMock
+        with patch.object(g.subprocess, 'check_output', side_effect=['1\n','inet addr:192.0.2.1']), \
+             patch.object(g.socket, 'create_connection', return_value=MagicMock()) as connect:
+            g.wait_for_app('USB')
+            connect.assert_called_once_with(('192.0.2.1', 26900), timeout=3)

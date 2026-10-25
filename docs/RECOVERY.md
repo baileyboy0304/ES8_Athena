@@ -1,17 +1,22 @@
 # Recovery and reruns
 
 Stop at the first failing step; keep its output and the timestamped backup path.
-Do not try another device family's installer. Run the developer's echo-dot-assist
+Do not try another device family's installer. Run the developer's Echo Dot Assist
 installer directly for its system work; follow its Athena recovery guidance.
 
 ## Dashboards
 
-`installation-data/backups/dashboards-TIMESTAMP/SLUG.json` stores the old dashboard metadata and
-`config`. In HA open the affected dashboard's Raw configuration editor and restore
-the `config` value (JSON is valid YAML). A null config means that dashboard did
-not previously exist; delete only that newly created dashboard via HA if reverting.
-Each dashboard is saved/read back separately: if the third fails, the first two
-may already be installed. The backup covers all three before any save.
+The HA **VACAV Setup** page shows the backup path before replacement:
+`.storage/vaca_vision.dashboard_backup_TIMESTAMP` in HA’s configuration folder.
+Its JSON `data` maps each dashboard URL to its previous config. Open the affected
+dashboard’s Raw configuration editor and restore that config (JSON is valid YAML).
+A null config means the dashboard did not previously exist; remove only that new
+dashboard if reverting. Do not replace the whole HA `.storage` directory.
+
+Older command-line installations kept the equivalent backups in
+`installation-data/backups/dashboards-TIMESTAMP/SLUG.json` on Linux.
+Each dashboard is saved/read back separately: if a later one fails, earlier ones
+may already be installed. The backup covers all three before any dashboard save.
 
 ## VACAV HA integration
 
@@ -64,7 +69,7 @@ Exporting streaming APKs does not back up those apps' private data.
 Consult the pinned Echo Dot Assist Athena README for `scripts/install-system.sh --uninstall`
 and its limitations. The [standalone ES8 reset tool](../reset-es8/README.md) packages the previously
 used original-image restore procedure, with preflight and read-back checks.
-The new script itself has not been run destructively. It requires the exact
+The owner completed a live reset with this script on 25 October 2026. It requires the exact
 reviewed private raw images and leaves the device in TWRP; it is not a generic
 TWRP Restore-menu backup importer.
 Echo Dot Assist's stock-component removal includes Android Settings and SystemUI; their

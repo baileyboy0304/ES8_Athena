@@ -52,7 +52,7 @@ class Pairing(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.factory.call_args.kwargs['noise_psk'], 'zero-key')
         again = await self.m.authenticated_values(self.hass, self.values)
         self.assertEqual(result, again)
-        self.assertEqual(self.factory.call_count, 1)
+        self.assertEqual(self.factory.call_count, 2)
 
     async def test_concurrent_setup_uses_one_key(self):
         async def connect():
@@ -97,10 +97,37 @@ class Pairing(unittest.IsolatedAsyncioTestCase):
         self.saved = {'key':'confirmed-key','mac':'aa:bb','confirmed':True}
         result = await self.m.authenticated_values(self.hass, self.values)
         self.assertEqual(result['eda_noise_psk'],'confirmed-key')
-        self.factory.assert_not_called()
+        self.cli.connect.assert_awaited_once()
+        self.cli.noise_encryption_set_key.assert_not_awaited()
 
     async def test_network_error_never_falls_back_or_rotates(self):
         self.saved = {'key':'saved-key','mac':'aa:bb','confirmed':False}
+        self.cli.connect.side_effect = TimeoutError
+        with self.assertRaises(TimeoutError):
+            await self.m.authenticated_values(self.hass, self.values)
+        self.assertEqual(self.factory.call_count, 1)
+        self.cli.noise_encryption_set_key.assert_not_awaited()
+
+    async def test_reset_confirmed_key_reprovisions_same_device(self):
+        self.saved = {'key':'saved-key', 'mac':'aa:bb', 'confirmed':True}
+        rejected = NS(connect=AsyncMock(side_effect=self.invalid), disconnect=AsyncMock())
+        self.factory.side_effect = [rejected, self.cli]
+        result = await self.m.authenticated_values(self.hass, self.values)
+        self.assertEqual(result['eda_noise_psk'], 'saved-key')
+        self.cli.noise_encryption_set_key.assert_awaited_once_with(b'saved-key')
+        self.assertTrue(self.saved['confirmed'])
+
+    async def test_reset_retry_rejects_different_mac(self):
+        self.saved = {'key':'saved-key', 'mac':'aa:bb', 'confirmed':True}
+        rejected = NS(connect=AsyncMock(side_effect=self.invalid), disconnect=AsyncMock())
+        self.factory.side_effect = [rejected, self.cli]
+        self.info.mac_address = 'cc:dd'
+        with self.assertRaisesRegex(ValueError, 'identity_changed'):
+            await self.m.authenticated_values(self.hass, self.values)
+        self.cli.noise_encryption_set_key.assert_not_awaited()
+
+    async def test_confirmed_network_failure_does_not_try_zero_key(self):
+        self.saved = {'key':'saved-key', 'mac':'aa:bb', 'confirmed':True}
         self.cli.connect.side_effect = TimeoutError
         with self.assertRaises(TimeoutError):
             await self.m.authenticated_values(self.hass, self.values)

@@ -221,3 +221,30 @@ lyrics installation and does not claim the wizard installs it.
 - Post-update audit: all 20 Garden Athena entity mappings unchanged, Assist
   satellite idle, physical MA player available, and live guided readiness PASS.
   This validation did not perform another wipe or a listening/playback test.
+
+## Walkthrough fixes and integration-owned setup — 25 October 2026
+
+Reviewed the owner's Claude walkthrough and recorded the findings/disposition in
+[review notes](REVIEW-2026-10-25.md). The reported live voice/music/navigation/reboot
+success belongs to the prior build after workarounds.
+
+For VACAV 0.4.0 / APK prototype.11:
+
+- 23 integration tests, 52 installer/auth/pairing tests and 19 reset tests pass.
+- Android release build succeeds; all 10 Android unit tests pass, including
+  double-tap timing and the rule excluding VACAV's own foreground window.
+- The credential-free main installer is tested to make no HA connection. USB
+  choices are strictly allowlisted; dashboard rendering accepts only reviewed
+  templates and known service IDs. MA matching tests exclude unrelated players.
+- An isolated browser UI test confirmed mapping display, physical-audio gating,
+  configuration action, explicit dashboard confirmation, backup-before-write,
+  three save/read-back checks and completion. This used a simulated HA API, not
+  a live dashboard replacement.
+- Read-only inspection of the live MA entity registry confirmed the physical
+  player's unique-ID format used by the setup code.
+- APK signature verification found a different certificate from prototype.10.
+  Both READMEs explain the upgrade constraint. No app was uninstalled and the
+  working ES8/HA installation was not replaced during these checks.
+- The Echo Dot Assist submodule remains unchanged. The TWRP wrapper and redesigned
+  HA setup have not yet had a fresh live installation walkthrough. Physical
+  double-tap, signed-in streaming, ITVX helper and mute tests remain to be done.

@@ -72,6 +72,7 @@ class Dashboards(unittest.TestCase):
         writes = []
         class FakeHA:
             ws = type('Socket', (), {'close': lambda self: None})()
+            def close(self): pass
             def call(self, kind, **kw):
                 if kind == 'lovelace/dashboards/list':
                     return [{'url_path': slug} for slug in configs]
@@ -85,7 +86,7 @@ class Dashboards(unittest.TestCase):
                 elif kind == 'lovelace/config': return configs[slug]
         with patch.object(m, 'HA', return_value=FakeHA()), \
              patch.object(m, 'ask', return_value='http://ha'), \
-             patch.object(m.getpass, 'getpass', return_value='test'):
+             patch.object(m, 'Login'):
             m.prepare_dashboards('es8-gen2')
             m.prepare_dashboards('es8-gen2')
         self.assertIs(configs['athena-home'], original)
@@ -98,6 +99,7 @@ class Dashboards(unittest.TestCase):
         submitted = []
         class FakeHA:
             ws = type('Socket', (), {'close': lambda self: None})()
+            def close(self): pass
             def call(self, kind):
                 if kind == 'config/entity_registry/list':
                     return [{'entity_id': 'media_player.test_music', 'platform': 'music_assistant'}]
@@ -115,7 +117,7 @@ class Dashboards(unittest.TestCase):
              patch.object(m, 'ask', side_effect=['http://ha', 'Test',
                  'assist_satellite.test_assist', 'media_player.test_music', 'media_player.test_music', 'va-new-display']), \
              patch.object(m, 'yes', return_value=True), \
-             patch.object(m.getpass, 'getpass', return_value='test'):
+             patch.object(m, 'Login'):
             with self.assertRaisesRegex(RuntimeError, 'has not discovered'):
                 m.create_view_assist('es8-gen2')
         self.assertEqual(len(submitted), 2)  # No final device creation submitted.
@@ -125,6 +127,7 @@ class Dashboards(unittest.TestCase):
         submitted = []
         class FakeHA:
             ws = type('Socket', (), {'close': lambda self: None})()
+            def close(self): pass
             def call(self, kind):
                 if kind == 'config/entity_registry/list':
                     return [{'entity_id': 'media_player.ma', 'platform': 'music_assistant'}]
@@ -144,7 +147,7 @@ class Dashboards(unittest.TestCase):
              patch.object(m, 'ask', side_effect=['http://ha', 'Test',
                  'assist_satellite.test', 'media_player.speaker', 'media_player.ma', 'va-test']), \
              patch.object(m, 'yes', return_value=True), \
-             patch.object(m.getpass, 'getpass', return_value='test'):
+             patch.object(m, 'Login'):
             m.create_view_assist('es8-gen2')
         self.assertEqual(submitted[-1]['mediaplayer_device'], 'media_player.speaker')
         self.assertEqual(submitted[-1]['musicplayer_device'], 'media_player.ma')

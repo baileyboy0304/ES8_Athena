@@ -3,7 +3,7 @@
 import argparse
 import copy
 import datetime as dt
-import getpass
+from ha_login import Login
 import hashlib
 import json
 import os
@@ -193,16 +193,40 @@ def build(name):
     return cfg
 
 class HA:
-    def __init__(self, url, token):
+    def __init__(self, url, token=None):
         import websocket
         parsed = urlsplit(url)
         if parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.query or parsed.fragment or parsed.path not in ('', '/'):
             raise ValueError('Enter the HA base URL, e.g. http://homeassistant.local:8123')
-        self.base_url, self.token = url.rstrip('/'), token
+        self.base_url = url.rstrip('/')
+        self.owns_login = token is None
+        self.login = Login(url).sign_in() if token is None else (token if isinstance(token, Login) else None)
+        self._token = token if isinstance(token, str) else None
+        try:
+            self.connect()
+            if self.login and not self.call('auth/current_user').get('is_admin'):
+                raise ValueError('Sign in with a Home Assistant administrator account.')
+        except BaseException:
+            self.close()
+            raise
+
+    @property
+    def token(self):
+        return self.login.access_token() if self.login else self._token
+
+    def close(self):
+        if getattr(self, 'ws', None):
+            self.ws.close()
+        if self.owns_login and self.login:
+            self.login.close()
+
+    def connect(self):
+        import websocket
+        parsed = urlsplit(self.base_url)
         self.ws = websocket.create_connection(('wss' if parsed.scheme == 'https' else 'ws') + '://' + parsed.netloc + '/api/websocket', timeout=30)
         self.seq = 0
         self.ws.recv()
-        self.ws.send(json.dumps({'type': 'auth', 'access_token': token}))
+        self.ws.send(json.dumps({'type': 'auth', 'access_token': self.token}))
         if json.loads(self.ws.recv()).get('type') != 'auth_ok':
             raise RuntimeError('HA authentication failed')
     def call(self, kind, **kwargs):
@@ -242,8 +266,7 @@ def validate_music_entity(states, registry, entity):
 def create_view_assist(name):
     """Use VA's normal config flow, including on versions with an old UI filter."""
     cfg = settings(name)
-    ha = HA(ask('Home Assistant base URL'),
-            getpass.getpass('HA administrator token (not saved): '))
+    ha = HA(ask('Home Assistant base URL'))
     try:
         states = {s['entity_id']: s for s in ha.call('get_states')}
         friendly = ask('New View Assist device name')
@@ -288,7 +311,7 @@ def create_view_assist(name):
         print('Now set its dashboard/defaults in HA as described in the README HA handoff,')
         print('then return to the guided installer and select the new VA sensor.')
     finally:
-        ha.ws.close()
+        ha.close()
 
 def placeholder_dashboard(title, view_path):
     return {'title': title, 'views': [{'title': 'Setup', 'path': view_path,
@@ -305,8 +328,7 @@ def prepare_dashboards(name, ha=None):
     cfg = settings(name)
     owned = ha is None
     if owned:
-        ha = HA(ask('Home Assistant base URL'),
-                getpass.getpass('HA long-lived access token (not saved): '))
+        ha = HA(ask('Home Assistant base URL'))
     try:
         known = {d['url_path'] for d in ha.call('lovelace/dashboards/list')}
         for key, title, view in [('home_slug', 'Athena Home', 'home'),
@@ -325,14 +347,13 @@ def prepare_dashboards(name, ha=None):
             print('Prepared setup page:', slug)
     finally:
         if owned:
-            ha.ws.close()
+            ha.close()
 
 def deploy_dashboards(name, ha=None):
     cfg = build(name)
     owned = ha is None
     if owned:
-        ha = HA(ask('Home Assistant base URL'),
-                getpass.getpass('HA long-lived access token (not saved): '))
+        ha = HA(ask('Home Assistant base URL'))
     backup = ROOT / 'installation-data/backups' / ('dashboards-' + stamp())
     try:
         known = {d['url_path']: d for d in ha.call('lovelace/dashboards/list')}
@@ -383,7 +404,7 @@ def deploy_dashboards(name, ha=None):
         return True
     finally:
         if owned:
-            ha.ws.close()
+            ha.close()
 
 def install_ha(target):
     target = Path(target).expanduser().resolve()

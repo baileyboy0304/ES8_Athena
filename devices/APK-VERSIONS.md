@@ -15,11 +15,10 @@ The target runs Android 9 with 32-bit ARM userspace. Choose builds that include
 | Netflix (Echo build) | `com.netflix.mediaclient.echo` | `8.141.2` | `63112` | One APK; includes ARM32 |
 | BBC iPlayer | `bbc.iplayer.android` | `5.59.0.37574` | `500037574` | Base APK plus three splits listed below |
 | ITVX | `air.ITVMobilePlayer` | `17.7.0` | `1301707000` | One APK; includes ARM32 |
-| Apple TV through the existing Silk browser | `com.amazon.cloud9` | `138.16.11.0.7204.244.40` | `1396011040` | Silk browser, one ARM32 APK; no native Apple TV APK used on ES8 |
+| Apple TV through Silk | `com.amazon.cloud9` | `138.16.11.0.7204.244.40` | `1396011040` | Silk browser, one ARM32 APK; no native Apple TV APK used on ES8 |
 
-Silk is already installed on the current ES8. The device installer reuses an
-installed app and does not replace it just to match this table. Supply a Silk APK
-only if it is missing after the reset and echo-dot-assist installation. Selecting
+After a clean reset and Echo Dot Assist installation, supply a Silk APK for Apple
+TV. The device installer reuses it if already installed. Selecting
 Apple TV still adds its TV launcher and configures the selected streaming access.
 
 The iPlayer export contains the base APK and these matching splits, all with
@@ -44,4 +43,4 @@ The bundled app uses package `com.mph1970.vacavision` and is included in this re
 
 | Device | Version name | Version code | Bundled file |
 |---|---|---|---|
-| ES8 Gen 2 | `0.2.3-upstream-prototype.10` | `16` | `VACAV/custom_components/vaca_vision/packages/vision-standard.apk` |
+| ES8 Gen 2 | `0.2.3-upstream-prototype.11` | `17` | `VACAV/custom_components/vaca_vision/packages/vision-standard.apk` |

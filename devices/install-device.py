@@ -133,7 +133,14 @@ def main():
         shell('cmd alarm set-timezone ' + shlex.quote(cfg['timezone']))
         if shell('getprop persist.sys.timezone') != cfg['timezone']:
             raise RuntimeError('Device timezone did not persist')
-    result = adb('install', '-r', str(apk))
+    try:
+        result = adb('install', '-r', str(apk))
+    except subprocess.CalledProcessError as exc:
+        output = exc.output.decode(errors='replace') if isinstance(exc.output, bytes) else str(exc.output or '')
+        if 'INSTALL_FAILED_UPDATE_INCOMPATIBLE' in output or 'signatures do not match' in output:
+            raise RuntimeError('The installed VACAV APK uses a different signing key. It was not uninstalled. '
+                               'Use its original signing key, or plan an explicit reinstall and HA browser sign-in; see README.') from None
+        raise
     if 'Success' not in result: raise RuntimeError('VACAV APK installation failed: ' + result)
     for service in selected:
         if package_paths(service['package']).startswith('package:'): continue

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Guided, resumable ES8 companion setup; never runs the unlock or wipes data."""
 import argparse
-import getpass
 import hashlib
 import json
 from pathlib import Path
@@ -9,6 +8,8 @@ import re
 import shutil
 import subprocess
 import sys
+import time
+import socket
 from zoneinfo import ZoneInfo
 import install as core
 
@@ -108,6 +109,39 @@ def resolve_usb():
     return serial
 
 
+def wait_for_app(serial, timeout=180):
+    """Bounded read-only wait after reboot; never send commands to another USB device."""
+    deadline = time.monotonic() + timeout
+    print('Waiting for the Echo Show to boot, join Wi-Fi and start VACAVision. Allow any on-screen permissions.')
+    while time.monotonic() < deadline:
+        try:
+            boot = subprocess.check_output(['adb', '-s', serial, 'shell', 'getprop sys.boot_completed'],
+                                           text=True, timeout=5).strip()
+            if boot == '1':
+                output = subprocess.check_output(['adb', '-s', serial, 'shell', 'ifconfig wlan0'],
+                                                 text=True, timeout=5)
+                match = re.search(r'inet (?:addr:)?(\d+\.\d+\.\d+\.\d+)', output)
+                if match:
+                    with socket.create_connection((match[1], 26900), timeout=3):
+                        print('VACAVision is listening at ' + match[1] + ':26900')
+                        return
+        except (OSError, subprocess.SubprocessError):
+            pass
+        print('Still waiting for boot / Wi-Fi / VACAVision...', flush=True)
+        time.sleep(5)
+    raise ValueError('Timed out waiting for VACAVision. Check power, USB, Wi-Fi and the ES8 permission dialogs, then resume.')
+
+
+def music_panel(ha):
+    panels = ha.call('get_panels')
+    matches = ['/' + path for path in panels
+               if path == 'music-assistant' or path.endswith('_music_assistant')]
+    if len(matches) == 1:
+        print('Music Assistant sidebar:', matches[0])
+        return matches[0]
+    return core.ask('Open Music Assistant from the HA sidebar and copy the URL path after host/port')
+
+
 def gather_apks(serial, cfg):
     for service in core.profile(PROFILE)['services']:
         if service['id'] not in cfg['services']:
@@ -160,7 +194,10 @@ def prepare_connection(ha, cfg, serial):
         finished = result.get('type') in ('abort', 'create_entry')
         if (result.get('type') != 'abort' or result.get('reason') != 'setup_prepared'
                 or result.get('description_placeholders', {}).get('setup_protocol') != '2'):
-            raise ValueError('Install VACAVision 0.3.2 or later through HACS, restart HA, and retry.')
+            reason = result.get('reason', result.get('type', 'unknown'))
+            if reason == 'setup_prepare_failed':
+                raise ValueError('VACAVision is not reachable yet at ' + match[1] + ':26900. Wait for app startup, allow its on-screen permissions, and retry.')
+            raise ValueError('VACAVision setup returned ' + str(reason) + '. Check the HACS integration version and restart HA after updating it.')
     finally:
         if flow_id and not finished:
             ha.delete('config/config_entries/flow/' + flow_id)
@@ -187,117 +224,83 @@ Return here when ready. The next stage checks HA before offering dashboards.
 ''')
 
 
+def write_handoff(serial, cfg):
+    """Only non-secret, allowlisted choices cross USB into the app's private files."""
+    plan = {"version": 1, "name": cfg['device_name'], "services": cfg['services'],
+            **{k: cfg[k] for k in ('home_slug', 'va_slug', 'tv_slug')}}
+    lines = usb(serial, 'shell', "grep 'sendspin: player ' /data/local/hassmic/boot.log 2>/dev/null || true")
+    found = re.findall(r'sendspin: player ([A-Za-z0-9_-]{43}) on ', lines)
+    plan['sendspin_client_id'] = found[-1] if found else ''
+    path = core.ROOT / 'installation-data/es8-install.json'
+    core.save(path, plan)
+    owner = usb(serial, 'shell', 'stat -c %u /data/data/com.mph1970.vacavision')
+    if not owner.isdigit(): raise ValueError('Cannot identify the VACAV app owner.')
+    target = '/data/data/com.mph1970.vacavision/files/es8-install.json'
+    usb(serial, 'push', str(path), '/data/local/tmp/vacav-install.json')
+    usb(serial, 'shell', 'mkdir -p /data/data/com.mph1970.vacavision/files && '
+        'chown ' + owner + ':' + owner + ' /data/data/com.mph1970.vacavision/files && '
+        'cp /data/local/tmp/vacav-install.json ' + target + ' && chown ' + owner + ':' + owner + ' ' + target +
+        ' && chmod 600 ' + target + ' && restorecon ' + target + ' && rm /data/local/tmp/vacav-install.json')
+    actual = json.loads(usb(serial, 'shell', 'cat ' + target))
+    if actual != plan: raise ValueError('USB setup choices failed read-back verification.')
+    print('Saved non-secret setup choices on the Echo Show.')
+
+
 def run(check_only=False):
     core.verify()
-    url = core.ask('Home Assistant base URL')
-    token = getpass.getpass('HA administrator long-lived token (not saved): ')
-    ha = core.HA(url, token)
-    try:
-        states, registry = snapshot(ha)
-        config = ha.call('get_config')
-        if 'view_assist' not in config.get('components', []):
-            raise ValueError('View Assist must already be installed and operational in HA.')
-        choice_file = core.ROOT / 'installation-data/choices/es8-gen2.json'
-        progress_file = core.ROOT / 'installation-data/guided-progress.json'
-        if check_only:
-            cfg = core.settings(PROFILE)
-        else:
-            serial = resolve_usb()
-            print('USB target:', serial)
-            if choice_file.exists() and core.yes('Resume using saved installation choices?'):
-                cfg = core.settings(PROFILE)
-                ZoneInfo(config['time_zone'])
-                cfg['timezone'] = config['time_zone']
-            else:
-                reference = select('Existing View Assist device to inherit weather from', va_sensors(states, registry))
-                weather, zone = inherited_settings(config, states, registry, reference)
-                p = core.profile(PROFILE)
-                print('Weather from View Assist:', weather, '| Timezone from HA:', zone)
-                print('Streaming is optional; VACAVision web access is always included.')
-                services = [s['id'] for s in p['services'] if core.yes('Install/use ' + s['name'] + '?')]
-                cfg = dict(profile=PROFILE, services=services, va_entity='sensor.es8_setup',
-                           weather_entity=weather, timezone=zone,
-                           music_path=core.ask('Existing Music Assistant sidebar path (after host/port)', '/music-assistant'))
-                if not cfg['music_path'].startswith('/') or cfg['music_path'].startswith('//') or any(c.isspace() for c in cfg['music_path']):
-                    raise ValueError('Use a local Music Assistant sidebar path beginning with one slash.')
-                for key in ('home_slug', 'va_slug', 'tv_slug'):
-                    cfg[key] = core.ask(key.replace('_', ' ').title(), p[key])
-                    if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)+', cfg[key]):
-                        raise ValueError('Dashboard names need a hyphen and lowercase letters/digits.')
-                if len({cfg[k] for k in ('home_slug', 'va_slug', 'tv_slug')}) != 3:
-                    raise ValueError('Use three distinct dashboard names.')
-            if not cfg.get('device_name'):
-                cfg['device_name'] = core.ask('Device name')
-                if not cfg['device_name'] or len(cfg['device_name']) > 80:
-                    raise ValueError('Enter a device name between 1 and 80 characters.')
-            core.save(choice_file, cfg)
-            core.build(PROFILE)
-            core.prepare_dashboards(PROFILE, ha)
-            gather_apks(serial, cfg)
-            command = [sys.executable, str(core.ROOT / 'devices/install-device.py'), '--profile', PROFILE, '--serial', serial]
-            subprocess.run(command, check=True)  # Always recheck real device prerequisites.
-            fingerprint = hashlib.sha256(json.dumps({'services':cfg['services'], 'timezone':cfg['timezone']}, sort_keys=True).encode()).hexdigest()
-            progress = core.read(progress_file) if progress_file.exists() else {}
-            completed = progress.get('serial') == serial and progress.get('usb_choices') == fingerprint
-            if not (completed and core.yes('USB installation previously completed. Keep it and continue to HA?')):
-                subprocess.run(command + ['--apply'], check=True)
-                core.save(progress_file, {'serial':serial, 'usb_choices':fingerprint})
-                print('Reboot the Echo Show once before checking streaming playback.')
-                if core.yes('Reboot this Echo Show now?'):
-                    usb(serial, 'reboot')
-            print('Install VACAVision from HACS and restart HA if needed:')
-            print('https://github.com/baileyboy0304/VACAV (category: Integration)')
-            while True:
-                try:
-                    ha.ws.close()
-                    ha = core.HA(url, token)
-                    prepare_connection(ha, cfg, serial)
-                    break
-                except (ValueError, RuntimeError, OSError, subprocess.SubprocessError) as exc:
-                    print('Connection preparation:', exc)
-                    if not core.yes('Ready to retry after completing HACS installation or Wi-Fi setup?'):
-                        print('Choices saved. Run ./vacav_setup.sh again to resume.')
-                        return False
-            if core.yes('Copy dashboard frontend assets through a mounted HA config folder?'):
-                core.install_assets(core.ask('Path to HA config folder containing configuration.yaml'))
-            else:
-                print('Copy devices/dashboards/{upstream,assets} contents into HA www/es8-athena.')
-            handoff(cfg)
-        # Close before the human handoff; HA may restart. Never persist the token.
-        ha.ws.close(); ha = None
-        while True:
-            if not check_only and not core.yes('Finished the HA steps and ready for connection checks?'):
-                print('Progress saved. Run ./vacav_setup.sh again when ready.'); return False
-            try:
-                ha = core.HA(url, token)
-                states, registry = snapshot(ha)
-                entity = select('View Assist sensor for THIS Echo Show', va_sensors(states, registry))
-                errors = validate_ready(states, registry, entity, cfg)
-                if errors:
-                    raise ValueError('\n'.join(errors))
-                print('HA checks passed: VA, VACAVision microphone/display, MA entities, weather and Home path.')
-                print('The entity API cannot prove the physical speaker or sound. Confirm those on the device.')
-                if check_only:
-                    return True
-                if not core.yes('Have you heard an Assist reply and music from this Echo Show?'):
-                    print('Finish the physical playback check before installing dashboards.'); return False
-                cfg.update(va_entity=entity, weather_entity=states[entity]['attributes']['weather_entity'])
-                core.save(choice_file, cfg)
-                if core.deploy_dashboards(PROFILE, ha):
-                    print('Setup complete. Sign into selected streaming apps on the ES8 and test playback.')
-                    return True
-                print('Dashboard installation cancelled. Run ./vacav_setup.sh again to resume.'); return False
-            except (ValueError, RuntimeError, OSError) as error:
-                print('Not ready:', error)
-                if check_only:
-                    return False
-                print('Correct the HA settings and try again, or answer No to resume later.')
-            finally:
-                if ha:
-                    ha.ws.close(); ha = None
-    finally:
-        if ha:
-            ha.ws.close()
+    if check_only:
+        print('Open VACAV Setup in the HA sidebar and select Refresh connections. No Linux HA login is needed.')
+        return True
+    serial = resolve_usb()
+    print('USB target:', serial)
+    choice_file = core.ROOT / 'installation-data/choices/es8-gen2.json'
+    progress_file = core.ROOT / 'installation-data/guided-progress.json'
+    if choice_file.exists() and core.yes('Resume using saved installation choices?'):
+        cfg = core.settings(PROFILE)
+    else:
+        p = core.profile(PROFILE)
+        services = [s['id'] for s in p['services'] if core.yes('Install/use ' + s['name'] + '?')]
+        cfg = dict(profile=PROFILE, services=services, va_entity='sensor.es8_setup',
+                   weather_entity='weather.home', music_path='/music-assistant')
+        for key in ('home_slug', 'va_slug', 'tv_slug'):
+            cfg[key] = core.ask(key.replace('_', ' ').title(), p[key])
+            if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)+', cfg[key]):
+                raise ValueError('Dashboard names need a hyphen and lowercase letters/digits.')
+        if len({cfg[k] for k in ('home_slug', 'va_slug', 'tv_slug')}) != 3:
+            raise ValueError('Use three distinct dashboard names.')
+        cfg['device_name'] = core.ask('Device name')
+    if not cfg.get('device_name') or len(cfg['device_name']) > 80:
+        raise ValueError('Enter a device name between 1 and 80 characters.')
+    # HA supplies timezone when the display connects; never assume the PC's zone.
+    cfg.pop('timezone', None)
+    core.save(choice_file, cfg)
+    core.build(PROFILE)
+    gather_apks(serial, cfg)
+    command = [sys.executable, str(core.ROOT / 'devices/install-device.py'), '--profile', PROFILE, '--serial', serial]
+    subprocess.run(command, check=True)
+    fingerprint = hashlib.sha256(json.dumps({'services': cfg['services'], 'app': 17}, sort_keys=True).encode()).hexdigest()
+    previous = core.read(progress_file) if progress_file.exists() else {}
+    completed = previous.get('serial') == serial and previous.get('usb_choices') == fingerprint
+    if not (completed and core.yes('USB installation previously completed. Keep it and continue to HA?')):
+        subprocess.run(command + ['--apply'], check=True)
+        core.save(progress_file, {'serial': serial, 'usb_choices': fingerprint})
+    write_handoff(serial, cfg)
+    if core.yes('Reboot this Echo Show now?'):
+        usb(serial, 'reboot')
+        wait_for_app(serial)
+    print("""
+Linux installation finished. Continue in Home Assistant:
+1. Install/update VACAVision 0.4.0 through HACS and restart HA.
+2. Pair this Echo's Sendspin player in Music Assistant using Echo Dot Assist's settings page.
+3. Add the discovered VACA_Vision device and confirm its name.
+4. Allow the app's on-screen permissions and sign into HA ON THE ECHO SHOW.
+5. Complete its voice-assistant setup and select the Assist pipeline.
+6. Open VACAV Setup in the HA sidebar. Configure View Assist, refresh, then install dashboards.
+   The setup page checks the mappings and backs up dashboards before replacing them.
+7. Test voice and music on this Echo. Sign into streaming services and test playback.
+No Home Assistant username, password or token is needed in this terminal.
+""")
+    return True
 
 
 if __name__ == '__main__':

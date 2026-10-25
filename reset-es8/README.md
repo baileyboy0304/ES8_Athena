@@ -119,17 +119,17 @@ to remove only this ES8's obsolete View Assist and VACAV entries and any obsolet
 MA pairing. Preserve other devices, shared dashboards and providers. Recreate the
 entries at the documented installation steps, after VACAV/HA browser sign-in.
 
-Continue with the main [installation guide](../README.md), including its root
-prerequisite and the unchanged Echo Dot Assist installer. The reset script does not perform
+Continue with the main [installation guide](../README.md), using `./echo_setup.sh` for the post-reset TWRP state before the unchanged
+Echo Dot Assist installer. The reset script does not perform
 any part of the new installation.
 
 ## Validation status
 
 The earlier live reset used this same reviewed partition-image restore procedure.
-This standalone script has **not** been applied to the live ES8. Its local image
+The owner completed this standalone script on the live ES8 on 25 October 2026. Its local image
 check passed against the private recovery files; automated tests simulate success,
 confirmation rejection, wrong devices, corrupted images and interrupted/failing
-stages. No destructive live validation is implied.
+stages. The later progress-reporting changes were tested offline, without another wipe.
 
 ```sh
 python3 -m unittest discover -s reset-es8/tests -q
