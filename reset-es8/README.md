@@ -82,10 +82,10 @@ python3 reset-es8/reset_es8.py \
 ```
 
 An interactive terminal is required. After the compatibility checks pass, type the
-confirmation shown, using the selected serial:
+confirmation shown:
 
 ```text
-ERASE YOUR_USB_SERIAL
+ERASE
 ```
 
 The script then:

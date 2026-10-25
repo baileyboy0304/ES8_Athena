@@ -41,19 +41,19 @@ class ResetTests(unittest.TestCase):
     def tearDown(self): self.temp.cleanup()
 
     def test_wrong_confirmation_cannot_write(self):
-        with self.assertRaises(RuntimeError): self.reset.apply(lambda _: 'yes')
+        with self.assertRaises(RuntimeError): self.reset.apply(lambda _: 'ERASE TEST_USB')
         self.assertEqual(self.reset.events, ['check_files', 'check_device'])
         self.assertIsNone(self.reset.report_path)
 
     def test_recheck_identity_after_confirmation(self):
         def confirm(_):
             self.reset.check_device = lambda: m.require(False, 'device changed')
-            return 'ERASE TEST_USB'
+            return 'ERASE'
         with self.assertRaises(RuntimeError): self.reset.apply(confirm)
         self.assertFalse(any(e.startswith('restore_') for e in self.reset.events))
 
     def test_success_order_and_no_boot_or_recovery_write(self):
-        self.reset.apply(lambda _: 'ERASE TEST_USB')
+        self.reset.apply(lambda _: 'ERASE')
         events = self.reset.events
         self.assertLess(events.index('restore_system'), events.index('restore_vendor'))
         self.assertLess(events.index('restore_vendor'), events.index('format data'))
@@ -67,7 +67,7 @@ class ResetTests(unittest.TestCase):
     def test_restore_failure_prevents_format(self):
         for part in ('system', 'vendor'):
             reset = FakeReset(self.root); reset.fail = part
-            with self.assertRaises(RuntimeError): reset.apply(lambda _: 'ERASE TEST_USB')
+            with self.assertRaises(RuntimeError): reset.apply(lambda _: 'ERASE')
             self.assertNotIn('format data', reset.events)
             self.assertEqual(reset.report['status'], 'failed_remain_in_twrp')
             self.assertNotIn('userdata_erased', reset.report)
@@ -75,7 +75,7 @@ class ResetTests(unittest.TestCase):
     def test_format_failure_or_remaining_apps_cannot_report_success(self):
         for failure in ('format data', 'dirty_data', 'wipe cache'):
             reset = FakeReset(self.root); reset.fail = failure
-            with self.assertRaises(RuntimeError): reset.apply(lambda _: 'ERASE TEST_USB')
+            with self.assertRaises(RuntimeError): reset.apply(lambda _: 'ERASE')
             self.assertEqual(reset.report['status'], 'failed_remain_in_twrp')
             self.assertNotIn('userdata_erased', reset.report)
 

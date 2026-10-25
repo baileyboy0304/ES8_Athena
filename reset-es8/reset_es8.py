@@ -185,7 +185,7 @@ class Reset:
         print('\nERASE ' + self.serial + ': restore stock system/vendor; format ALL userdata/internal storage and cache.')
         print('This removes EDA, VACAV, downloaded APKs, logins, Wi-Fi and local files. Stock firmware apps remain.')
         print('Bootloader/unlock partitions, boot and TWRP recovery are preserved. HA is not modified.')
-        phrase = 'ERASE ' + self.serial
+        phrase = 'ERASE'
         require(confirm('Type exactly "' + phrase + '" to proceed: ').strip() == phrase, 'Confirmation did not match; no writes performed.')
         self.check_device()
         self.start_report()
