@@ -377,9 +377,23 @@ integration and device, and supplies the device name for newly created entities.
 You can change it later in VACAV integration options; existing entity IDs and
 manual HA device-name overrides are retained. The Android discovery label and
 EDA/Sendspin name remain separate. Enter the ES8's address and VACAV port **26900**.
-In the EDA fields use port **26053**, and supply its ESPHome Noise PSK if encryption
-is enabled (from your EDA setup/settings; leave blank only if not configured).
-Keep the secret out of dashboard YAML and Git.
+In the EDA fields use port **26053**. If EDA already has an ESPHome encryption
+key, supply that existing Noise PSK. Otherwise leave it blank: VACAV establishes
+an encrypted provisioning connection, creates a unique key, and saves it in
+HA's private `.storage` before enabling it on EDA. Back up HA's configuration,
+including `.storage`; keep keys out of dashboard YAML and Git. Existing unkeyed
+VACAV/EDA installations receive this setup when the integration reconnects.
+
+VACAV now forwards EDA's `hassmic_…` pairing-tag scans and tag-state requests over
+the authenticated connection. The integration loads HA Tags as a dependency.
+Other adopted Echos can therefore confirm Athena and share their arbitration
+network automatically, without a second ESPHome voice owner or general HA action
+permission. New pairing normally takes about a minute; after repeated failures,
+EDA backs off and a retry can take up to five minutes. Check that Athena has a
+recently scanned tag in
+**Settings → Tags** and that EDA's arbitration page lists its peers without the
+missing-key warning. Physical volume-button pairing remains EDA's fallback;
+it is not a required extra step for the normal installation.
 
 Set **Home/startup dashboard** to `/athena-home/home` (or your prepared home
 slug), then sign into Home Assistant **on the ES8** using your normal HA

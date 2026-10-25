@@ -26,6 +26,7 @@ from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
 from .dot import DotSatellite
+from .upstream_pairing import ArbitrationTags, authenticated_values
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ async def validate_upstream(hass, values, entry_id=None):
     from .upstream_music import validate_music
 
     await validate_music(hass, values)
+    values = await authenticated_values(hass, values)
     cli = client_for(values)
     try:
         async with asyncio.timeout(15):
@@ -120,7 +122,8 @@ class UpstreamSatellite(DotSatellite):
 
     async def _connect(self):
         while True:
-            cli = client_for(self.runtime.values)
+            cli = None
+            pairing = None
             disconnected = asyncio.Event()
             unsubscribe = None
 
@@ -128,6 +131,8 @@ class UpstreamSatellite(DotSatellite):
                 signal.set()
 
             try:
+                values = await authenticated_values(self.hass, self.runtime.values)
+                cli = client_for(values)
                 await cli.connect(on_stop=stopped)
                 info = await cli.device_info()
                 if (
@@ -153,6 +158,9 @@ class UpstreamSatellite(DotSatellite):
                     max_active_wake_words=cfg.max_active_wake_words,
                 )
                 self.cli = cli
+                pairing = ArbitrationTags(self.hass, cli,
+                    self.registry_entry.device_id if self.registry_entry else None, self.task)
+                pairing.start()
                 unsubscribe = cli.subscribe_voice_assistant(
                     handle_start=self.start,
                     handle_stop=self.stop,
@@ -168,13 +176,16 @@ class UpstreamSatellite(DotSatellite):
                 _LOGGER.warning("EDA connection unavailable (%s)", type(ex).__name__)
             finally:
                 self._native_connected = False
+                if pairing:
+                    pairing.close()
                 if unsubscribe:
                     with contextlib.suppress(Exception):
                         unsubscribe()
                 await self.cancel()
                 self.cli = None
                 with contextlib.suppress(Exception):
-                    await cli.disconnect()
+                    if cli:
+                        await cli.disconnect()
                 self.async_write_ha_state()
             await asyncio.sleep(5)
 

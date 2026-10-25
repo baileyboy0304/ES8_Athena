@@ -156,3 +156,23 @@ counted as success. VA's Use announce setting is now enabled for the official MA
 media player; EDA retains voice ownership and VA ducking remains zero. Android
 audio diagnostics showed an active output track with no write errors during the
 test. Tests ended with playback stopped and the original volume restored.
+
+## Automatic EDA arbitration pairing — 25 October 2026
+
+Garden Athena's VACAV connection previously carried voice without an API key and
+without forwarding EDA's pairing tags. HA Tags was already enabled; enabling it
+again or adding a second ESPHome voice owner was not the missing step.
+
+VACAV 0.2.5 provisions and privately retains an EDA API key, reconnects encrypted,
+and bridges only EDA arbitration tags and their state requests. Existing supplied
+keys are retained. Interrupted provisioning reuses the stored pending key rather
+than rotating it. The README includes adoption, backup and pairing verification.
+
+Live validation on Garden Athena confirmed encrypted API connections and the
+voice subscription. After restarting its voice service to trigger immediate tag
+retries, EDA logged that it joined the network using a key from another Echo,
+confirmed by Home Assistant; the encrypted diagnostic API reported one arbitration
+peer. No manual volume-button pairing or general HA action permission was needed.
+The EDA source checkout remains unchanged. Thirty offline regression tests and
+`install.py verify` passed. This fixes the pairing gap; it does not establish the
+cause of the earlier isolated listening-session stall.

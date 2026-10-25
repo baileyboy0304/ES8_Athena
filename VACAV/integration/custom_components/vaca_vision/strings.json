@@ -98,7 +98,8 @@
           "eda_native_indicator": "Use EDA voice indicator only"
         },
         "data_description": {
-          "eda_native_indicator": "Install the no-animation View Assist overlay and select it only for the View Assist device linked to this satellite. Existing custom overlays are preserved."
+          "eda_native_indicator": "Install the no-animation View Assist overlay and select it only for the View Assist device linked to this satellite. Existing custom overlays are preserved.",
+          "eda_noise_psk": "Leave blank for automatic encrypted adoption of an unkeyed EDA. VACAV stores its key privately in HA. If EDA already has a key, enter that existing key."
         }
       }
     },
@@ -141,7 +142,8 @@
       "eda_identity_changed": "The physical EDA device changed. Re-pair explicitly.",
       "ma_unavailable": "Music Assistant must be loaded.",
       "ma_player_missing": "The Sendspin player ID was not found.",
-      "ma_player_not_exposed": "Enable Expose to Home Assistant for this player in Music Assistant first. Use the Music Assistant entity as the View Assist music player."
+      "ma_player_not_exposed": "Enable Expose to Home Assistant for this player in Music Assistant first. Use the Music Assistant entity as the View Assist music player.",
+      "eda_key_required": "EDA already has an encryption key or refused provisioning. Supply its existing ESPHome encryption key; do not reset it."
     },
     "abort": {
       "already_configured": "This Vision device is already configured.",
