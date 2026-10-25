@@ -143,17 +143,27 @@ def prepare_connection(ha, cfg, serial):
             identity = found[-1]
     except subprocess.SubprocessError:
         pass  # Named-player selection remains available if the log has rotated.
-    result = ha.post('config/config_entries/flow', {
-        'handler': 'vaca_vision', 'show_advanced_options': False,
-        'data': {'prepare_only': True, 'host': match[1], 'port': 26900,
-                 'name': cfg['device_name'], 'dashboard': '/' + cfg['home_slug'] + '/home',
-                 'sendspin_client_id': identity}})
-    if (result.get('type') != 'abort' or result.get('reason') != 'setup_prepared'
-            or result.get('description_placeholders', {}).get('setup_protocol') != '2'):
-        # Older integrations may return a normal manual flow; remove it.
-        if result.get('flow_id') and result.get('type') not in ('abort', 'create_entry'):
-            ha.delete('config/config_entries/flow/' + result['flow_id'])
-        raise ValueError('Install VACAVision 0.3.1 or later through HACS, restart HA, and retry.')
+    start = ha.post('config/config_entries/flow', {
+        'handler': 'vaca_vision', 'show_advanced_options': False})
+    flow_id = start.get('flow_id')
+    finished = start.get('type') in ('abort', 'create_entry')
+    try:
+        if not flow_id or start.get('type') != 'menu' or 'manual' not in start.get('menu_options', []):
+            raise ValueError('VACAVision connection setup is unavailable.')
+        path = 'config/config_entries/flow/' + flow_id
+        form = ha.post(path, {'next_step_id': 'manual'})
+        if form.get('type') != 'form' or form.get('step_id') != 'manual':
+            raise ValueError('VACAVision did not offer its connection form.')
+        result = ha.post(path, {'prepare_only': True, 'host': match[1], 'port': 26900,
+            'name': cfg['device_name'], 'dashboard': '/' + cfg['home_slug'] + '/home',
+            'sendspin_client_id': identity})
+        finished = result.get('type') in ('abort', 'create_entry')
+        if (result.get('type') != 'abort' or result.get('reason') != 'setup_prepared'
+                or result.get('description_placeholders', {}).get('setup_protocol') != '2'):
+            raise ValueError('Install VACAVision 0.3.2 or later through HACS, restart HA, and retry.')
+    finally:
+        if flow_id and not finished:
+            ha.delete('config/config_entries/flow/' + flow_id)
     print('Saved device name and dashboard in HA for', match[1])
 
 

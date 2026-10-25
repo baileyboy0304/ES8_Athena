@@ -44,9 +44,8 @@ Home Assistant. Commands and folders use `VACAV`.
   its frontend resources and a working Assist pipeline. This guide adds an Echo
   Show to your existing setup.
   See [View Assist documentation](https://dinki.github.io/View-Assist/) if needed.
-- Music Assistant server and its official HA integration already working if you
-  want the music/announcement setup described here. The current guided flow checks
-  both player mappings before installing the example dashboards.
+- Music Assistant server and its official HA integration already operational.
+  This setup uses its physical Echo Show player for music and announcements.
 - The dashboard card dependencies, including `custom:button-card`, from
   [the dashboard inventory](docs/DASHBOARDS.md).
 - An HA administrator long-lived access token for the guided checks and dashboard
@@ -111,7 +110,7 @@ installed-firewall adaptation. Retain USB access for the next step.
 First install the HA integration through **HACS → ⋮ → Custom repositories**:
 
 1. Add `https://github.com/baileyboy0304/VACAV` with type **Integration**.
-2. Find **VACAVision**, download version **0.3.1 or later** and restart HA.
+2. Find **VACAVision**, download version **0.3.2 or later** and restart HA.
 
 [The VACAV repository](https://github.com/baileyboy0304/VACAV) contains the HACS integration. The recursive clone above also checks out its tested app/source revision in `VACAV/`.
 
@@ -131,7 +130,7 @@ The wizard:
 3. Asks Y/N for Netflix, BBC iPlayer, ITVX and Apple TV. Apple TV uses Silk.
    It reuses installed apps and asks for your APK folder when selected apps are
    missing. Include all required split APKs together.
-4. Asks for dashboard names and the existing Music Assistant sidebar path.
+4. Asks for the device name, dashboard names and the existing Music Assistant sidebar path.
    Use unique names for each additional display. It creates missing landing pages
    so first sign-in reaches a setup page rather than a 404, leaving existing
    dashboards untouched at this stage.

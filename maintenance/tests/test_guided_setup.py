@@ -86,23 +86,23 @@ if __name__ == "__main__": unittest.main()
 class ConnectionPreparation(unittest.TestCase):
     def test_sends_latest_public_identity_with_name_and_dashboard(self):
         from unittest.mock import Mock, patch
-        ha=Mock(); ha.post.return_value={'type':'abort','reason':'setup_prepared','description_placeholders':{'setup_protocol':'2'}}
+        ha=Mock(); ha.post.side_effect=[{'type':'menu','flow_id':'test-flow','menu_options':['manual']},{'type':'form','step_id':'manual'},{'type':'abort','reason':'setup_prepared','description_placeholders':{'setup_protocol':'2'}}]
         with patch.object(g,'usb',side_effect=['inet addr:192.0.2.1', 'sendspin: player '+'A'*43+' on 28928\nsendspin: player '+'B'*43+' on 28928']):
             g.prepare_connection(ha,{'device_name':'Test','home_slug':'test-home'},'serial')
-        data=ha.post.call_args.args[1]['data']
+        data=ha.post.call_args.args[1]
         self.assertEqual(data['sendspin_client_id'],'B'*43)
         self.assertEqual(data['dashboard'],'/test-home/home')
         self.assertNotIn('eda_noise_psk',data)
     def test_missing_log_keeps_named_player_fallback(self):
         from unittest.mock import Mock, patch
-        ha=Mock(); ha.post.return_value={'type':'abort','reason':'setup_prepared','description_placeholders':{'setup_protocol':'2'}}
+        ha=Mock(); ha.post.side_effect=[{'type':'menu','flow_id':'test-flow','menu_options':['manual']},{'type':'form','step_id':'manual'},{'type':'abort','reason':'setup_prepared','description_placeholders':{'setup_protocol':'2'}}]
         with patch.object(g,'usb',side_effect=['inet addr:192.0.2.1','']):
             g.prepare_connection(ha,{'device_name':'Test','home_slug':'test-home'},'serial')
-        self.assertEqual(ha.post.call_args.args[1]['data']['sendspin_client_id'],'')
+        self.assertEqual(ha.post.call_args.args[1]['sendspin_client_id'],'')
     def test_old_integration_requires_update_without_deleting_completed_flow(self):
         from unittest.mock import Mock, patch
-        ha=Mock(); ha.post.return_value={'type':'abort','reason':'setup_prepared','flow_id':'finished'}
+        ha=Mock(); ha.post.side_effect=[{'type':'menu','flow_id':'test-flow','menu_options':['manual']},{'type':'form','step_id':'manual'},{'type':'abort','reason':'setup_prepared','flow_id':'finished'}]
         with patch.object(g,'usb',side_effect=['inet addr:192.0.2.1','']):
-            with self.assertRaisesRegex(ValueError,'0.3.1'):
+            with self.assertRaisesRegex(ValueError,'0.3.2'):
                 g.prepare_connection(ha,{'device_name':'Test','home_slug':'test-home'},'serial')
         ha.delete.assert_not_called()
