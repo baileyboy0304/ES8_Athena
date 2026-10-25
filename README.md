@@ -1,13 +1,13 @@
 # ES8 Athena
 
 Install **echo-dot-assist + VACAV + View Assist** on an Echo Show 8 Gen 2.
-A separate **Portal Plus Gen 2** profile is included for VACAV and dashboards.
+(A separate **Portal Plus Gen 2** profile is included for VACAV and dashboards, more will be added as they are developed)
 
 **This README is the complete installation guide.** Start with preparation below,
 then follow steps 1–8 in order. Moving from Windows? The
 [Linux handover](docs/LINUX-HANDOVER.md) lists the private files to bring across.
 
-Use the normal echo-dot-assist installer and the bundled VACAV upstream prototype.
+Use the normal echo-dot-assist installer and the bundled VACAV apk.
 Do not use the separate Athena Assist or Crown Assist projects. Do not run EDA or
 ES8-specific steps on Portal; Portal uses its own profile in steps 1 and 5–8.
 
