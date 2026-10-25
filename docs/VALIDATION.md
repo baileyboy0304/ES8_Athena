@@ -176,3 +176,23 @@ peer. No manual volume-button pairing or general HA action permission was needed
 The Echo Dot Assist source checkout remains unchanged. Thirty offline regression tests and
 `install.py verify` passed. This fixes the pairing gap; it does not establish the
 cause of the earlier isolated listening-session stall.
+
+## Guided companion installer — 25 October 2026
+
+`./setup.sh` now prepares the Python environment and runs the companion wizard.
+The upstream installer remains responsible for unlocking and system installation.
+The companion wizard reuses operational VA weather and HA timezone, gathers local
+APK inputs, installs via the existing USB helper, pauses for HA configuration,
+and validates the mappings before dashboard deployment. It saves non-secret
+choices/USB progress; HA tokens are not saved.
+
+The readiness validator was run read-only against Garden Athena and passed,
+including the VA version's device-registry microphone mapping, matching display,
+available official MA player, VA weather and configured Home path. Weather/timezone
+inheritance returned the existing weather entity and Europe/London. Offline tests
+cover stale IDs, unavailable players/microphones, proxy/group rejection, both
+VA microphone identifier formats, and the read-only mode's refusal to install.
+This turn did not perform another clean wipe or full live guided installation;
+that walkthrough remains for owner review. The README's three images are actual
+ES8 captures, displayed at half width; the lyrics image previews a separate existing
+lyrics installation and does not claim the wizard installs it.

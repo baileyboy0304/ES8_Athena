@@ -105,7 +105,7 @@ def main():
         print('Inspection complete. Repeat with --apply when ready; no device changes made.')
         return
     if not yes('Install VACAV, selected apps, and the selected streaming policy on this USB device?'):
-        return
+        raise SystemExit(2)
     keyboard_apk = None
     if keyboard_needed:
         from devices.keyboard import prepare
@@ -164,7 +164,7 @@ def main():
             shell('settings put secure accessibility_enabled 1')
         shell('cmd package set-home-activity ' + ACTIVITY)
     shell('am start -n ' + ACTIVITY)
-    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using README.md steps 4–7.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
+    print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using the README.md HA handoff.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
 
 if __name__ == '__main__':
     try: main()

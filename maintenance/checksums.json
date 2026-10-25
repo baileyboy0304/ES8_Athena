@@ -1121,8 +1121,8 @@
   },
   {
     "path": "devices/APK-VERSIONS.md",
-    "bytes": 2437,
-    "sha256": "2145c4724fa1ee653a7deb51e0323b36618290fb8137134f60793bb9f516faa3"
+    "bytes": 2431,
+    "sha256": "cd397b9ae5e535b39b4cc10a6cce4458cd48217b7b322eacec8e487919fddc7a"
   },
   {
     "path": "devices/README.md",
@@ -1326,8 +1326,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 10965,
-    "sha256": "cc8610546e56646c289dd6d3c175d1bc42d788adcbf7e80b8f406e3d18bd3cce"
+    "bytes": 10981,
+    "sha256": "22248cac3b2c1c7c0c541f707c365a0c0bde5fc70ed7f81a0e3d3f2b2b627558"
   },
   {
     "path": "devices/keyboard.py",

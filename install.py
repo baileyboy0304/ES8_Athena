@@ -279,8 +279,8 @@ def create_view_assist(name):
         if result.get('type') != 'create_entry':
             raise RuntimeError('VA did not finish creation: ' + str(result.get('errors', result.get('type'))))
         print('Created View Assist device:', friendly)
-        print('Now set its dashboard/defaults in HA as described in README step 6,')
-        print('then copy the new VA sensor ID into the choices wizard before step 7.')
+        print('Now set its dashboard/defaults in HA as described in the README HA handoff,')
+        print('then return to the guided installer and select the new VA sensor.')
     finally:
         ha.ws.close()
 
@@ -290,15 +290,17 @@ def placeholder_dashboard(title, view_path):
             '# Welcome — setup is in progress\n\n'
             'Your display has reached Home Assistant.\n\n'
             'On the installation computer, finish the View Assist device settings '
-            'in README step 6, then install the dashboards in step 7. '
+            'in the README HA handoff, then return to the guided installer for dashboards. '
             'This page will be replaced by your finished dashboard.\n\n'
             'If setup has finished, refresh this page.'}]}]}
 
-def prepare_dashboards(name):
+def prepare_dashboards(name, ha=None):
     """Create safe landing pages before pairing; never overwrite a dashboard."""
     cfg = settings(name)
-    ha = HA(ask('Home Assistant base URL'),
-            getpass.getpass('HA long-lived access token (not saved): '))
+    owned = ha is None
+    if owned:
+        ha = HA(ask('Home Assistant base URL'),
+                getpass.getpass('HA long-lived access token (not saved): '))
     try:
         known = {d['url_path'] for d in ha.call('lovelace/dashboards/list')}
         for key, title, view in [('home_slug', 'Athena Home', 'home'),
@@ -316,13 +318,15 @@ def prepare_dashboards(name):
                 raise RuntimeError('Placeholder read-back mismatch: ' + slug)
             print('Prepared setup page:', slug)
     finally:
-        ha.ws.close()
+        if owned:
+            ha.ws.close()
 
-def deploy_dashboards(name):
+def deploy_dashboards(name, ha=None):
     cfg = build(name)
-    url = ask('Home Assistant base URL')
-    token = getpass.getpass('HA long-lived access token (not saved): ')
-    ha = HA(url, token)
+    owned = ha is None
+    if owned:
+        ha = HA(ask('Home Assistant base URL'),
+                getpass.getpass('HA long-lived access token (not saved): '))
     backup = ROOT / 'installation-data/backups' / ('dashboards-' + stamp())
     try:
         known = {d['url_path']: d for d in ha.call('lovelace/dashboards/list')}
@@ -341,7 +345,7 @@ def deploy_dashboards(name):
         print('Will save:', ', '.join(slug for _, slug, _ in plan))
         print('Existing dashboard contents will be replaced. Backup:', backup)
         if not yes('Install these three prepared dashboards?'):
-            return
+            return False
         resource_url = '/local/es8-athena/athena-music-card.js?v=2'
         resources = ha.call('lovelace/resources')
         existing_resource = next((r for r in resources if r.get('url', '').split('?')[0] == resource_url.split('?')[0]), None)
@@ -370,8 +374,10 @@ def deploy_dashboards(name):
             if ha.call('lovelace/config', url_path=slug) != config:
                 raise RuntimeError('Dashboard read-back mismatch: ' + slug)
             print('Installed', slug)
+        return True
     finally:
-        ha.ws.close()
+        if owned:
+            ha.ws.close()
 
 def install_ha(target):
     target = Path(target).expanduser().resolve()
@@ -391,7 +397,7 @@ def install_ha(target):
     asset = target / 'www/es8-athena'
     shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
     shutil.copytree(ROOT / 'devices/dashboards/assets', asset, dirs_exist_ok=True)
-    print('Files installed. Restart HA, then follow README.md steps 4–7 for pairing and VA mapping.')
+    print('Files installed. Restart HA, then complete the HA handoff in README.md.')
 
 def verify():
     lock = read(ROOT / 'maintenance/source-versions.json')
