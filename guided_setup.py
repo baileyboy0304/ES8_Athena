@@ -133,15 +133,27 @@ def prepare_connection(ha, cfg, serial):
     match = re.search(r'inet (?:addr:)?(\d+\.\d+\.\d+\.\d+)', output)
     if not match:
         raise ValueError('Echo Show has no Wi-Fi address yet. Connect it to Wi-Fi and retry.')
+    # The public Sendspin identity links MA universal players even when MA omits IP/MAC.
+    # Filter on the device so no pairing token or private key enters installer output.
+    identity = ''
+    try:
+        lines = usb(serial, 'shell', "grep 'sendspin: player ' /data/local/hassmic/boot.log 2>/dev/null || true")
+        found = re.findall(r'sendspin: player ([A-Za-z0-9_-]{43}) on ', lines)
+        if found:
+            identity = found[-1]
+    except subprocess.SubprocessError:
+        pass  # Named-player selection remains available if the log has rotated.
     result = ha.post('config/config_entries/flow', {
         'handler': 'vaca_vision', 'show_advanced_options': False,
         'data': {'prepare_only': True, 'host': match[1], 'port': 26900,
-                 'name': cfg['device_name'], 'dashboard': '/' + cfg['home_slug'] + '/home'}})
-    if result.get('type') != 'abort' or result.get('reason') != 'setup_prepared':
+                 'name': cfg['device_name'], 'dashboard': '/' + cfg['home_slug'] + '/home',
+                 'sendspin_client_id': identity}})
+    if (result.get('type') != 'abort' or result.get('reason') != 'setup_prepared'
+            or result.get('description_placeholders', {}).get('setup_protocol') != '2'):
         # Older integrations may return a normal manual flow; remove it.
-        if result.get('flow_id'):
+        if result.get('flow_id') and result.get('type') not in ('abort', 'create_entry'):
             ha.delete('config/config_entries/flow/' + result['flow_id'])
-        raise ValueError('Install VACAVision 0.3.0 or later through HACS, restart HA, and retry.')
+        raise ValueError('Install VACAVision 0.3.1 or later through HACS, restart HA, and retry.')
     print('Saved device name and dashboard in HA for', match[1])
 
 

@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 4219,
-    "sha256": "539267ea6bbe13931ad2beb0ac193bf6f258129051c5ed308765b78dcfaa614b"
+    "bytes": 4358,
+    "sha256": "44589ae61b9d7ae5f45936244525fbdcd322d33c51b113f169569c4640ad6766"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -951,13 +951,13 @@
   },
   {
     "path": "VACAV/custom_components/vaca_vision/config_flow.py",
-    "bytes": 32778,
-    "sha256": "c96990ba7427d3844fdfce2fa97a03609aa2fef3b08ac59e711fae2cad6f1cbd"
+    "bytes": 33319,
+    "sha256": "adf8327d233a1c190bcee1360a27a10035bfdd277b180c4ccbc01184fd60e935"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/const.py",
     "bytes": 1008,
-    "sha256": "01d10bf414c4e2a134b6c4701f7f986766b3bac4ef95fe7df27fe4f4d34b3781"
+    "sha256": "a737bfa63a8c6823730d37d46d3177b11a37b9b7611a88a44829af0ae739a65a"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/crown.py",
@@ -1002,7 +1002,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/manifest.json",
     "bytes": 811,
-    "sha256": "0f25d6a3a01091c6ab8968917846d57b11cf52485ee01402442cb18fb3c06858"
+    "sha256": "895490409b8cf75d56b25159af683ff1e507f76acdd1434ea5d4f41008f45cfd"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/media_player.py",
@@ -1086,8 +1086,8 @@
   },
   {
     "path": "VACAV/custom_components/vaca_vision/setup_helpers.py",
-    "bytes": 2415,
-    "sha256": "77c369ed055a83cbe3c6ff7d8fe91719bd2eb2c20ef6e4ce9c5b7b6415c720d3"
+    "bytes": 2977,
+    "sha256": "69c321dbdb887841df3022955a8e967d6a67aa6ac4fc722a63255c9628850a07"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/strings.json",
@@ -1141,8 +1141,8 @@
   },
   {
     "path": "VACAV/tests/test_setup_flow.py",
-    "bytes": 8662,
-    "sha256": "4c83ace4b201f3264d4f5437c1088d09b94681d889a427143b47f7787eef7c57"
+    "bytes": 9860,
+    "sha256": "3286e3590c67988bc8850e1599dd97ca4f60c8c94365f1182cc0a355f4d5a246"
   },
   {
     "path": "VACAV/upstream-notes/NOTICE",

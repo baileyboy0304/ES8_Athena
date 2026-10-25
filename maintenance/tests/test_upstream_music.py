@@ -53,3 +53,20 @@ class Exposure(unittest.IsolatedAsyncioTestCase):
         self.player = None
         with self.assertRaisesRegex(ValueError, 'ma_player_missing'):
             await self.m.validate_music(self.hass, self.values)
+
+    async def test_setup_can_enable_exposure_and_rechecks_it(self):
+        self.client.config.get_player_config_value.side_effect = [False, True]
+        self.client.config.save_player_config = AsyncMock()
+        await self.m.validate_music(self.hass, self.values, expose=True)
+        self.client.config.save_player_config.assert_awaited_once_with('player', {'expose_player_to_ha': True})
+
+    async def test_failed_exposure_is_not_reported_as_success(self):
+        self.client.config.get_player_config_value.return_value = False
+        self.client.config.save_player_config = AsyncMock()
+        with self.assertRaisesRegex(ValueError, 'ma_player_not_exposed'):
+            await self.m.validate_music(self.hass, self.values, expose=True)
+
+    async def test_already_exposed_player_needs_no_write(self):
+        self.client.config.save_player_config = AsyncMock()
+        await self.m.validate_music(self.hass, self.values, expose=True)
+        self.client.config.save_player_config.assert_not_awaited()

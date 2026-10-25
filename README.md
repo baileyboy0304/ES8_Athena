@@ -67,6 +67,13 @@ git clone --recurse-submodules https://github.com/baileyboy0304/ES8_Athena.git
 cd ES8_Athena
 ```
 
+For an existing checkout, update its linked components before continuing:
+
+```sh
+git pull
+git submodule update --init --recursive
+```
+
 Follow the **Echo Show 8 Gen 2 / Athena** instructions in
 [Echo Dot Assist's checkers guide](https://github.com/Gamer92000/echo-dot-assist/tree/checkers),
 including its downloads and prerequisites, then run:
@@ -104,7 +111,7 @@ installed-firewall adaptation. Retain USB access for the next step.
 First install the HA integration through **HACS → ⋮ → Custom repositories**:
 
 1. Add `https://github.com/baileyboy0304/VACAV` with type **Integration**.
-2. Find **VACAVision**, download it and restart HA.
+2. Find **VACAVision**, download version **0.3.1 or later** and restart HA.
 
 [The VACAV repository](https://github.com/baileyboy0304/VACAV) contains the HACS integration. The recursive clone above also checks out its tested app/source revision in `VACAV/`.
 
@@ -184,7 +191,9 @@ the installer. The app port is detected automatically.
 
 **2. Confirm the device name.** The installer has already supplied the startup
 dashboard. VACAVision detects the Echo Show role, connects voice, finds the
-physical Music Assistant player and sets up encryption.
+physical Music Assistant player and sets up encryption. The installer supplies
+the public Sendspin identity, so this also works with MA universal players that
+do not report their IP address.
 
 If more than one player matches, or its address is unavailable, select this Echo
 Show from the named player list. If no player is available, the form tells you to

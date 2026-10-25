@@ -7,7 +7,7 @@
   "date": "2026-10-23",
   "note": "Echo Dot Assist tree is byte-for-byte upstream commit. Optional installed firewall adaptation is a separate streaming install step, not applied to this source.",
   "eda_branch": "checkers",
-  "vacav_integration_commit": "f9626b5b15e81a44816cecf464e6df731e04c801",
-  "vacav_integration_version": "0.3.0",
+  "vacav_integration_commit": "3c3adc94401e0ebe8142b0fc8f28f7b661ab3fad",
+  "vacav_integration_version": "0.3.1",
   "vacav_repository": "https://github.com/baileyboy0304/VACAV"
 }
