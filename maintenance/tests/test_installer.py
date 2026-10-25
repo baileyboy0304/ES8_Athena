@@ -39,8 +39,8 @@ class Dashboards(unittest.TestCase):
         self.assertEqual(len(tiles), 4)
         self.assertIn('B.fullscreen=true', tiles[-1]['tap_action']['url_path'])
         self.assertIn('com.netflix.mediaclient.echo', (out/'android.conf').read_text())
-    def test_vacav_artwork_access_without_tv_apps(self):
-        _, out = self.generate('es8-gen2', [], vacav_web=True)
+    def test_old_opt_out_cannot_disable_vacav_artwork_access(self):
+        _, out = self.generate('es8-gen2', [], vacav_web=False)
         self.assertEqual((out/'android.conf').read_text(),
                          'web_packages=com.mph1970.vacavision\n')
 
@@ -49,9 +49,10 @@ class Dashboards(unittest.TestCase):
         self.assertEqual((out/'android.conf').read_text(),
                          'web_packages=bbc.iplayer.android com.mph1970.vacavision\n')
 
-    def test_no_services_no_exceptions(self):
+    def test_no_tv_services_still_allows_vacav(self):
         data, out = self.generate('es8-gen2', [])
-        self.assertEqual((out/'android.conf').read_text(), 'web_packages=\n')
+        self.assertEqual((out/'android.conf').read_text(),
+                         'web_packages=com.mph1970.vacavision\n')
         self.assertEqual(data['tv']['views'][0]['cards'][0]['custom_fields']['content']['card']['cards'][1]['type'], 'markdown')
     def test_portal_paths_are_not_double_substituted(self):
         data, out = self.generate('portal_plus_gen_2', ['netflix','apple_tv','sstv'])

@@ -43,7 +43,8 @@ def configure(adb, shell, cfg, backup):
     original, changed = adapted_firewall()
     baseline = hashlib.sha256(original).hexdigest()
     adapted = hashlib.sha256(changed).hexdigest()
-    selected = bool(cfg['services'] or cfg.get('vacav_web', False))
+    # Installing VACAV on ES8 always includes its dashboard web access.
+    selected = cfg['profile'] == 'es8-gen2' or bool(cfg['services'])
     candidates = ['/system/hassmic/lockdown.sh', '/data/local/hassmic/lockdown.sh',
                   '/data/local/hassmic/ota/current/lockdown.sh']
     paths = []

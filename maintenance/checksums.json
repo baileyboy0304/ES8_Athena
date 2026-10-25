@@ -1326,8 +1326,8 @@
   },
   {
     "path": "devices/streaming.py",
-    "bytes": 6656,
-    "sha256": "eab518397962420215c0143d89c950d775bad3524a5c925753e2a9f7daf1ad6c"
+    "bytes": 6729,
+    "sha256": "af9d8c65e22fd3baf6f87446c6e4efd985b5639464fe9e360478471283b5a4fe"
   },
   {
     "path": "devices/keyboard.py",

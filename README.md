@@ -103,11 +103,9 @@ use View Assist and Music Assistant. Run the wizard even without streaming,
 because it also saves the dashboard settings described below.
 Apple TV uses the existing Silk browser on ES8, not a native Apple TV APK.
 With no streaming apps selected, the TV page shows an empty-state message.
-On ES8, also answer **Yes to Allow VACAV web access** (recommended and the
-default) so Lyrics Machine can load external album artwork and wallpaper. This
-choice is independent of TV apps; answer No only for a local-only dashboard.
-Existing saved choices must be updated by rerunning the wizard, then regenerating
-the dashboards before applying the device stage.
+On ES8, installing VACAV automatically enables its web access so Lyrics Machine
+can load external album artwork and wallpaper. This is part of VACAV installation,
+not an optional TV-app choice. Older saved choices cannot disable it.
 Selected ES8 apps receive EDA firewall TCP 80/443 exceptions to any host, including
 advertising and telemetry; Silk's exception covers any website it opens. VACAV's
 exception likewise covers external content loaded by its dashboard WebView. Other
@@ -323,14 +321,14 @@ normal user app, and enables Netflix's tablet launcher. EDA removes that auth
 dependency; without it Netflix can crash at startup. It is not downloaded from
 an APK mirror or included in Git, and no extra firewall exception is added for it.
 
-When streaming apps or VACAV web access are selected, this stage separately adapts the installed EDA firewall
+On ES8, installing VACAV separately adapts the installed EDA firewall
 scripts and writes `/data/local/es8-athena-streaming.conf`. It backs up the original
 files and refuses an unexpected installed version. The existing EDA firewall
 watcher remains in charge. The `echo-dot-assist/` checkout and its installer remain unchanged.
-With neither streaming apps nor VACAV web access selected on a fresh install,
-the firewall is left unchanged. If lyrics and metadata load but artwork does not,
-check that VACAV web access was enabled: images may come directly from external
-servers even when Lyrics Machine itself runs on your local network.
+VACAV receives web access even when no streaming apps are selected. If lyrics and
+metadata load but artwork does not, check that the VACAV firewall rules were
+applied: images may come directly from external servers even when Lyrics Machine
+itself runs on your local network.
 Reboot once after applying the streaming stage before checking playback.
 
 Two explicit options appear during installation:
@@ -590,10 +588,9 @@ frame card automatically, without changing existing Portal dashboards.
 ES8 choices are Netflix Echo, BBC iPlayer, ITVX and Apple TV through Silk.
 The [APK version reference](devices/APK-VERSIONS.md) lists the exact builds used.
 Users supply their own streaming apps; the existing Silk installation is reused.
-Portal Plus Gen 2 retains its native launchers, including SStv. Optional streaming
-installation adjusts the device's installed firewall; the upstream source and
-installer remain unchanged. No streaming apps and no VACAV web access means no
-firewall adaptation on a fresh install.
+Portal Plus Gen 2 retains its native launchers, including SStv. ES8 VACAV
+installation adjusts the device's installed firewall for VACAV and any selected
+streaming apps; the upstream source and installer remain unchanged.
 
 ## Review status
 
