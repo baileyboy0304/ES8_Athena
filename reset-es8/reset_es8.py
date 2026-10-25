@@ -32,7 +32,7 @@ def require(condition, message):
 
 class Reset:
     def __init__(self, serial, backup_dir, adb='adb', report_dir=None):
-        require(bool(re.fullmatch(r'[A-Za-z0-9_-]+', serial)), 'Use a physical USB serial, not an IP address.')
+        require(serial is None or bool(re.fullmatch(r'[A-Za-z0-9_-]+', serial)), 'Use a physical USB serial, not an IP address.')
         self.serial = serial
         self.backup_dir = Path(backup_dir).expanduser().resolve()
         self.adb = adb
@@ -41,7 +41,24 @@ class Reset:
         self.report_path = None
         self.report = {'serial': serial, 'baseline': self.baseline['name'], 'status': 'not_started', 'verified': {}}
 
+    def resolve_serial(self):
+        if self.serial is not None:
+            return
+        # -d selects exactly one USB transport and rejects ambiguous connections.
+        # Resolve once, then pin every check and write to that serial.
+        result = subprocess.run([self.adb, '-d', 'get-serialno'],
+                                text=True, capture_output=True)
+        serial = result.stdout.strip()
+        require(result.returncode == 0 and serial != 'unknown'
+                and bool(re.fullmatch(r'[A-Za-z0-9_-]+', serial)),
+                'Cannot select a single USB device. Connect exactly one authorised '
+                'ES8, or specify --serial from adb devices -l. ' + result.stderr.strip())
+        self.serial = serial
+        self.report['serial'] = serial
+        print('Selected USB device:', serial, flush=True)
+
     def run(self, *args, **kwargs):
+        self.resolve_serial()
         return subprocess.run([self.adb, '-s', self.serial, *args], check=True, **kwargs)
 
     def shell(self, command):
@@ -201,7 +218,7 @@ class Reset:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--serial', required=True, help='Explicit physical USB serial from adb devices -l')
+    parser.add_argument('--serial', help='Physical USB serial; omitted: select the single connected USB device')
     parser.add_argument('--backup-dir', type=Path, required=True, help='Directory containing the four reviewed *-original.img files')
     parser.add_argument('--adb', default='adb', help='ADB executable')
     parser.add_argument('--report-dir', type=Path, help='Private reset report directory')

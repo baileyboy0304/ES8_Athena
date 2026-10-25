@@ -36,11 +36,10 @@ Keep the recovery images in a private folder outside the checkout.
 
 ## 1. Check local images without contacting the ES8
 
-Run from the repository root (replace the serial and directory for your machine):
+Run from the repository root (replace the directory for your machine):
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial YOUR_USB_SERIAL \
   --backup-dir /path/to/private/recovery-images \
   --check-files
 ```
@@ -53,7 +52,7 @@ When you are ready for downtime, connect the intended ES8 by USB, inspect
 `adb devices -l`, and boot it into TWRP. From working, authorised Android ADB:
 
 ```sh
-adb -s YOUR_USB_SERIAL reboot recovery
+adb -d reboot recovery
 ```
 
 Wait for TWRP to finish starting. Do not allow TWRP to mount system/vendor again
@@ -61,9 +60,13 @@ while the reset is running. Then run the command **without** `--apply`:
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial YOUR_USB_SERIAL \
   --backup-dir /path/to/private/recovery-images
 ```
+
+With no `--serial`, the script selects the single connected USB device, prints its
+serial and uses that serial for every subsequent check and write. It stops if USB
+selection is ambiguous or unavailable. To select one of several USB devices, add
+`--serial YOUR_USB_SERIAL` (and use `adb -s YOUR_USB_SERIAL` for the reboot).
 
 This verifies the USB connection, device serial, Athena identity, root recovery,
 TWRP version, distinct partition mappings, all image sizes/hashes, partition sizes,
@@ -74,12 +77,12 @@ A mismatch stops the process; inspect it instead of bypassing the check.
 
 ```sh
 python3 reset-es8/reset_es8.py \
-  --serial YOUR_USB_SERIAL \
   --backup-dir /path/to/private/recovery-images \
   --apply
 ```
 
-An interactive terminal is required. After the checks pass, type exactly:
+An interactive terminal is required. After the compatibility checks pass, type the
+confirmation shown, using the selected serial:
 
 ```text
 ERASE YOUR_USB_SERIAL

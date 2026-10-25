@@ -89,6 +89,45 @@ class ResetTests(unittest.TestCase):
             m.main()
         self.assertEqual(self.reset.events, ['check_files'])
 
+    def test_auto_usb_selection_is_pinned(self):
+        reset = m.Reset(None, self.root)
+        selected = subprocess.CompletedProcess([], 0, stdout='TEST_USB\n', stderr='')
+        with patch.object(m.subprocess, 'run', return_value=selected) as run:
+            reset.run('get-devpath')
+            reset.run('shell', 'id -u')
+        self.assertEqual(run.call_args_list[0].args[0], ['adb', '-d', 'get-serialno'])
+        self.assertEqual(run.call_args_list[1].args[0], ['adb', '-s', 'TEST_USB', 'get-devpath'])
+        self.assertEqual(run.call_args_list[2].args[0], ['adb', '-s', 'TEST_USB', 'shell', 'id -u'])
+        self.assertEqual(reset.report['serial'], 'TEST_USB')
+
+    def test_auto_selection_failure_never_runs_device_commands(self):
+        for code, output, error in [(1, '', 'no devices found'),
+                                    (1, '', 'more than one device'),
+                                    (1, '', 'device offline'),
+                                    (0, 'unknown', ''),
+                                    (0, '192.168.1.71:5555', '')]:
+            reset = m.Reset(None, self.root)
+            with patch.object(m.subprocess, 'run', return_value=subprocess.CompletedProcess(
+                    [], code, stdout=output, stderr=error)) as run:
+                with self.assertRaisesRegex(RuntimeError, 'single USB device'):
+                    reset.identity()
+                self.assertEqual(run.call_count, 1)
+
+    def test_auto_selected_incompatible_device_rejected(self):
+        reset = m.Reset(None, self.root)
+        results = [subprocess.CompletedProcess([], 0, stdout=value, stderr='')
+                   for value in ['TEST_USB', 'usb:1-3', 'TEST_USB', 'crown']]
+        with patch.object(m.subprocess, 'run', side_effect=results):
+            with self.assertRaisesRegex(RuntimeError, 'not an ES8 Gen 2'):
+                reset.check_device()
+
+    def test_cli_local_check_without_serial_never_contacts_adb(self):
+        with patch.object(m.Reset, 'check_files') as check, patch.object(m.subprocess, 'run') as run, patch(
+                'sys.argv', ['reset_es8.py', '--backup-dir', str(self.root), '--check-files']):
+            m.main()
+        check.assert_called_once()
+        run.assert_not_called()
+
     def test_corrupt_source_rejected(self):
         reset = m.Reset('TEST_USB', self.root)
         (self.root/'boot-original.img').write_bytes(b'bad')
