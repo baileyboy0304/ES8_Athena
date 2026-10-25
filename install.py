@@ -36,9 +36,9 @@ def ask(question, default=''):
     answer = input(question + (f' [{default}]' if default else '') + ': ').strip()
     return answer or default
 
-def yes(question):
+def yes(question, default='N'):
     while True:
-        answer = ask(question + ' (Y/N)', 'N').lower()
+        answer = ask(question + ' (Y/N)', default).lower()
         if answer in ('y', 'yes', 'n', 'no'):
             return answer in ('y', 'yes')
 
@@ -61,6 +61,11 @@ def choose(name):
     print('On ES8, selected apps receive internet TCP 80/443 access, including ads and telemetry.')
     print('Apple TV on ES8 uses Silk; its exception covers all sites opened in Silk.')
     selected = [s['id'] for s in p['services'] if yes('Include ' + s['name'] + '?')]
+    vacav_web = False
+    if name == 'es8-gen2':
+        print('VACAV needs web access for external dashboard artwork and embedded web content.')
+        print('This permits VACAV TCP 80/443 to any internet host, including content telemetry.')
+        vacav_web = yes('Allow VACAV web access (recommended for Lyrics Machine artwork)?', 'Y')
     entity = ask('View Assist sensor entity', 'sensor.es8' if name == 'es8-gen2' else 'sensor.portal')
     weather = ask('Weather entity', 'weather.home')
     if not re.fullmatch(r'sensor\.[a-z0-9_]+', entity) or not re.fullmatch(r'weather\.[a-z0-9_]+', weather):
@@ -75,7 +80,7 @@ def choose(name):
         ZoneInfo(timezone)
     except (KeyError, ValueError):
         raise ValueError('Use a valid IANA timezone, e.g. Europe/London') from None
-    cfg = dict(profile=name, services=selected, va_entity=entity, weather_entity=weather, timezone=timezone,
+    cfg = dict(profile=name, services=selected, vacav_web=vacav_web, va_entity=entity, weather_entity=weather, timezone=timezone,
                music_path=ma, **{k: p[k] for k in ('va_slug', 'home_slug', 'tv_slug')})
     for key in ('va_slug', 'home_slug', 'tv_slug'):
         cfg[key] = ask(key.replace('_', ' ').title(), cfg[key])
@@ -178,7 +183,10 @@ def build(name):
     for key, obj in [('va', va), ('home', home), ('tv', tv)]:
         save(out / (key + '.json'), obj)
         (out / (key + '.yaml')).write_text(yaml.safe_dump(obj, sort_keys=False, allow_unicode=True), encoding='utf-8')
-    (out / 'android.conf').write_text('web_packages=' + ' '.join(s['package'] for s in services) + '\n', encoding='utf-8')
+    web_packages = [s['package'] for s in services]
+    if name == 'es8-gen2' and cfg.get('vacav_web', False):
+        web_packages.append('com.mph1970.vacavision')
+    (out / 'android.conf').write_text('web_packages=' + ' '.join(web_packages) + '\n', encoding='utf-8')
     save(out / 'choices.json', cfg)
     print('Prepared', out, '\nHome:', home_path, '\nVA:', '/' + cfg['va_slug'] + '/clock', '\nTV:', tv_path)
     return cfg

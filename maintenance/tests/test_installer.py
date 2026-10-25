@@ -21,9 +21,9 @@ class Dashboards(unittest.TestCase):
     def tearDown(self):
         m.ROOT = REAL
         self.tmp.cleanup()
-    def generate(self, name, selected):
+    def generate(self, name, selected, vacav_web=False):
         p = m.profile(name)
-        c = dict(profile=name, services=selected, va_entity='sensor.test_display',
+        c = dict(profile=name, services=selected, vacav_web=vacav_web, va_entity='sensor.test_display',
                  weather_entity='weather.test', music_path='/test-ma',
                  **{k:p[k] for k in ('va_slug','home_slug','tv_slug')})
         m.save(m.ROOT / 'installation-data/choices' / (name + '.json'), c)
@@ -39,6 +39,16 @@ class Dashboards(unittest.TestCase):
         self.assertEqual(len(tiles), 4)
         self.assertIn('B.fullscreen=true', tiles[-1]['tap_action']['url_path'])
         self.assertIn('com.netflix.mediaclient.echo', (out/'android.conf').read_text())
+    def test_vacav_artwork_access_without_tv_apps(self):
+        _, out = self.generate('es8-gen2', [], vacav_web=True)
+        self.assertEqual((out/'android.conf').read_text(),
+                         'web_packages=com.mph1970.vacavision\n')
+
+    def test_vacav_access_preserves_selected_streaming_apps(self):
+        _, out = self.generate('es8-gen2', ['iplayer'], vacav_web=True)
+        self.assertEqual((out/'android.conf').read_text(),
+                         'web_packages=bbc.iplayer.android com.mph1970.vacavision\n')
+
     def test_no_services_no_exceptions(self):
         data, out = self.generate('es8-gen2', [])
         self.assertEqual((out/'android.conf').read_text(), 'web_packages=\n')

@@ -9,7 +9,10 @@ chat, read on 23 October 2026. Later owner instructions override these notes.
   or Crown Assist setups. EDA owns voice, wake word, Sendspin and the native band.
 - Streaming is optional. The **streaming-app installation section** may separately
   adapt the installed firewall policy. It must explain access and not pretend
-  that the installed firewall remains stock. No streaming means no adaptation.
+  that the installed firewall remains stock. On 25 October 2026 the owner also
+  approved VACAV web access for external dashboard artwork. The wizard records
+  this independently of TV apps; no TV apps and no VACAV web access means no
+  adaptation. EDA source remains unchanged.
 - No Android Settings/SystemUI/component restoration. The final streaming popup
   is Home, Keep on and Brightness, centred at the top, during supported playback.
 - Silk launches fullscreen. ITVX gets its narrowly scoped warning helper.

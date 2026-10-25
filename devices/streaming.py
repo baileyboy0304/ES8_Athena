@@ -43,7 +43,7 @@ def configure(adb, shell, cfg, backup):
     original, changed = adapted_firewall()
     baseline = hashlib.sha256(original).hexdigest()
     adapted = hashlib.sha256(changed).hexdigest()
-    selected = cfg['services']
+    selected = bool(cfg['services'] or cfg.get('vacav_web', False))
     candidates = ['/system/hassmic/lockdown.sh', '/data/local/hassmic/lockdown.sh',
                   '/data/local/hassmic/ota/current/lockdown.sh']
     paths = []
@@ -73,7 +73,7 @@ def configure(adb, shell, cfg, backup):
     if policy_exists: adb('pull', POLICY, str(backup / 'streaming-before.conf'))
     save(backup / 'streaming-rollback.json', {'files':record, 'policy_existed':policy_exists})
     if not selected and all(x['sha256'] == baseline for x in record) and not policy_exists:
-        print('No streaming selected: installed EDA firewall left unchanged.')
+        print('No app web access selected: installed EDA firewall left unchanged.')
         return
     target = backup / 'firewall-requested.sh'
     target.write_bytes(changed if selected else original)
