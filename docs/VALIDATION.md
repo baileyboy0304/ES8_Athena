@@ -196,3 +196,28 @@ This turn did not perform another clean wipe or full live guided installation;
 that walkthrough remains for owner review. The README's three images are actual
 ES8 captures, displayed at half width; the lyrics image previews a separate existing
 lyrics installation and does not claim the wizard installs it.
+
+## HACS and automatic connection setup — 25 October 2026
+
+- Public HACS repository: `baileyboy0304/VACAV`, release `v0.3.2`.
+- HACS repository validation and CI pass. The private ES8 repository pins the
+  public repository as its `VACAV` submodule; a fresh recursive clone and a later
+  submodule update both pass component verification.
+- 15 VACAV setup tests and 43 installer/music/pairing tests pass. These cover form
+  submission routing, discovery before installer handoff, ambiguous/missing
+  players, key fallback, universal-player matching and HA player exposure.
+- Downloaded 0.3.2 through the actual HA HACS interface, restarted HA and confirmed
+  the loaded integration version. Garden Athena's options show its named MA
+  player and save successfully without re-entering the existing encryption key.
+- Live MA query confirms exactly one match for the ES8's public Sendspin identity:
+  its existing physical universal player. MA supplies neither IP nor MAC for this
+  player, so the installer obtains the public identity from the device log and
+  supplies it through HA's authenticated preparation endpoint. No private key or
+  Sendspin pairing token is extracted by this step.
+- Echo Dot Assist source and the Android APK are unchanged by this release.
+- The final live three-stage HA preparation request passes, including the setup
+  protocol acknowledgement. An independent run of the actual Linux installer
+  function extracted the expected device IP and public Sendspin identity over USB.
+- Post-update audit: all 20 Garden Athena entity mappings unchanged, Assist
+  satellite idle, physical MA player available, and live guided readiness PASS.
+  This validation did not perform another wipe or a listening/playback test.
