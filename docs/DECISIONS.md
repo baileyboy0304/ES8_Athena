@@ -18,3 +18,6 @@
   stay private and outside Git.
 - Private repository publication is authorised. Public release and another
   destructive reset require the owner's explicit instruction.
+
+- VACAV is published separately at baileyboy0304/VACAV as a public HACS integration,
+  with explicit owner approval. ES8_Athena remains private and pins VACAV as a submodule.

@@ -28,7 +28,7 @@ class Exposure(unittest.IsolatedAsyncioTestCase):
         self.modules = patch.dict(sys.modules, modules)
         self.modules.start()
         self.addCleanup(self.modules.stop)
-        path = Path(__file__).resolve().parents[2] / 'VACAV/integration/custom_components/vaca_vision/upstream_music.py'
+        path = Path(__file__).resolve().parents[2] / 'VACAV/custom_components/vaca_vision/upstream_music.py'
         spec = importlib.util.spec_from_file_location('music_test.upstream_music', path)
         self.m = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.m)

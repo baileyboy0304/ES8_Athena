@@ -2,3 +2,6 @@
 	path = echo-dot-assist
 	url = https://github.com/Gamer92000/echo-dot-assist.git
 	branch = checkers
+[submodule "VACAV"]
+	path = VACAV
+	url = https://github.com/baileyboy0304/VACAV.git

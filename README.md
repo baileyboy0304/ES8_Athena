@@ -93,14 +93,20 @@ entries for other devices. If this Echo Show already has one, preserve its API
 key/settings before removing that duplicate ownership.
 
 Echo Dot Assist installs and runs Sendspin and supplies the Music Assistant
-pairing token. Music Assistant discovers the player, but pairing, **Expose player
-to Home Assistant**, and View Assist's entity mappings still need to be completed
-in HA/MA. They are not configured automatically by the upstream installer.
+pairing token. Pair the player in Music Assistant; VACAVision will enable its
+exposure to HA. View Assist's device mappings are completed during the HA handoff.
 
 Keep automatic Echo Dot Assist updates off while using this candidate's
 installed-firewall adaptation. Retain USB access for the next step.
 
 ## 2. Start the guided VACAVision installer
+
+First install the HA integration through **HACS → ⋮ → Custom repositories**:
+
+1. Add `https://github.com/baileyboy0304/VACAV` with type **Integration**.
+2. Find **VACAVision**, download it and restart HA.
+
+[The VACAV repository](https://github.com/baileyboy0304/VACAV) contains the HACS integration. The recursive clone above also checks out its tested app/source revision in `VACAV/`.
 
 From this repository's root, run:
 
@@ -126,9 +132,9 @@ The wizard:
    and your selected apps. It prepares the keyboard, timezone, Home selection and
    display permissions, with Y/N prompts for floating streaming controls and the
    ITVX warning helper. It offers a reboot.
-6. Offers to copy the matching HA integration and frontend files through your
-   mounted HA configuration folder. If that folder is not accessible from Linux,
-   it tells you which files to copy into HA instead.
+6. Checks the HACS integration, saves your device name and startup dashboard in HA,
+   and offers to copy dashboard frontend assets through a mounted HA configuration
+   folder. Otherwise it gives the asset-copy instructions.
 7. **Pauses and tells you exactly what to finish in HA**, as listed below.
 
 VACAVision always receives its required web access for artwork and embedded
@@ -148,80 +154,51 @@ Leave the installer waiting, complete these steps, then return to it.
 
 ### Prepare the Music Assistant player
 
-Complete this before adding VACAVision: its connection form needs the Echo Show's
-Music Assistant player ID.
+If you already paired the Echo's Sendspin player during Echo Dot Assist setup,
+reuse it. Otherwise pair it in Music Assistant using the token on the Echo Dot
+Assist settings page (`http://DEVICE_IP:28931/`). VACAVision finds this physical
+player and enables its exposure to HA automatically.
 
-If you paired the Echo's Sendspin player during Echo Dot Assist setup, reuse it.
-Otherwise pair it using the token supplied by Echo Dot Assist. In that player's
-Music Assistant settings, enable **Expose player to Home Assistant**. Wait for its
-player entity to appear in HA under the **Music Assistant integration**.
-Keep the player's **Music Assistant player ID** for the voice and music settings below.
-
-On this ES8, **Echo Dot Assist runs the Sendspin player**. VACAVision's built-in
-Sendspin engine is disabled in this role. Use the official MA physical-player
-entity for View Assist playback.
+Echo Dot Assist runs Sendspin on this ES8; VACAVision's built-in Sendspin engine
+is disabled in this role.
 
 ### Connect Home Assistant to VACAVision
 
-Restart HA after the installer has copied the integration files. These steps let
-HA control the app and use the Echo Show's microphone and speaker for Assist.
+**1. Add the discovered device.** Open **Settings → Devices & services**.
+Under **Discovered**, select **Add** on the Echo Show's **VACA_Vision** card.
 
-**1. Add the discovered device.** Open **Settings → Devices & services** in HA.
-Look under **Discovered** for your Echo Show's **VACA_Vision** card and select
-**Add** on the **VACA_Vision** card. The screenshot also shows the Echo's
-ESPHome discovery card; use the VACA_Vision card for this setup.
-
-<img src="docs/images/setup/00-discovered-device.png" alt="HA Discovered section with separate ESPHome and VACA_Vision cards; select Add on VACA_Vision" width="640">
-
-Continue with the device role and landing page below.
+<img src="docs/images/setup/00-discovered-device.png" alt="HA Discovered section: select Add on VACA_Vision" width="640">
 
 <details>
 <summary>If the Echo Show does not appear under Discovered</summary>
 
-Check that VACAVision is running on the Echo Show and that HA can reach its IP
-address. Then select **Add integration**, search for `VACA`, and select
-**VACA_Vision**.
+Check that VACAVision is running and HA can reach the Echo Show's IP address.
+Select **Add integration**, search for `VACA`, and choose **VACA_Vision**.
 
-<img src="docs/images/setup/01-select-integration.png" alt="Search results showing the VACA_Vision integration" width="460">
+<img src="docs/images/setup/01-select-integration.png" alt="Search results showing VACA_Vision" width="460">
 
-Select **Connect an installed device by IP address**.
-
-<img src="docs/images/setup/02-connect-installed.png" alt="VACA_Vision menu with Connect an installed device by IP address" width="460">
-
-Enter your Echo Show's IP address and change **Vision port** to **26900**, then
-select **Submit**. Use the address printed by your installer.
-
-<img src="docs/images/setup/03-address-port.png" alt="Connect an installed Vision app: device address and port 26900" width="460">
+Choose **Connect an installed device by IP address** and enter the IP printed by
+the installer. The app port is detected automatically.
 
 </details>
 
-**2. Set the device role and landing page.** Enter the device name. Under
-**Device role**, select **ES8 with upstream EDA (prototype)** — this is the current
-screen label for Echo Dot Assist. Set **Initial dashboard path** to the landing
-page printed by the installer, normally `/athena-home/home`. Select **Submit**.
+**2. Confirm the device name.** The installer has already supplied the startup
+dashboard. VACAVision detects the Echo Show role, connects voice, finds the
+physical Music Assistant player and sets up encryption.
 
-<img src="docs/images/setup/04-role-dashboard.png" alt="New-device setup showing the ES8 upstream role and initial dashboard path" width="460">
+If more than one player matches, or its address is unavailable, select this Echo
+Show from the named player list. If no player is available, the form tells you to
+pair it in Music Assistant and retry. You do not need to find a player ID.
 
-**3. Connect voice and music.** Fill in the following fields and select **Submit**.
+For a new Echo, the API encryption key is created automatically and stored
+privately in HA. A known key is reused. Only an Echo secured with an unknown key
+asks for that existing key, available from Echo Dot Assist's settings or original
+setup records. The installer does not print keys; back up HA's configuration.
 
-| Field shown on screen | What to enter |
-|---|---|
-| Use EDA voice indicator only | Leave checked to use the Echo Show's native listening indicator. |
-| Music Assistant server | Select your Music Assistant integration. |
-| EDA Sendspin player ID | Enter this Echo Show's **Music Assistant player ID**. The example `upfae92cea` belongs to the pictured device. This field does not take a `media_player.…` HA entity ID. |
-| EDA API port | **26053** — Echo Dot Assist's voice connection. |
-| EDA encryption key | If Echo Dot Assist already has an API encryption key, enter that key. For a new device with no key, leave blank to let the integration set up encryption. |
-
-<img src="docs/images/setup/05-voice-music.png" alt="New-device voice and music settings: Music Assistant server, player ID, API port and encryption key" width="460">
-
-HA checks the voice connection and the Music Assistant player before completing
-setup. If it reports that the player is missing or not exposed, correct that
-player's Music Assistant settings and retry.
-
-**4. Select the voice assistant.** Open the new VACAVision device in HA and choose
-the Assist pipeline in its assistant selector. For spoken replies, HA's internal
-URL must be an HTTP address reachable from the Echo Show; this version of Echo
-Dot Assist cannot fetch those replies over HTTPS.
+**3. Select the voice assistant.** Open the new VACAVision device in HA and choose
+its Assist pipeline. For spoken replies, HA's internal URL must be an HTTP
+address reachable from the Echo Show; this version of Echo Dot Assist cannot
+fetch those replies over HTTPS.
 
 ### Sign into Home Assistant on the Echo Show
 

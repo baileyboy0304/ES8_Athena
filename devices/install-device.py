@@ -71,7 +71,7 @@ def main():
     verify()
     cfg = build(a.profile)
     selected = [s for s in p['services'] if s['id'] in cfg['services']]
-    package_dir = ROOT / 'VACAV/integration/custom_components/vaca_vision/packages'
+    package_dir = ROOT / 'VACAV/custom_components/vaca_vision/packages'
     apk = package_dir / 'vision-standard.apk'
     if a.profile == 'es8-gen2':
         if shell('id -u') != '0':

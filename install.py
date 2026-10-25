@@ -215,6 +215,12 @@ class HA:
                     raise RuntimeError(str(msg.get('error')))
                 return msg.get('result')
 
+    def delete(self, path):
+        request = Request(self.base_url + '/api/' + path, method='DELETE',
+            headers={'Authorization': 'Bearer ' + self.token})
+        with urlopen(request, timeout=30) as response:
+            response.read()
+
     def post(self, path, body):
         request = Request(self.base_url + '/api/' + path,
             data=json.dumps(body).encode(), headers={
@@ -383,7 +389,7 @@ def install_ha(target):
     target = Path(target).expanduser().resolve()
     if not (target / 'configuration.yaml').is_file():
         raise ValueError('Point --ha-config to the HA config directory containing configuration.yaml')
-    source = ROOT / 'VACAV/integration/custom_components/vaca_vision'
+    source = ROOT / 'VACAV/custom_components/vaca_vision'
     dest = target / 'custom_components/vaca_vision'
     backup = ROOT / 'installation-data/backups' / ('ha-' + stamp())
     print('Install VACAV prototype.10 to', dest)
@@ -393,11 +399,19 @@ def install_ha(target):
         shutil.copytree(dest, backup / 'vaca_vision')
         print('Previous integration saved:', backup)
     shutil.copytree(source, dest, dirs_exist_ok=True)
-    # Own asset namespace: does not replace VA-managed assets or overlays.
+    install_assets(target)
+    print('Files installed. Restart HA, then complete the HA handoff in README.md.')
+
+
+def install_assets(target):
+    target = Path(target).expanduser().resolve()
+    if not (target / 'configuration.yaml').is_file():
+        raise ValueError('Point to the HA config directory containing configuration.yaml')
     asset = target / 'www/es8-athena'
     shutil.copytree(ROOT / 'devices/dashboards/upstream', asset, dirs_exist_ok=True)
     shutil.copytree(ROOT / 'devices/dashboards/assets', asset, dirs_exist_ok=True)
-    print('Files installed. Restart HA, then complete the HA handoff in README.md.')
+    print('Dashboard frontend assets installed.')
+
 
 def verify():
     lock = read(ROOT / 'maintenance/source-versions.json')
@@ -408,6 +422,12 @@ def verify():
     if head != lock['eda_base']:
         raise RuntimeError('Echo Dot Assist commit differs from maintenance/source-versions.json')
     subprocess.run(['git','-C',str(eda),'diff','--exit-code','HEAD','--'],check=True,stdout=subprocess.DEVNULL)
+    vacav = ROOT / 'VACAV'
+    if not (vacav / '.git').exists():
+        raise RuntimeError('VACAV submodule missing. Run: git submodule update --init VACAV')
+    revision = subprocess.check_output(['git', '-C', str(vacav), 'rev-parse', 'HEAD'], text=True).strip()
+    if revision != lock['vacav_integration_commit']:
+        raise RuntimeError('VACAV commit differs from maintenance/source-versions.json')
     bad = []
     for f in read(ROOT / 'maintenance/checksums.json'):
         p = ROOT / f['path']

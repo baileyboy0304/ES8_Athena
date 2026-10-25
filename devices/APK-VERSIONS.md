@@ -44,4 +44,4 @@ The bundled app uses package `com.mph1970.vacavision` and is included in this re
 
 | Device | Version name | Version code | Bundled file |
 |---|---|---|---|
-| ES8 Gen 2 | `0.2.3-upstream-prototype.10` | `16` | `VACAV/integration/custom_components/vaca_vision/packages/vision-standard.apk` |
+| ES8 Gen 2 | `0.2.3-upstream-prototype.10` | `16` | `VACAV/custom_components/vaca_vision/packages/vision-standard.apk` |

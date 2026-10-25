@@ -28,7 +28,7 @@ class Pairing(unittest.IsolatedAsyncioTestCase):
         self.store = NS(async_load=AsyncMock(side_effect=load), async_save=AsyncMock(side_effect=save))
         modules['homeassistant.helpers.storage'].Store = Mock(return_value=self.store)
         self.patch = patch.dict(sys.modules, modules); self.patch.start(); self.addCleanup(self.patch.stop)
-        path = Path(__file__).resolve().parents[2]/'VACAV/integration/custom_components/vaca_vision/upstream_pairing.py'
+        path = Path(__file__).resolve().parents[2]/'VACAV/custom_components/vaca_vision/upstream_pairing.py'
         spec = importlib.util.spec_from_file_location('pairing_test', path)
         self.m = importlib.util.module_from_spec(spec); spec.loader.exec_module(self.m)
         self.info = NS(project_name='hassmic.athena', mac_address='aa:bb', api_encryption_provisionable=True)

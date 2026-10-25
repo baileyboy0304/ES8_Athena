@@ -127,24 +127,39 @@ def gather_apks(serial, cfg):
                 shutil.copy2(apk, folder / apk.name)
 
 
+def prepare_connection(ha, cfg, serial):
+    """Save choices in VACAV through HA's authenticated setup API."""
+    output = usb(serial, 'shell', 'ifconfig', 'wlan0')
+    match = re.search(r'inet (?:addr:)?(\d+\.\d+\.\d+\.\d+)', output)
+    if not match:
+        raise ValueError('Echo Show has no Wi-Fi address yet. Connect it to Wi-Fi and retry.')
+    result = ha.post('config/config_entries/flow', {
+        'handler': 'vaca_vision', 'show_advanced_options': False,
+        'data': {'prepare_only': True, 'host': match[1], 'port': 26900,
+                 'name': cfg['device_name'], 'dashboard': '/' + cfg['home_slug'] + '/home'}})
+    if result.get('type') != 'abort' or result.get('reason') != 'setup_prepared':
+        # Older integrations may return a normal manual flow; remove it.
+        if result.get('flow_id'):
+            ha.delete('config/config_entries/flow/' + result['flow_id'])
+        raise ValueError('Install VACAVision 0.3.0 or later through HACS, restart HA, and retry.')
+    print('Saved device name and dashboard in HA for', match[1])
+
+
 def handoff(cfg):
     print(f'''
 GO TO HOME ASSISTANT NOW
-1. Restart HA if integration files were just installed. Add/configure VACA_Vision:
-   role ES8 with upstream Echo Dot Assist (standard_upstream_eda), this ES8's IP,
-   app port 26900, voice port 26053, your device name and Assist pipeline.
-   Reuse an existing encryption key if present; otherwise leave it blank.
-   Do not create a second ESPHome voice owner for this ES8.
-2. Set startup dashboard /{cfg['home_slug']}/home. Sign into HA ON THE ES8.
-3. In Music Assistant, pair Echo Dot Assist's Sendspin player using the upstream
-   setup token if not already paired. Enable Expose player to Home Assistant.
-   In VACAVision options choose the MA integration and MA player ID.
+1. In Music Assistant, pair this Echo's Sendspin player if not already paired.
+   Use the Sendspin pairing token from Echo Dot Assist's installer/settings page.
+2. Settings → Devices & services → Discovered → VACA_Vision → Add.
+   Confirm the device name. The role, dashboard, ports and encryption are automatic.
+   If music cannot be matched automatically, choose this Echo by name from the list.
+   If there is no discovery card, Add integration → VACA_Vision → Connect by IP.
+3. Sign into HA ON THE ES8. Choose the desired Assist pipeline on its HA device.
 4. In your EXISTING View Assist installation, add/configure this ES8 device:
    display = VACAVision display sensor VALUE (va-...), microphone = its Assist
-   satellite, alerts AND music = official MA physical-player entity, not proxy.
+   satellite, alerts AND music = official Music Assistant physical-player entity.
    Set weather through VA, Use announce on, ducking zero, native voice indicator.
    Dashboard: /{cfg['va_slug']}    Home: /{cfg['va_slug']}/clock
-   If the VA picker excludes VACAVision, README explains the optional helper.
 5. Verify a spoken reply and music playback come from THIS Echo Show.
 Return here when ready. The next stage checks HA before offering dashboards.
 ''')
@@ -189,6 +204,10 @@ def run(check_only=False):
                         raise ValueError('Dashboard names need a hyphen and lowercase letters/digits.')
                 if len({cfg[k] for k in ('home_slug', 'va_slug', 'tv_slug')}) != 3:
                     raise ValueError('Use three distinct dashboard names.')
+            if not cfg.get('device_name'):
+                cfg['device_name'] = core.ask('Device name')
+                if not cfg['device_name'] or len(cfg['device_name']) > 80:
+                    raise ValueError('Enter a device name between 1 and 80 characters.')
             core.save(choice_file, cfg)
             core.build(PROFILE)
             core.prepare_dashboards(PROFILE, ha)
@@ -204,11 +223,23 @@ def run(check_only=False):
                 print('Reboot the Echo Show once before checking streaming playback.')
                 if core.yes('Reboot this Echo Show now?'):
                     usb(serial, 'reboot')
-            if core.yes('Install/update the bundled HA integration through a mounted HA config folder?'):
-                core.install_ha(core.ask('Path to HA config folder containing configuration.yaml'))
+            print('Install VACAVision from HACS and restart HA if needed:')
+            print('https://github.com/baileyboy0304/VACAV (category: Integration)')
+            while True:
+                try:
+                    ha.ws.close()
+                    ha = core.HA(url, token)
+                    prepare_connection(ha, cfg, serial)
+                    break
+                except (ValueError, RuntimeError, OSError, subprocess.SubprocessError) as exc:
+                    print('Connection preparation:', exc)
+                    if not core.yes('Ready to retry after completing HACS installation or Wi-Fi setup?'):
+                        print('Choices saved. Run ./vacav_setup.sh again to resume.')
+                        return False
+            if core.yes('Copy dashboard frontend assets through a mounted HA config folder?'):
+                core.install_assets(core.ask('Path to HA config folder containing configuration.yaml'))
             else:
-                print('Copy VACAV/integration/custom_components/vaca_vision into HA custom_components,')
-                print('and devices/dashboards/{upstream,assets} contents into HA www/es8-athena, then restart HA.')
+                print('Copy devices/dashboards/{upstream,assets} contents into HA www/es8-athena.')
             handoff(cfg)
         # Close before the human handoff; HA may restart. Never persist the token.
         ha.ws.close(); ha = None

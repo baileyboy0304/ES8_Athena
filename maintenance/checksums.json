@@ -1,5 +1,30 @@
 [
   {
+    "path": "VACAV/.github/workflows/validate.yml",
+    "bytes": 575,
+    "sha256": "33a4b95ec246d87067e0778c7b258a0c7daf70a19c95d1fe006654e34b85ec83"
+  },
+  {
+    "path": "VACAV/.gitignore",
+    "bytes": 99,
+    "sha256": "9e74e28706a88eff836d6b3ef0e0b13b3662d32acc2bad1584c5f6b24d68d86b"
+  },
+  {
+    "path": "VACAV/LICENSE",
+    "bytes": 10761,
+    "sha256": "f93f732706bd2d4daca235124d4dcf5854d0db19558a8adf2e850c64ea2bcda0"
+  },
+  {
+    "path": "VACAV/NOTICE",
+    "bytes": 1450,
+    "sha256": "86e9acfcaa230d935986a29aa39355175d78a3b3b0705d6ea8b95030ebe82436"
+  },
+  {
+    "path": "VACAV/README.md",
+    "bytes": 4219,
+    "sha256": "539267ea6bbe13931ad2beb0ac193bf6f258129051c5ed308765b78dcfaa614b"
+  },
+  {
     "path": "VACAV/app/NOTICE",
     "bytes": 1450,
     "sha256": "86e9acfcaa230d935986a29aa39355175d78a3b3b0705d6ea8b95030ebe82436"
@@ -895,234 +920,249 @@
     "sha256": "e32d8c68b01957827faca7f4b7800ade058528dd723ec6fefd2ed3dcd3b2c029"
   },
   {
-    "path": "VACAV/integration/LICENSE",
-    "bytes": 10761,
-    "sha256": "f93f732706bd2d4daca235124d4dcf5854d0db19558a8adf2e850c64ea2bcda0"
-  },
-  {
-    "path": "VACAV/integration/NOTICE",
-    "bytes": 1450,
-    "sha256": "86e9acfcaa230d935986a29aa39355175d78a3b3b0705d6ea8b95030ebe82436"
-  },
-  {
-    "path": "VACAV/integration/custom_components/vaca_vision/__init__.py",
+    "path": "VACAV/custom_components/vaca_vision/__init__.py",
     "bytes": 6827,
     "sha256": "f23fca687d11e20fafe947e549f51397a84be36d4378a9b43e711d6f4beeb7b3"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/adb.py",
+    "path": "VACAV/custom_components/vaca_vision/adb.py",
     "bytes": 5756,
     "sha256": "1627fd7602fc7f6e1a9ab3c7ee5d3cd2789e48d1d62c460d5770c360daaef86f"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/assist_satellite.py",
+    "path": "VACAV/custom_components/vaca_vision/assist_satellite.py",
     "bytes": 1066,
     "sha256": "a364c440cc8d74e0fb96ddc1497d1ec1763251dd53baac73115f9caa9a9bd9b2"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/binary_sensor.py",
+    "path": "VACAV/custom_components/vaca_vision/binary_sensor.py",
     "bytes": 1224,
     "sha256": "a191570e5ed1cc52fb2b02af391ed0394faf40a0575848c47e54c74a67f95062"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/button.py",
+    "path": "VACAV/custom_components/vaca_vision/brand/icon.png",
+    "bytes": 48140,
+    "sha256": "cf9caf8981c3de4f3a1fa543a08f74dcaf86480a9a513eee4e374951dc1aaabe"
+  },
+  {
+    "path": "VACAV/custom_components/vaca_vision/button.py",
     "bytes": 1500,
     "sha256": "868cce8f83efc23d5e221efe860e260a4e47d7d74898f053911af7d80ecc7c11"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/config_flow.py",
-    "bytes": 26394,
-    "sha256": "3330f94ff49a17f85d55886330afd7e9fff0b0a4615c71588130e38e19755d9e"
+    "path": "VACAV/custom_components/vaca_vision/config_flow.py",
+    "bytes": 32778,
+    "sha256": "c96990ba7427d3844fdfce2fa97a03609aa2fef3b08ac59e711fae2cad6f1cbd"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/const.py",
-    "bytes": 1009,
-    "sha256": "a6c9753d3bf4d271bc862d24d0f3acfa20f225e51a7e7a6d9590acd6fcc06be8"
+    "path": "VACAV/custom_components/vaca_vision/const.py",
+    "bytes": 1008,
+    "sha256": "01d10bf414c4e2a134b6c4701f7f986766b3bac4ef95fe7df27fe4f4d34b3781"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/crown.py",
+    "path": "VACAV/custom_components/vaca_vision/crown.py",
     "bytes": 3076,
     "sha256": "80bdd10310abb58e5c9f793566f942247eb06e6c06feb363ef66f30934021eda"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/diagnostics.py",
+    "path": "VACAV/custom_components/vaca_vision/diagnostics.py",
     "bytes": 1082,
     "sha256": "ffae76a4c80458b269fcfc1e1804d762ef0d0caf9dc547d093dc65f5d334f631"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/discovery.py",
+    "path": "VACAV/custom_components/vaca_vision/discovery.py",
     "bytes": 1733,
     "sha256": "086d99046557ca1f9af6f9a0970560225dc0437e869ffc693fc310c148e8cec8"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/dot.py",
+    "path": "VACAV/custom_components/vaca_vision/dot.py",
     "bytes": 19533,
     "sha256": "7d233991254894c9759b82968cefe3caaebf539a220110086d751ac2e058b52a"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/dot_controls.py",
+    "path": "VACAV/custom_components/vaca_vision/dot_controls.py",
     "bytes": 8193,
     "sha256": "5049c32fc4a7a9b6a0d60bece3be7e08ac3da4a834bd909f5f206530d012d5ba"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/eda_discovery.py",
+    "path": "VACAV/custom_components/vaca_vision/eda_discovery.py",
     "bytes": 1688,
     "sha256": "6da5b7e35925576a49734a9d1b6f94ec3ca62e11b2ec4d9ae309bfebff4c27c2"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/entity.py",
+    "path": "VACAV/custom_components/vaca_vision/entity.py",
     "bytes": 820,
     "sha256": "b5ed7e82c11a711cfaecd3b9b25b901da5b6bc31a4d5a45d125bff361e6f5578"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/installer.py",
+    "path": "VACAV/custom_components/vaca_vision/installer.py",
     "bytes": 11203,
     "sha256": "becaa8caa0131c8766ecd92c0f32fd8dc03a4462e95cbe0faa6995ca84615b84"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/manifest.json",
-    "bytes": 737,
-    "sha256": "d079773ad8807e985282aa7956baeebfa2e7177402d43fb6fdd533fb331c2bb7"
+    "path": "VACAV/custom_components/vaca_vision/manifest.json",
+    "bytes": 811,
+    "sha256": "0f25d6a3a01091c6ab8968917846d57b11cf52485ee01402442cb18fb3c06858"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/media_player.py",
+    "path": "VACAV/custom_components/vaca_vision/media_player.py",
     "bytes": 7862,
     "sha256": "f7855ee2a8c59eb47b450a4f1175c07fc099c0fdf70342db5cc0a6b74b6e5432"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/microphone.py",
+    "path": "VACAV/custom_components/vaca_vision/microphone.py",
     "bytes": 1596,
     "sha256": "2b15851c90691fd6e24353ea0b19f34d72c09032dd88e33b93a6e43f8b537fef"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/number.py",
+    "path": "VACAV/custom_components/vaca_vision/number.py",
     "bytes": 1111,
     "sha256": "7e4d375ba13b1b9e8e61f4b2095878f267aeb1b734a85b4002cba2052cc93e0d"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/packages/manifest.json",
+    "path": "VACAV/custom_components/vaca_vision/packages/manifest.json",
     "bytes": 781,
     "sha256": "60af930fcebd63b0e6eeb2ea2e2a0457c2376a1ab41defc49e97320709c8cb0d"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-overlay.apk",
+    "path": "VACAV/custom_components/vaca_vision/packages/vision-overlay.apk",
     "bytes": 8472753,
     "sha256": "74abdf894b578e46aa30d0a855af9e481bfe32ac9d6c3a2e6ebdde5df9400552"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-picker.apk",
+    "path": "VACAV/custom_components/vaca_vision/packages/vision-picker.apk",
     "bytes": 10182,
     "sha256": "8e28ccb4334995b385c9f4a65a841a555455f039bc4d82ead76dd0b47e7e0ddc"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/packages/vision-standard.apk",
+    "path": "VACAV/custom_components/vaca_vision/packages/vision-standard.apk",
     "bytes": 48850691,
     "sha256": "2bacaa74f16223cd3b0d6f6fadb9ac2c94ad6c8f168e349b62275e2da644a3dd"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/picker-panel.js",
+    "path": "VACAV/custom_components/vaca_vision/picker-panel.js",
     "bytes": 8824,
     "sha256": "73ecc9815bed0f8315b57b264d87c6b07a19651143538a22446feaffce66739f"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/picker_panel.py",
+    "path": "VACAV/custom_components/vaca_vision/picker_panel.py",
     "bytes": 4108,
     "sha256": "838235d2e80adf1c8a3ac6ed2bb2771c1c396afbf28d3d3429ca878bd37b830f"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/picker_profiles.py",
+    "path": "VACAV/custom_components/vaca_vision/picker_profiles.py",
     "bytes": 8909,
     "sha256": "8ebd5c6d457ea6f8541577630a6875d4d8cc97fee741315a8feb2d54648c40cf"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/protocol.py",
+    "path": "VACAV/custom_components/vaca_vision/protocol.py",
     "bytes": 7695,
     "sha256": "78aeedc679c49d703445d51922b92f4f7106f55079bdf4875c71fa456ebd2657"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/resources/view_assist/native_indicator.html",
+    "path": "VACAV/custom_components/vaca_vision/resources/view_assist/native_indicator.html",
     "bytes": 122,
     "sha256": "e6461233a1bfff6c9588755b48478dfb4e92296ef45b2d75986150d0117b1b19"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/runtime.py",
+    "path": "VACAV/custom_components/vaca_vision/runtime.py",
     "bytes": 18065,
     "sha256": "6d13a557e60a2e35d58dfc5f3df9535298574a1871a9c438527e36e5eb279920"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/select.py",
+    "path": "VACAV/custom_components/vaca_vision/select.py",
     "bytes": 2163,
     "sha256": "32f791939273fdcbc8649fa39b307fcef18b74731fd1fa293ccf6f27654c1807"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/sensor.py",
+    "path": "VACAV/custom_components/vaca_vision/sensor.py",
     "bytes": 1725,
     "sha256": "42915bf1c6e1002f25f0e91e12648a98a089008463720a15a21e6222c335693c"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/services.yaml",
+    "path": "VACAV/custom_components/vaca_vision/services.yaml",
     "bytes": 908,
     "sha256": "f8964d3fc19343ccd08f17febec0adab0b5684f40aa1add2bc513dcd92b6a9cd"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/strings.json",
-    "bytes": 16166,
-    "sha256": "3fad37948663c1d663b1cabf14a379a598ec7fc8962249677d3eef4b6fe4145e"
+    "path": "VACAV/custom_components/vaca_vision/setup_helpers.py",
+    "bytes": 2415,
+    "sha256": "77c369ed055a83cbe3c6ff7d8fe91719bd2eb2c20ef6e4ce9c5b7b6415c720d3"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/switch.py",
+    "path": "VACAV/custom_components/vaca_vision/strings.json",
+    "bytes": 18186,
+    "sha256": "1907926d45a97cc1b1d52688b265a3bea4a52c50718ce8c7a70883e7c72db816"
+  },
+  {
+    "path": "VACAV/custom_components/vaca_vision/switch.py",
     "bytes": 2381,
     "sha256": "17358512113818f100db99aefc4ca99a46af84fadff1b4a39ecd141631b420c5"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/translations/en.json",
-    "bytes": 16166,
-    "sha256": "3fad37948663c1d663b1cabf14a379a598ec7fc8962249677d3eef4b6fe4145e"
+    "path": "VACAV/custom_components/vaca_vision/translations/en.json",
+    "bytes": 18186,
+    "sha256": "1907926d45a97cc1b1d52688b265a3bea4a52c50718ce8c7a70883e7c72db816"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/update.py",
+    "path": "VACAV/custom_components/vaca_vision/update.py",
     "bytes": 230,
     "sha256": "2e955f886676dd3ab4dc4df7dbd1282379157cbbb085488031700a66b4e52476"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/upstream.py",
-    "bytes": 11508,
-    "sha256": "90ed893420ac1ec3d93d427ecedbebe2cb5509b3a5dc651078d03fa1f6f1c7f1"
+    "path": "VACAV/custom_components/vaca_vision/upstream.py",
+    "bytes": 11558,
+    "sha256": "0c80b3eb25092f024341d8fc074ef91dbd457a89f985e9bded363ab2a7d6fbba"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/upstream_music.py",
-    "bytes": 4271,
-    "sha256": "1b956667a276d278dc41ce5ff9981a66982bd4638d6c34ab57a101fbf8f72dc3"
+    "path": "VACAV/custom_components/vaca_vision/upstream_music.py",
+    "bytes": 4559,
+    "sha256": "1fac18d90d5a4d70b4c50bf3528f3b06034e689b18d90040253c588d46ba9517"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/upstream_pairing.py",
+    "path": "VACAV/custom_components/vaca_vision/upstream_pairing.py",
     "bytes": 4973,
     "sha256": "0fbf7abfbef36ae2f2db6f7605f33ff5321a5790b787604465583d2cfe93a1ee"
   },
   {
-    "path": "VACAV/integration/custom_components/vaca_vision/view_assist_indicator.py",
+    "path": "VACAV/custom_components/vaca_vision/view_assist_indicator.py",
     "bytes": 9701,
     "sha256": "01cc69e843e60b9679b434b48d69dad40cab8fbacb71e2e05768c8fde3135a9b"
   },
   {
-    "path": "VACAV/integration/upstream-notes/NOTICE",
+    "path": "VACAV/hacs.json",
+    "bytes": 58,
+    "sha256": "82952e7db7ea9be19cb8b1dc6af354ba2a0b605a84715466de7210687c9174c2"
+  },
+  {
+    "path": "VACAV/requirements-dev.txt",
+    "bytes": 19,
+    "sha256": "e91454341457edbd8559c9825b25e665380b1b8cabc759b9c3f709d0a4ce23e8"
+  },
+  {
+    "path": "VACAV/tests/test_setup_flow.py",
+    "bytes": 8662,
+    "sha256": "4c83ace4b201f3264d4f5437c1088d09b94681d889a427143b47f7787eef7c57"
+  },
+  {
+    "path": "VACAV/upstream-notes/NOTICE",
     "bytes": 522,
     "sha256": "9af449aa4dffb93f37420efea2f849e95bbe34aa45185765e3d50631489ffb20"
   },
   {
-    "path": "VACAV/integration/upstream-notes/TESTING.md",
+    "path": "VACAV/upstream-notes/TESTING.md",
     "bytes": 10933,
     "sha256": "ae36e8e1a45f99be75acea7661f69da3d0a756ae21daf7948780a69f94456890"
   },
   {
-    "path": "VACAV/integration/upstream-notes/remote.py",
+    "path": "VACAV/upstream-notes/remote.py",
     "bytes": 8931,
     "sha256": "ac7591f5de14b26ad26bea5f4a9047c4259415b02f6ddbdfaef45e3ceb7e1622"
   },
   {
     "path": "devices/APK-VERSIONS.md",
-    "bytes": 2431,
-    "sha256": "cd397b9ae5e535b39b4cc10a6cce4458cd48217b7b322eacec8e487919fddc7a"
+    "bytes": 2419,
+    "sha256": "7b5a00476aadadba019350f1b6c307d9b1c1b279f53be731a5288df677c0fc2d"
   },
   {
     "path": "devices/README.md",
@@ -1326,8 +1366,8 @@
   },
   {
     "path": "devices/install-device.py",
-    "bytes": 10981,
-    "sha256": "22248cac3b2c1c7c0c541f707c365a0c0bde5fc70ed7f81a0e3d3f2b2b627558"
+    "bytes": 10969,
+    "sha256": "461684cdfe8e5ed44ffa707eca64fc18a7a4b3758e076e24ed075209b297db41"
   },
   {
     "path": "devices/keyboard.py",
