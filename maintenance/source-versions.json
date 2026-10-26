@@ -1,13 +1,13 @@
 {
   "eda_upstream": "https://github.com/Gamer92000/echo-dot-assist",
   "eda_base": "1c00727d332c3b0ee4d13b59f702c78839431694",
-  "vacav_source_commit": "52c766e175fa2ff996687b16b591aee3e60d28e6",
+  "vacav_source_commit": "8ff48056f7bcad958900e5760b40588d2b9e8ae0",
   "vacav_version": "0.2.3-upstream-prototype.13",
   "vacav_code": 19,
   "date": "2026-10-26",
   "note": "Echo Dot Assist tree is byte-for-byte upstream commit. Optional installed firewall adaptation is a separate streaming install step, not applied to this source.",
   "eda_branch": "checkers",
-  "vacav_integration_commit": "52c766e175fa2ff996687b16b591aee3e60d28e6",
+  "vacav_integration_commit": "8ff48056f7bcad958900e5760b40588d2b9e8ae0",
   "vacav_integration_version": "0.5.1",
   "vacav_repository": "https://github.com/baileyboy0304/VACAV"
 }

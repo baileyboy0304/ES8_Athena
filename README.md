@@ -184,8 +184,9 @@ a Silk browser APK after a clean reset**; there is no native Apple TV APK here.
 See [tested APK versions](devices/APK-VERSIONS.md).
 
 Answer **Yes** to floating controls if you want Home, Keep on and Brightness over
-other apps. Double-tap the screen to show the controls during streaming playback
-or on an app’s sign-in/browsing screens. Android passes these taps to
+other apps. **Double-tap the screen to open the popup**, then tap **Home** to
+return to your dashboard. The popup also provides **Keep on** and **Brightness**
+and works during playback and on an app’s sign-in/browsing screens. Android passes these taps to
 the underlying app, so a player may also seek. The popup hides after five seconds
 and does not appear over VACAVision itself. The DUMP permission is used to identify
 the foreground window. For ITVX, answer **Yes** to the exact Google-services-warning
@@ -390,6 +391,9 @@ stays above the frame so you can return to the launcher.
 <img src="docs/images/setup/11-music-assistant-home.png" alt="Music Assistant running inside the Echo Show dashboard with its Home button above the player frame" width="640">
 
 ## 6. Test on the Echo Show
+
+**Returning from a streaming app:** double-tap the screen, then tap **Home** in
+the popup. The controls hide automatically after five seconds.
 
 Ask a voice question and play music. Confirm both
 come from this Echo, not another device. Sign into each streaming service, answer
