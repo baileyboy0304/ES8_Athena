@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 9459,
-    "sha256": "fbde5ce1dcb3e1647046f0bbffd45c927c8bce5e8d40b5b6b6e601b36373a364"
+    "bytes": 9684,
+    "sha256": "c4b7fd51215aebc58fcb7683bddbac0ea812c36fa43c4229d8e7e1a27e098f33"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -202,7 +202,7 @@
   {
     "path": "VACAV/app/standard/app/build.gradle.kts",
     "bytes": 5462,
-    "sha256": "628fda33cc9e48e41f30350350a6820f8e8c7e0938764906aeb219be690c7b39"
+    "sha256": "ae2efce168949e25899f90fc8d6c3793ef3fdca93e1c77e1977bb62172a5487f"
   },
   {
     "path": "VACAV/app/standard/app/proguard-rules.pro",
@@ -651,8 +651,8 @@
   },
   {
     "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/UpstreamControls.kt",
-    "bytes": 13160,
-    "sha256": "184381df6ac0e9512cb3627aac538419a638e6accfd722afaed77ea1e7f86fcb"
+    "bytes": 12878,
+    "sha256": "c64001d5db76a5d3cdf3a0733d456a2349cf8b7bb8fe68a8b3bb9a9b74323c21"
   },
   {
     "path": "VACAV/app/standard/app/src/main/java/com/msp1974/vacompanion/utils/VoiceLease.kt",
@@ -967,7 +967,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/const.py",
     "bytes": 1008,
-    "sha256": "54b9f1263a83ec6f4eeeb91225f58b12c95f125ce71bbc7b67c6152cced703bf"
+    "sha256": "4928669484ce65b02878515509b34047e2733941ccb1e5295f340d9ca092dcc2"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/crown.py",
@@ -1212,7 +1212,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/manifest.json",
     "bytes": 811,
-    "sha256": "03567e2fbf6b1751e7dd36e365e0be7daf5dd3d0966f89b2a0e062c6139a5a14"
+    "sha256": "1cb58121edbf5d5fcd041ce96014badee13e5aea7801d8863d118df6a8f023aa"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/media_player.py",
@@ -1232,7 +1232,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/packages/manifest.json",
     "bytes": 781,
-    "sha256": "01de0b76dd95046750ead36df000a9f43008789e57416e4ac6cffba80b8b1c7d"
+    "sha256": "28e39c27e49d943e773d33fae75bf8669d5386a23c049f4e6cd2d3b97df77e29"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/packages/vision-overlay.apk",
@@ -1247,7 +1247,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/packages/vision-standard.apk",
     "bytes": 22454517,
-    "sha256": "b22731da5e5ccf4983b3a25d54a7bfd71e7df60c500c58950e01e7f7e2fd18e3"
+    "sha256": "4a3f303891ab9d77fe2832864aa8020f9d1dd812d7d283b43e083935825e53e4"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/picker-panel.js",
@@ -1452,7 +1452,7 @@
   {
     "path": "devices/APK-VERSIONS.md",
     "bytes": 2320,
-    "sha256": "8df1bd092f43e5b8e4805fa43bbca9a3e956f779db75103ea5186bb3e5fd26a6"
+    "sha256": "32ae6aff66eac3605088332bfc332733cdd1eaa867595eabdea0f8f81fcebbd0"
   },
   {
     "path": "devices/README.md",

@@ -184,8 +184,8 @@ a Silk browser APK after a clean reset**; there is no native Apple TV APK here.
 See [tested APK versions](devices/APK-VERSIONS.md).
 
 Answer **Yes** to floating controls if you want Home, Keep on and Brightness over
-other apps. A single tap during recognised playback shows the controls; a double
-tap can show them on sign-in/browsing screens too. Android passes these taps to
+other apps. Double-tap the screen to show the controls during streaming playback
+or on an app’s sign-in/browsing screens. Android passes these taps to
 the underlying app, so a player may also seek. The popup hides after five seconds
 and does not appear over VACAVision itself. The DUMP permission is used to identify
 the foreground window. For ITVX, answer **Yes** to the exact Google-services-warning

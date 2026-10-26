@@ -1,3 +1,12 @@
+## Double-tap streaming controls — 26 October 2026
+
+Prototype.13 (code 19) removes the single-tap playback trigger. Android’s ten unit
+tests, 29 integration tests, 52 installer tests and the release build passed.
+Updated Garden Athena from prototype.12 in place. On iPlayer’s sign-in screen,
+a single tap left controls hidden and two taps 150 ms apart showed Home, Keep on
+and Brightness. The popup then auto-hid. Returned the device to VACAV afterward.
+Signed-in video playback was not exercised in this check.
+
 ## README and wrapper review — 26 October 2026
 
 Verified the pinned Downloads step always includes the Athena firmware file and

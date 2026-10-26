@@ -256,7 +256,7 @@ def run(check_only=False):
     gather_apks(serial, cfg)
     command = [sys.executable, str(core.ROOT / 'devices/install-device.py'), '--profile', PROFILE, '--serial', serial]
     subprocess.run(command, check=True)
-    fingerprint = hashlib.sha256(json.dumps({'services': cfg['services'], 'app': 18}, sort_keys=True).encode()).hexdigest()
+    fingerprint = hashlib.sha256(json.dumps({'services': cfg['services'], 'app': 19}, sort_keys=True).encode()).hexdigest()
     previous = core.read(progress_file) if progress_file.exists() else {}
     completed = previous.get('serial') == serial and previous.get('usb_choices') == fingerprint
     if not (completed and core.yes('USB installation previously completed. Keep it and continue to HA?')):
