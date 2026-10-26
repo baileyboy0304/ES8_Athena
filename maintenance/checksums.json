@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 9301,
-    "sha256": "e1472851155b31878ef09327b2ae631868d35197303ddf9cf75ac78cbc786d4f"
+    "bytes": 9459,
+    "sha256": "fbde5ce1dcb3e1647046f0bbffd45c927c8bce5e8d40b5b6b6e601b36373a364"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -1390,11 +1390,6 @@
     "sha256": "a8c89ddf896a1cb7ceb4dfe8564c137135ba6d0c567af7b1942da2d317f4a994"
   },
   {
-    "path": "VACAV/docs/images/setup/13b-va-display.png",
-    "bytes": 38720,
-    "sha256": "32f02328274bab88fb467f9f91b6512dd3cb70a6312931d73665f5c1ca2aee1d"
-  },
-  {
     "path": "VACAV/docs/images/setup/14-va-weather.png",
     "bytes": 98436,
     "sha256": "41f48cdbff4f7a6bbad8f1ea889efa4222bef629d4cd56fc86350b235edebf48"
@@ -1456,8 +1451,8 @@
   },
   {
     "path": "devices/APK-VERSIONS.md",
-    "bytes": 2306,
-    "sha256": "f09019d2459f767868f4c06b353b311abea7838a5209b84dc3f8600e04454005"
+    "bytes": 2320,
+    "sha256": "8df1bd092f43e5b8e4805fa43bbca9a3e956f779db75103ea5186bb3e5fd26a6"
   },
   {
     "path": "devices/README.md",

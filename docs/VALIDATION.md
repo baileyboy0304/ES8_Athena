@@ -1,3 +1,14 @@
+## README and wrapper review — 26 October 2026
+
+Verified the pinned Downloads step always includes the Athena firmware file and
+checks the unlocker’s exact v1.0.0 filename/hash when needed. The locally available
+v1.1.0 recovery image matches the reset baseline when zero-padded to partition
+size; v1.1.1 does not. No current v1.0.0 download was verified (XDA denied access).
+The wrapper now explicitly uses device-only inspection and reports the hash checks
+before they start. A regression test refuses image checks/restores without an
+image directory. The guide documents required MA pairing, the short volume-key
+login gesture, player-name matching and the exact announcement option.
+
 # Validation — 25 October 2026
 
 ## Device Configure flow — VACAVision 0.5.0

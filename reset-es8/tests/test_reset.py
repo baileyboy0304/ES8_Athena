@@ -37,6 +37,15 @@ class FakeReset(m.Reset):
 
 
 class ResetTests(unittest.TestCase):
+    def test_device_only_inspection_cannot_read_or_restore_images(self):
+        reset = m.Reset('TEST_USB', None)
+        with self.assertRaisesRegex(RuntimeError, 'Recovery image directory'):
+            reset.check_files()
+        with patch.object(reset, 'identity') as identity:
+            with self.assertRaisesRegex(RuntimeError, 'Recovery image directory'):
+                reset.restore('system')
+            identity.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)

@@ -32,7 +32,8 @@ def main():
         spec = importlib.util.spec_from_file_location('reset_es8', ROOT/'reset-es8/reset_es8.py')
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        baseline = module.Reset(serial, ROOT)
+        baseline = module.Reset(serial, None)  # Device-only inspection; no recovery images are read.
+        print('Checking boot, recovery, system and vendor over USB; this can take several minutes.', flush=True)
         baseline.check_device()
         for part in ('system', 'vendor'):
             if baseline.partition_hash(part) != baseline.baseline['partitions'][part]['sha256']:

@@ -73,7 +73,7 @@ class Reset:
     def __init__(self, serial, backup_dir, adb='adb', report_dir=None):
         require(serial is None or bool(re.fullmatch(r'[A-Za-z0-9_-]+', serial)), 'Use a physical USB serial, not an IP address.')
         self.serial = serial
-        self.backup_dir = Path(backup_dir).expanduser().resolve()
+        self.backup_dir = Path(backup_dir).expanduser().resolve() if backup_dir is not None else None
         self.adb = adb
         self.baseline = json.loads((HERE / 'baseline.json').read_text())
         self.report_dir = Path(report_dir or HERE / 'reports')
@@ -104,6 +104,7 @@ class Reset:
         return self.run('shell', command, text=True, capture_output=True).stdout.strip()
 
     def check_files(self):
+        require(self.backup_dir is not None, 'Recovery image directory is required to check source images.')
         for part in PARTITIONS:
             path = self.backup_dir / (part + '-original.img')
             expected = self.baseline['partitions'][part]
@@ -173,6 +174,7 @@ class Reset:
 
     def restore(self, part):
         require(part in WRITABLE, 'Only system and vendor may be restored.')
+        require(self.backup_dir is not None, 'Recovery image directory is required to restore partitions.')
         self.identity()
         source = self.backup_dir / (part + '-original.img')
         expected = self.baseline['partitions'][part]

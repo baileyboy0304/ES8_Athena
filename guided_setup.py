@@ -267,13 +267,13 @@ def run(check_only=False):
         usb(serial, 'reboot')
         wait_for_app(serial)
     print("""
-Linux installation finished. Continue in Home Assistant:
-1. Install/update VACAVision 0.5.0 through HACS and restart HA.
-2. Add the discovered VACA_Vision device and confirm its name.
+Linux installation finished. Continue with README steps 2–6:
+1. On the Echo Show, allow the app's on-screen permissions after it starts.
+2. In HA, add the discovered VACA_Vision device and confirm its name.
 3. Complete its voice-assistant setup and select the Assist pipeline.
-4. Allow the app's on-screen permissions and sign into HA on the Echo Show.
-5. Create this device in View Assist. Follow the README field-by-field settings.
-6. For the example dashboards: VACAVision → your device → Configure → Install example dashboards.
+4. Sign into HA on the Echo Show.
+5. Create this device in View Assist using the README field-by-field settings.
+6. For example dashboards: VACAVision → your device → Configure → Install example dashboards.
 7. Test voice and music on this Echo. Sign into streaming services and test playback.
 """)
     print('Device name:', cfg['device_name'])
@@ -286,7 +286,7 @@ Linux installation finished. Continue in Home Assistant:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--check-ha', action='store_true', help='Read-only HA readiness checks; no USB or installation')
+    parser.add_argument('--check-ha', action='store_true', help='Print where to run the HA connection checks')
     args = parser.parse_args()
     try:
         sys.exit(0 if run(args.check_ha) else 1)

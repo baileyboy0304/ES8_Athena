@@ -84,24 +84,41 @@ including its downloads and prerequisites, then run:
 ```
 
 **That installer handles unlocking, firmware, rooting and Echo Dot Assist
-installation.** Its pinned version requires **`saiyaku-athena-v1.0.0.zip`** with
-the exact checksum in its Athena guide. A newer `v1.1.x` archive is not a drop-in
-replacement; do not rename it or bypass the checksum. Follow the pinned guide’s
-download requirements for a device that still needs unlocking.
+installation.** The pinned installer checks the exact filename
+`saiyaku-athena-v1.0.0.zip` and SHA-256 listed in its Athena guide. This is an
+installer requirement; compatibility with newer unlocker archives has not been
+validated here. Obtain the matching archive from the XDA attachments linked by
+that guide. If only v1.1.x is available, ask the unlocker/upstream maintainer for
+the matching v1.0.0 archive or updated installation instructions before starting
+a new unlock. A current direct download for v1.0.0 has not been verified.
 
 **Already unlocked and sitting in TWRP after our reset?** Use this command instead
-of the upstream command above, after placing the guide’s `boot-root.zip` in
-`echo-dot-assist/firmware/athena/`:
+of the upstream command above. Place both files from the pinned Athena guide in
+`echo-dot-assist/firmware/athena/` first:
+
+- `boot-root.zip`
+- `update-kindle-athena-PS75741_user_7080_0036274153604.bin`
+
+The upstream Downloads step checks the firmware file even on an already-rooted
+device. Then run:
 
 ```sh
 ./echo_setup.sh
 ```
 
-This checks the USB model, recovery and root ZIP checksum, asks before rooting,
+Before its first confirmation prompt, the wrapper verifies the USB model and
+hashes boot, recovery, system and vendor over ADB. Allow several minutes; progress
+is printed while each partition is checked. It also verifies the root ZIP, asks before rooting,
 then boots the rooted system and starts the unchanged upstream installer afresh.
 Choose **Keep it as it is** when it detects the rooted Echo. It does not need the
 unlocker ZIP in this state. An unlocked but unrooted Echo in TWRP does **not** get
 that prompt from the unmodified installer’s initial Downloads step.
+
+The wrapper and reset tool support the reviewed **TWRP 3.7.0_9-0** baseline.
+The v1.1.0 archive’s `twrp.img`, zero-padded to the recovery partition size,
+matches its recorded recovery hash. The v1.1.1 image differs and is untested with
+these tools; the recovery-hash check rejects it. Its TWRP version has not been
+identified here.
 
 The companion installer checks for Athena firmware `PS75741.7080N` and stops on a
 different build. After a reset, enter your Wi-Fi SSID and password when the Echo
@@ -118,6 +135,17 @@ For this combined setup, VACAVision owns the voice connection;
 there should be only one voice owner for this Echo Show. Keep existing ESPHome
 entries for other devices. If this Echo Show already has one, preserve its API
 key/settings before removing that duplicate ownership.
+
+**Pair Music Assistant before adding the Echo in HA.** Enter the pairing token
+from Echo Dot Assist’s done-screen in Music Assistant’s Sendspin player pairing
+prompt. This setup uses that player for music and alerts, so complete this step
+even though upstream labels Music Assistant optional. Note the player name shown
+on the done-screen: **Echo Show 8 2nd gen &lt;last six MAC digits&gt;**.
+
+To open Echo Dot Assist’s settings, visit `http://<echo-ip>:28931/`. When asked to
+approve login, press both volume keys together and release within one second.
+On Athena this performs the action-button approval. Holding them for two seconds
+starts Echo-to-Echo pairing instead.
 
 Back up `echo-dot-assist/secrets/update.key`; it signs device updates. The secrets
 folder also contains your Wi-Fi credentials—keep it private.
@@ -275,10 +303,7 @@ Existing Athena dashboards remain untouched until you approve replacement below.
 Open **Settings → Devices & services → View Assist → Add device**. Select
 **View Assist device with display**, then **Next**.
 
-<img src="docs/images/setup/01-discovered-integration.png" alt="Integration page showing the Add device button at the top right" width="593">
-
-The image shows the **Add device** button on VACAVision’s page; for this step,
-open **View Assist** and use its **Add device** button.
+<img src="docs/images/setup/12-va-device-type.png" alt="View Assist Add device form with View Assist device with display selected" width="290">
 
 Use the name entered in the Linux installer to find this Echo’s entities. The
 following example uses **Garden Athena**; substitute your own device name.
@@ -298,8 +323,8 @@ HA tab. Its entities include **Assist** and **View Assist display device**. Open
 display sensor and copy its value, then select that exact value in View Assist.
 
 Music Assistant may name the player after the hardware, such as **Echo Show 8 2nd
-gen a57772**. Open its device under **Music Assistant** and check its address against
-the Echo’s address. Use that player in both player fields.
+gen a57772**. Match it to the name shown on Echo Dot Assist’s done-screen.
+Use that Music Assistant player in both player fields.
 
 <img src="docs/images/setup/13-va-device-fields.png" alt="Garden Athena Core Device Configuration showing its name, players, microphone and display" width="322">
 
@@ -308,7 +333,9 @@ Configuration**. Use the same selections when adding the device.
 
 Select **Submit**. Open the new View Assist device’s **Configure** menu:
 
-- Under **Default Options**, enable announcements and set ducking volume to **0**.
+- Under **Default Options**, set **Disable announce on this device** to **On**.
+  Despite the label, **On** stores `use_announce: on` and enables announcements.
+- Set **Volume ducking percentage** to **0**.
 - Enable **Auto music mode** so View Assist opens the music view when playback starts.
 - In the same **Default Options**, use your existing View Assist weather setting, such
   as `weather.home`, or select the weather entity for this display. View Assist
