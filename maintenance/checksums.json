@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 8909,
-    "sha256": "f56267208ff34c489930db5fed2cd9d86788901e5de42239c12bff7cb755c975"
+    "bytes": 9301,
+    "sha256": "e1472851155b31878ef09327b2ae631868d35197303ddf9cf75ac78cbc786d4f"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -1386,8 +1386,8 @@
   },
   {
     "path": "VACAV/docs/images/setup/13-va-device-fields.png",
-    "bytes": 39092,
-    "sha256": "e35e84a2cd03e954b9f69ae3839ae915d1e2720112332a8f7acf13ab94b42e36"
+    "bytes": 77313,
+    "sha256": "a8c89ddf896a1cb7ceb4dfe8564c137135ba6d0c567af7b1942da2d317f4a994"
   },
   {
     "path": "VACAV/docs/images/setup/13b-va-display.png",
@@ -1396,18 +1396,18 @@
   },
   {
     "path": "VACAV/docs/images/setup/14-va-weather.png",
-    "bytes": 35790,
-    "sha256": "4f188764f7684cedfc5b160d55d3970e8c4c33b0b45c914c9e7656c3bdcaf9dd"
+    "bytes": 98436,
+    "sha256": "41f48cdbff4f7a6bbad8f1ea889efa4222bef629d4cd56fc86350b235edebf48"
   },
   {
     "path": "VACAV/docs/images/setup/15-vacav-configure.png",
-    "bytes": 11838,
-    "sha256": "1872973d0c1b78a8ca9c7d7681a83ddcb489db4df152f66aa66d0421f388ba60"
+    "bytes": 10975,
+    "sha256": "e7232393b5dbf3133e707c96c5fb649bd0754c31b7e1dbeb852a93a115b48808"
   },
   {
     "path": "VACAV/docs/images/setup/16-dashboard-review.png",
-    "bytes": 2234,
-    "sha256": "109d832299d5f8c1ac9219ad2eeba75776f6b15fc1d841166981d4aa2fd29e46"
+    "bytes": 28399,
+    "sha256": "03fd2ee4b0b3ea2d56c2bf03f178f84462847394e69bad2aba5116f0d45e7227"
   },
   {
     "path": "VACAV/hacs.json",
