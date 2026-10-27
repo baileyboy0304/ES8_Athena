@@ -21,8 +21,8 @@
   },
   {
     "path": "VACAV/README.md",
-    "bytes": 12315,
-    "sha256": "6c3d131c6077e2645e9ae383cafe92028516ced143d2cc3da17c3300cabbbff1"
+    "bytes": 12548,
+    "sha256": "9b9411e009fc60fccfc5f1bf929fd4e52c106dc1194ce7f3d97399bf3249769e"
   },
   {
     "path": "VACAV/app/NOTICE",
@@ -111,8 +111,8 @@
   },
   {
     "path": "VACAV/app/overlay-runtime/src/main/java/com/mph1970/vacavision/overlayruntime/SettingsActivity.kt",
-    "bytes": 13054,
-    "sha256": "6a499bd5789947d860a10485a1311a9b2d1bf1a7d5aa10b2d4ba41d70c985328"
+    "bytes": 13032,
+    "sha256": "496bb2bf8a4d776cf6d606d67ab6a234fa75ded76ed0879a9e2a785d565ff753"
   },
   {
     "path": "VACAV/app/overlay-runtime/src/main/java/com/mph1970/vacavision/overlayruntime/ble/BleConnectActivity.kt",
@@ -231,8 +231,8 @@
   },
   {
     "path": "VACAV/app/overlay-runtime/src/main/java/com/mph1970/vacavision/overlayruntime/picker/PresetConfig.kt",
-    "bytes": 5934,
-    "sha256": "30044b66e4a7fa05a36d37683bf7eb7a85249537a404628a111f8d204174aa74"
+    "bytes": 6282,
+    "sha256": "287eb9290e6eb927b436339570bbe28cbc606b29de6984d3f23bcb50a72a8802"
   },
   {
     "path": "VACAV/app/overlay-runtime/src/main/java/com/mph1970/vacavision/overlayruntime/picker/StatusDebug.kt",
@@ -632,7 +632,7 @@
   {
     "path": "VACAV/app/standard/app/build.gradle.kts",
     "bytes": 6565,
-    "sha256": "484d28dedf21cacbc7ad4fe82c8596559bc1ec99cab387764d9cee9cb1bd26da"
+    "sha256": "8ea5cc9bee93c673c334f5a5c54eeab5252915fd3aeae4a83b3c494a60d609e0"
   },
   {
     "path": "VACAV/app/standard/app/proguard-rules.pro",
@@ -1330,6 +1330,11 @@
     "sha256": "a78d303a9b43121191aad4e318d61af7343e0d7b9a996dabe1fd1382c839fbb9"
   },
   {
+    "path": "VACAV/app/standard/app/src/test/java/com/mph1970/vacavision/overlayruntime/picker/PickerIconResourceTest.kt",
+    "bytes": 1405,
+    "sha256": "74505b45ad101127eb3cd995a6e338b2ba53dbb259f3fe80aa13ff72d049f2fb"
+  },
+  {
     "path": "VACAV/app/standard/app/src/test/java/com/mph1970/vacavision/overlayruntime/web/DashboardConnectionRecoveryTest.kt",
     "bytes": 2757,
     "sha256": "1758394af2db70eeae6faf674d54b3cedc6b8347d3e57bf81862e4db11828f8a"
@@ -1442,7 +1447,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/const.py",
     "bytes": 1008,
-    "sha256": "8e264e222c9a28b9b176c7cef7e064a49b76a332cb2318105487ad235222aa2c"
+    "sha256": "18384d9193e923e66311935abeada82f35e0e63d8ca2bb548048a1942338d4d0"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/crown.py",
@@ -1687,7 +1692,7 @@
   {
     "path": "VACAV/custom_components/vaca_vision/manifest.json",
     "bytes": 811,
-    "sha256": "e10804d37534d4dc1b636a17edf3dcb64fdd721829361d41f0d63ab6fb069f85"
+    "sha256": "cef4e2dbf5fc9ca8b2f39c9da1204d0c9f88be81f29f2d0ef439b0f00ea0469f"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/media_player.py",
@@ -1707,12 +1712,12 @@
   {
     "path": "VACAV/custom_components/vaca_vision/packages/manifest.json",
     "bytes": 311,
-    "sha256": "a688bc03397973323825b194511183f9a69214744a2c992969161e1b8c6fd602"
+    "sha256": "3ae386d8e54318128395a266b48d8c30d7f4824e077119d412536e797f38fdb7"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/packages/vacav.apk",
     "bytes": 50413646,
-    "sha256": "395d8fde134fcbb6d204ef6fde8d4022581b439ebd9cc9691bce4572bb54d7e5"
+    "sha256": "c19cbab1a7c9e2918cdaaef166441425a8485b5cec67116c0922e089a1ad0442"
   },
   {
     "path": "VACAV/custom_components/vaca_vision/picker-panel.js",
@@ -1811,8 +1816,8 @@
   },
   {
     "path": "VACAV/docs/UNIFIED-VALIDATION.md",
-    "bytes": 4095,
-    "sha256": "05b8013521b722e720b75c4b09c67a2ce623282a2c9645374446d6dc8697d447"
+    "bytes": 4989,
+    "sha256": "67e0f09220625e38037004e7658cbcccf2a54e044239df0b276ad28140728603"
   },
   {
     "path": "VACAV/docs/images/setup/00-discovered-device.png",
