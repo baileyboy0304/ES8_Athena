@@ -72,7 +72,7 @@ def main():
     cfg = build(a.profile)
     selected = [s for s in p['services'] if s['id'] in cfg['services']]
     package_dir = ROOT / 'VACAV/custom_components/vaca_vision/packages'
-    apk = package_dir / 'vision-standard.apk'
+    apk = package_dir / 'vacav.apk'
     if a.profile == 'es8-gen2':
         if shell('id -u') != '0':
             raise RuntimeError('Run Echo Dot Assist setup first: root USB ADB is required')
@@ -170,7 +170,7 @@ def main():
             shell('settings put secure enabled_accessibility_services ' + joined)
             shell('settings put secure accessibility_enabled 1')
         shell('cmd package set-home-activity ' + ACTIVITY)
-    shell('am start -n ' + ACTIVITY)
+    shell('am start -n ' + ACTIVITY + ' --es vacav_mode standard')
     print('Installed. Backup:', backup, '\nFinish VACAV sign-in and HA/VA pairing using the README.md HA handoff.\nChoose a Device name in the HA VACAV setup form (for example Kitchen Athena).')
 
 if __name__ == '__main__':

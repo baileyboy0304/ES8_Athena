@@ -433,3 +433,12 @@ passed voice/music, navigation and reboot after workarounds; the revised integra
 setup flow requires its own walkthrough. See
 [validation](docs/VALIDATION.md), [manual checks](docs/ACCEPTANCE.md) and
 [licences/attribution](docs/NOTICE.md).
+
+## Unified display APK
+
+The pinned VACAV submodule now bundles one `packages/vacav.apk` for ES8, other
+standard displays and Fire TV overlays. This installer selects `standard` while
+preserving the Echo's upstream EDA audio, dashboard and double-tap streaming popup.
+The VACAV Home Assistant and Windows installers select `overlay` for Fire TV.
+Do not substitute an old overlay APK: the unified binary includes its source,
+picker and controls, and uses the Linux signing certificate used by prototype.13.
